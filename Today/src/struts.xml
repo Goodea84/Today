@@ -15,15 +15,8 @@
 			<result>/index.jsp</result>
 		</action>
 		
-		<action name="getLocal" class="today.action.todayAction" method="getLocal">
-			<result type="json"></result>
-		</action>
-		
-		<action name="sendItem" class="today.action.todayAction" method="sendItem">
-			<result type="json"></result>
-		</action>
-		
     </package>
-
+	
+	<include file="today/actionXML/UserAccount.xml"/>
 
 </struts>
