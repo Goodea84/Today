@@ -7,8 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>[yb가 수정]</h1>
-
-yb가 다시수정
+<h1>[yb 수정본2]</h1>
 </body>
 </html>
