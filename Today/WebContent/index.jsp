@@ -21,6 +21,100 @@
          https://code.google.com/p/chromium/issues/detail?id=332189
          */
     </script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
+<script src="https://apis.skplanetx.com/tmap/js?version=1&format=javascript&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f"></script>
+ <script type="text/javascript">
+
+ $(function () {
+ 
+	 initTmap();
+	 
+//초기화 함수
+ function initTmap(){
+     centerLL = new Tmap.LonLat(14145677.4, 4511257.6);
+     map = new Tmap.Map({div:'gmap',
+    	 
+     					
+                         width:'100%', 
+                         height:'100%',
+                         transitionEffect:"resize",
+                         animation:true
+                     }); 
+     searchRoute();
+ };
+ //경로 정보 로드
+ function searchRoute(){
+     var routeFormat = new Tmap.Format.KML({extractStyles:true, extractAttributes:true});
+     var startX = 14129105.461214;
+     var startY = 4519042.1926406;
+     var endX = 14136027.789587;
+     var endY = 4517571.4945242;
+     var urlStr = "https://apis.skplanetx.com/tmap/routes?version=1&format=xml";
+     urlStr += "&startX="+startX;
+     urlStr += "&startY="+startY;
+     urlStr += "&endX="+endX;
+     urlStr += "&endY="+endY;
+     urlStr += "&passList="+"14128955.639934639,4515998.252083614";
+    
+     urlStr += "&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f";
+     var prtcl = new Tmap.Protocol.HTTP({
+                                         url: urlStr,
+                                         format:routeFormat
+                                         });
+ 
+     var routeLayer = new Tmap.Layer.Vector("route", {protocol:prtcl, strategies:[new Tmap.Strategy.Fixed()]});
+     routeLayer.events.register("featuresadded", routeLayer, onDrawnFeatures);
+     map.addLayer(routeLayer);
+     
+     //
+     var form = document.createElement("form");
+     
+     urlStr = "https://apis.skplanetx.com/tmap/routes?version=1&format=json";
+     urlStr += "&startX="+startX;
+     urlStr += "&startY="+startY;
+     urlStr += "&endX="+endX;
+     urlStr += "&endY="+endY;
+     urlStr += "&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f";
+     
+   form.action = urlStr;
+     
+     document.body.appendChild(form);
+     form.method = "post";
+     
+   
+    // form.submit();
+     $.getJSON(urlStr, function(data){
+    	$.each(data, function(key, value){
+    		
+    			if(key==="features"){
+    				alert(value[0].properties.totalDistance);
+    				alert(value[0].properties.totalTime);
+    			}
+    	});
+     }); 
+     
+    /* 
+     //output.innerHTML(str); 
+     alert(str); */
+    
+     // 
+ }
+ //경로 그리기 후 해당영역으로 줌
+ function onDrawnFeatures(e){
+     map.zoomToExtent(this.getDataExtent());
+ }
+ 
+ });
+</script>
+<style>
+	div#gmap {
+		position: absolute;
+		margin-left: 100px;
+		
+	}
+
+</style>
 </head>
 <body>
 <!--
@@ -716,7 +810,7 @@
     <main id="content" class="content" role="main">
         <div id="gmap" class="content-map">
         </div>
-        <h1 class="page-title">Google <span class="fw-semi-bold">Maps</span></h1>
+        <h1 class="page-title">私の <span class="fw-semi-bold">夢</span></h1>
         <div class="content-map-controls">
             <div class="btn-group btn-group-sm">
                 <button class="btn btn-inverse" id="gmap-zoom-in"><i class="fa fa-plus"></i></button>
