@@ -115,7 +115,7 @@
 						, dataType: "json"
 						, data: {"local":local}
 						, success: function(response) {
-							
+							alert(response.local);
 						}
 					});
 				  }
@@ -156,8 +156,7 @@
                 <span class="circle bg-warning fw-bold text-gray-dark">
                     13
                 </span>
-                &nbsp;
-                Philip <strong>Smith</strong>
+                &nbsp;Philip <strong>Smith</strong>
                 <b class="caret"></b>
             </a>
             <!-- #notifications-dropdown-menu goes here when screen collapsed to xs or sm -->
@@ -429,7 +428,7 @@
                         	<!-- 상단 이미지  -->
                         </span>
                         &nbsp;
-                        Philip <strong>Smith</strong>&nbsp;
+						<strong>gogoThing99</strong>&nbsp;
                         <span class="circle bg-warning fw-bold">
                             13
                         </span>
@@ -442,7 +441,7 @@
                         <section class="panel notifications">
                             <header class="panel-heading">
                                 <div class="text-align-center mb-sm">
-                                    <strong>You have 13 notifications</strong>
+                                    <strong>여기서 카드를 사용할까 도우까...</strong>
                                 </div>
                                 <div class="btn-group btn-group-sm btn-group-justified" id="notifications-toggle" data-toggle="buttons">
                                     <label class="btn btn-default active">
@@ -569,13 +568,15 @@
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-cog fa-lg"></i>
+                        <i class="fa fa-cog fa-lg"> Login</i>
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="#"><i class="glyphicon glyphicon-user"></i> &nbsp; My Account</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">Calendar</a></li>
-                        <li><a href="#">Inbox &nbsp;&nbsp;<span class="badge bg-danger animated bounceIn">9</span></a></li>
+                        <li><a href="#">Log in</a></li>
+                        
+						<!-- 알림 숫자 개수 나타내는 방법 badge bg-danger animated bounceIn -->
+                        <!-- <li><a href="#">Inbox &nbsp;&nbsp;<span class="badge bg-danger animated bounceIn">9</span></a></li> -->
                         <li class="divider"></li>
                         <li><a href="login.html"><i class="fa fa-sign-out"></i> &nbsp; Log Out</a></li>
                     </ul>
