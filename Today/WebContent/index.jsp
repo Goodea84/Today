@@ -22,91 +22,106 @@
          */
     </script>
     
+	<script src="script/jquery-3.1.0.min.js" type="text/javascript"></script> 
+	<script src="script/jquery-ui.min.js" type="text/javascript"></script> 
+    
+	<!-- TMap API 스크립트 추가 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
-<script src="https://apis.skplanetx.com/tmap/js?version=1&format=javascript&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f"></script>
- <script type="text/javascript">
-
- $(function () {
- 
-	 initTmap();
-	 
-//초기화 함수
- function initTmap(){
-     centerLL = new Tmap.LonLat(14145677.4, 4511257.6);
-     map = new Tmap.Map({div:'gmap',
-    	 
-     					
-                         width:'100%', 
-                         height:'100%',
-                         transitionEffect:"resize",
-                         animation:true
-                     }); 
-     searchRoute();
- };
- //경로 정보 로드
- function searchRoute(){
-     var routeFormat = new Tmap.Format.KML({extractStyles:true, extractAttributes:true});
-     var startX = 14129105.461214;
-     var startY = 4519042.1926406;
-     var endX = 14136027.789587;
-     var endY = 4517571.4945242;
-     var urlStr = "https://apis.skplanetx.com/tmap/routes?version=1&format=xml";
-     urlStr += "&startX="+startX;
-     urlStr += "&startY="+startY;
-     urlStr += "&endX="+endX;
-     urlStr += "&endY="+endY;
-     urlStr += "&passList="+"14128955.639934639,4515998.252083614";
-    
-     urlStr += "&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f";
-     var prtcl = new Tmap.Protocol.HTTP({
-                                         url: urlStr,
-                                         format:routeFormat
-                                         });
- 
-     var routeLayer = new Tmap.Layer.Vector("route", {protocol:prtcl, strategies:[new Tmap.Strategy.Fixed()]});
-     routeLayer.events.register("featuresadded", routeLayer, onDrawnFeatures);
-     map.addLayer(routeLayer);
-     
-     //
-     var form = document.createElement("form");
-     
-     urlStr = "https://apis.skplanetx.com/tmap/routes?version=1&format=json";
-     urlStr += "&startX="+startX;
-     urlStr += "&startY="+startY;
-     urlStr += "&endX="+endX;
-     urlStr += "&endY="+endY;
-     urlStr += "&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f";
-     
-   form.action = urlStr;
-     
-     document.body.appendChild(form);
-     form.method = "post";
-     
-   
-    // form.submit();
-     $.getJSON(urlStr, function(data){
-    	$.each(data, function(key, value){
-    		
-    			if(key==="features"){
-    				alert(value[0].properties.totalDistance);
-    				alert(value[0].properties.totalTime);
-    			}
-    	});
-     }); 
-     
-    /* 
-     //output.innerHTML(str); 
-     alert(str); */
-    
-     // 
- }
- //경로 그리기 후 해당영역으로 줌
- function onDrawnFeatures(e){
-     map.zoomToExtent(this.getDataExtent());
- }
- 
- });
-</script>
+	<script src="https://apis.skplanetx.com/tmap/js?version=1&format=javascript&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f"></script>
+	
+	<script type="text/javascript">
+		$(document).ready(function () {
+			initTmap();
+		//초기화 함수
+			function initTmap(){
+			    centerLL = new Tmap.LonLat(14145677.4, 4511257.6);
+			    map = new Tmap.Map({div:'gmap',
+			                        width:'100%', 
+			                        height:'100%',
+			                        transitionEffect:"resize",
+			                        animation:true
+			                    }); 
+			    searchRoute();
+			};
+		 //경로 정보 로드
+			function searchRoute(){
+			    var routeFormat = new Tmap.Format.KML({extractStyles:true, extractAttributes:true});
+			    var startX = 14129105.461214;
+			    var startY = 4519042.1926406;
+			    var endX = 14136027.789587;
+			    var endY = 4517571.4945242;
+			    var urlStr = "https://apis.skplanetx.com/tmap/routes?version=1&format=xml";
+			    urlStr += "&startX="+startX;
+			    urlStr += "&startY="+startY;
+			    urlStr += "&endX="+endX;
+			    urlStr += "&endY="+endY;
+			    urlStr += "&passList="+"14128955.639934639,4515998.252083614";
+			   
+			    urlStr += "&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f";
+			    var prtcl = new Tmap.Protocol.HTTP({
+			                                        url: urlStr,
+			                                        format:routeFormat
+			                                        });
+			
+			    var routeLayer = new Tmap.Layer.Vector("route", {protocol:prtcl, strategies:[new Tmap.Strategy.Fixed()]});
+			    routeLayer.events.register("featuresadded", routeLayer, onDrawnFeatures);
+			    map.addLayer(routeLayer);
+			    
+			    //
+			    var form = document.createElement("form");
+			    
+			    urlStr = "https://apis.skplanetx.com/tmap/routes?version=1&format=json";
+			    urlStr += "&startX="+startX;
+			    urlStr += "&startY="+startY;
+			    urlStr += "&endX="+endX;
+			    urlStr += "&endY="+endY;
+			    urlStr += "&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f";
+			    
+			  form.action = urlStr;
+			    
+			    document.body.appendChild(form);
+			    form.method = "post";
+			    
+			  
+			   // form.submit();
+			    $.getJSON(urlStr, function(data){
+			   	$.each(data, function(key, value){
+			   		
+			   			if(key==="features"){
+			   				alert(value[0].properties.totalDistance);
+			   				alert(value[0].properties.totalTime);
+			   			}
+			   	});
+			    }); 
+			    
+			   /* 
+			    //output.innerHTML(str); 
+			    alert(str); */
+			   
+			    // 
+			}
+			//경로 그리기 후 해당영역으로 줌
+			function onDrawnFeatures(e){
+			    map.zoomToExtent(this.getDataExtent());
+			}
+			
+			/* Locale(지역)검색 function */
+			$("#searchLocal").on("keypress", function() {
+				if ( event.which == 13 ) {
+					var local = $("#searchLocal").val();
+					$.ajax({
+						method: "post"
+						, url: "map/sendLocal.action"
+						, dataType: "json"
+						, data: {"local":local}
+						, success: function(response) {
+							
+						}
+					});
+				  }
+			});
+		});/* document.ready function end */
+	</script>
 <style>
 	div#gmap {
 		position: absolute;
@@ -369,7 +384,8 @@
                         <i class="fa fa-bars fa-lg hidden-xs"></i>
                     </a>
                 </li>
-                <li class="ml-sm mr-n-xs hidden-xs"><a href="#"><i class="fa fa-refresh fa-lg"></i></a></li>
+				<!-- 왼쪽 상단 리프레시 / 취소 -->
+                <li class="ml-sm mr-n-xs hidden-xs"><a href="index.jsp"><i class="fa fa-refresh fa-lg"></i></a></li>
                 <li class="ml-n-xs hidden-xs"><a href="#"><i class="fa fa-times fa-lg"></i></a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right visible-xs">
@@ -395,16 +411,17 @@
         <!-- this part is hidden for xs screens -->
         <div class="collapse navbar-collapse">
             <!-- search form! link it to your search server -->
-            <form class="navbar-form navbar-left" role="search">
+            <div class="navbar-form navbar-left">
                 <div class="form-group">
                     <div class="input-group input-group-no-border">
                         <span class="input-group-addon">
-                            <i class="fa fa-search"></i>
+                            <i class="fa fa-map-marker"></i>
                         </span>
-                        <input class="form-control" type="text" placeholder="Search Dashboard">
+						<!-- 지역(local) 검색 input tag -->
+                        <input class="form-control" type="text" id="searchLocal" name="searchLocal" placeholder="지역을 검색해주세요">
                     </div>
                 </div>
-            </form>
+            </div>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle dropdown-toggle-notifications" id="notifications-dropdown-toggle" data-toggle="dropdown">

@@ -23,7 +23,7 @@
 	
 	<!-- SQL문 정의한 파일 포함 -->
 	<!-- <mappers>
-		<mapper resource="today/mapper/Mapper.xml" />
+		<mapper resource="today/mapper/UserAccountMapper.xml" />
 	</mappers> -->
 	
 </configuration>

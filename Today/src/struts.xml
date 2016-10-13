@@ -17,6 +17,6 @@
 		
     </package>
 	
-	<include file="today/actionXML/UserAccount.xml"/>
-
+	<include file="today/actionxml/MapControlXML.xml"/>
+	
 </struts>

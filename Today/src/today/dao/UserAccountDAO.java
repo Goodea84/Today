@@ -2,7 +2,7 @@ package today.dao;
 
 import org.apache.ibatis.session.SqlSession;
 
-public class AccountDAO {
+public class UserAccountDAO {
 
 	private SqlSession sqlsession;
 	
