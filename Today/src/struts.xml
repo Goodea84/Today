@@ -18,5 +18,5 @@
     </package>
 	
 	<include file="today/actionxml/MapControlXML.xml"/>
-	
+	<include file="today/actionxml/CustomerXML.xml"/>
 </struts>
