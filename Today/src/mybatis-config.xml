@@ -4,9 +4,9 @@
 
 	<!-- DB접속정보 값을 가지고 있는 파일 -->
 	<properties resource="db.properties"/>
-	<!-- <typeAliases>
-		<typeAlias type="today.vo.UserAccount" alias="UserAccount"/>
-	</typeAliases> -->
+	<typeAliases>
+		<typeAlias type="today.vo.Customer" alias="Customer" />
+	</typeAliases>
 	
 	<!-- DB접속 정보 셋팅 -->
 	<environments default="development">
@@ -22,8 +22,8 @@
 	</environments>
 	
 	<!-- SQL문 정의한 파일 포함 -->
-	<!-- <mappers>
-		<mapper resource="today/mapper/UserAccountMapper.xml" />
-	</mappers> -->
+	<mappers>
+		<mapper resource="today/mapper/CustomerMapper.xml" />
+	</mappers>
 	
 </configuration>

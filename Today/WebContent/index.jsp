@@ -1,6 +1,7 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+        <%@ taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -341,11 +342,50 @@
 		      });
 		});
 		
+	
+	
+	//login
+	
+    $('.trigger').click(function(){ 
+        $('#popup_layer, #overlay_t').show(); 
+        //$('#popup_layer').css("top", Math.max(0, $(window).scrollTop() + 100) + "px"); 
+        // $('#popup_layer').css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + $(window).scrollTop()) + "px"); 
+    }); 
+    $('#overlay_t, .close').click(function(e){ 
+        e.preventDefault(); 
+        $('#popup_layer, #overlay_t').hide(); 
+    });
+
+
 	});/* document.ready function end */
+	
+	
+    /* login - jhs  */
+    function formSubmit() {
+     	 
+     		var form = document.getElementById('loginform');
+     		var email = document.getElementById('email');
+     		var password = document.getElementById('password');
+     		
+     		if (email.value == '') {
+     			alert('ID를 입력하세요.');
+     			return;
+     		}
+     		if (password.value == '') {
+     			alert('비밀번호를 입력하세요.');
+     			return;
+     		}
+     		
+     		form.submit();
+     	}/* login end - jhs  */
+     	
+    	
 	</script>
 	<!-- ksh edit end -->
 	
 </head>
+
+
 <body>
 <!--
   Main sidebar seen on the left. may be static or collapsing depending on selected state.
@@ -512,13 +552,14 @@
                 </div>
             </div>
             <ul class="nav navbar-nav navbar-right">
+            <s:if test="#session.loginId != null">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle dropdown-toggle-notifications" id="notifications-dropdown-toggle" data-toggle="dropdown">
                         <span class="thumb-sm avatar pull-left">
                         	<!-- 상단 이미지  -->
                         </span>
                         &nbsp;
-						<strong>gogoThing99</strong>&nbsp;
+						<strong><s:property value="#session.loginId" /></strong>&nbsp;
                         <span class="circle bg-warning fw-bold">
                             13
                         </span>
@@ -656,20 +697,36 @@
                         </section>
                     </div>
                 </li>
+                
+                </s:if>
                 <li class="dropdown">
+                
+                
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-cog fa-lg"> Login</i>
+                        <i class="fa fa-cog fa-lg"></i>
                     </a>
+                    <s:if test="#session.loginId == null">
+                    
                     <ul class="dropdown-menu">
+ 
+                        <li><a class="dropdown-item trigger" href="#"><i class="fa fa-sign-out"></i> &nbsp; Log in</a></li>
+                        
+                    </ul>
+                    </s:if>
+                    
+                    
+
+                    <s:else>
+                                        <ul class="dropdown-menu">
                         <li><a href="#"><i class="glyphicon glyphicon-user"></i> &nbsp; My Account</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">Log in</a></li>
-                        
 						<!-- 알림 숫자 개수 나타내는 방법 badge bg-danger animated bounceIn -->
                         <!-- <li><a href="#">Inbox &nbsp;&nbsp;<span class="badge bg-danger animated bounceIn">9</span></a></li> -->
-                        <li class="divider"></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out"></i> &nbsp; Log Out</a></li>
+                        <li><a href="customer/logout.action"><i class="fa fa-sign-out"></i> &nbsp; Log Out</a></li>
                     </ul>
+                  </s:else> <!-- login menu end jhs -->
+                  
+                  
                 </li>
                 <li>
                     <a href="#" data-toggle="chat-sidebar">
@@ -932,6 +989,45 @@
 			</section>
     </main>
 </div>
+
+<!-- loginform jhs -->
+<div id="overlay_t"></div> 
+<div id="popup_layer">
+                <section class="widget widget-login animated fadeInUp">
+                    <header>
+                        <h3>Login to your Sing App</h3>
+                    </header>
+                    <div class="widget-body">
+                        <form class="login-form mt-lg" id="loginform" action="customer/login.action" method="post">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="email" name="email" placeholder="Username">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" id="password" name="password" type="text" placeholder="Password">
+                            </div>
+                            <div class="clearfix">
+                                <div class="btn-toolbar pull-xs-right">
+                                    <button type="button" class="btn btn-secondary btn-sm">Create an Account</button>
+                                    <a class="btn btn-inverse btn-sm" href="javascript:formSubmit()">Login</a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-md-push-6">
+                                    <div class="clearfix">
+                                        <div class="abc-checkbox widget-login-info pull-xs-right ml-n-lg">
+                                            <input type="checkbox" id="checkbox1" value="1">
+                                            <label for="checkbox1">Keep me signed in </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </section>
+</div><!-- loginform end jhs -->
+
+
 <!-- The Loader. Is shown when pjax happens -->
 <div class="loader-wrap hiding hide">
     <i class="fa fa-circle-o-notch fa-spin-fast"></i>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <constant name="struts.devMode" value="true" />
+    
+    <package name="customer" namespace="/customer" extends="default">
+    
+  	  <!-- 로그인 폼 -->
+<!-- 		<action name="loginForm">
+			<result>/login.jsp</result>
+		</action> -->
+		
+		<!-- 로그인 -->
+		<action name="login" class="action.CustomerAction" method="login">
+			<result name="success" type="redirect">/index.action</result>
+			<result name="input" type="redirect">/index.action</result> <!-- 수정 -->
+		</action>
+		
+		<!-- 로그아웃 -->
+			<action name="logout" class="action.CustomerAction" method="logout">
+			<result name="success" type="redirect">/index.action</result>
+		</action>
+		
+    </package>
+</struts>
