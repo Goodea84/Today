@@ -8,7 +8,11 @@
     
     <package name="mapControl" namespace="/map" extends="default">
     
-		<action name="sendLocal" class="action.MapControlAction" method="setSessionLocal">
+		<action name="sendLocal" class="action.MapControlAction" method="SessionLocal">
+			<result type="json"></result>
+		</action>
+		
+		<action name="sendItem" class="action.MapControlAction" method="valueItemList">
 			<result type="json"></result>
 		</action>
 		
