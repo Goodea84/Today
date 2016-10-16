@@ -221,6 +221,7 @@
 				clickCheckA = clickCheckA * (-1);
 			}
 			
+<<<<<<< HEAD
 			//marker B 표시	
 			var markerLayer = new Tmap.Layer.Markers();
 			map.addLayer(markerLayer);
@@ -290,6 +291,29 @@
 				
 				clickCheckC = clickCheckC * (-1);
 			}
+=======
+			/* Locale(지역)검색 function */
+			$("#searchLocal").on("keypress", function() {
+				if ( event.which == 13 ) {
+					var local = $("#searchLocal").val();
+					$.ajax({
+						method: "post"
+						, url: "map/sendLocal.action"
+						, dataType: "json"
+						, data: {"local":local}
+						, success: function(response) {
+							alert(response.local);
+						}
+					});
+				  }
+			});
+		});/* document.ready function end */
+	</script>
+<style>
+	div#gmap {
+		position: absolute;
+		margin-left: 100px;
+>>>>>>> branch 'master' of https://github.com/Goodea84/Today.git
 		
 		}
 	});/* document.ready function end */
