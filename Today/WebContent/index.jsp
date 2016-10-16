@@ -29,107 +29,273 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
 	<script src="https://apis.skplanetx.com/tmap/js?version=1&format=javascript&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f"></script>
 	
+	<!-- ksh edit -->
 	<script type="text/javascript">
-		$(document).ready(function () {
-			initTmap();
-		//초기화 함수
-			function initTmap(){
-			    centerLL = new Tmap.LonLat(14145677.4, 4511257.6);
-			    map = new Tmap.Map({div:'gmap',
-			                        width:'100%', 
-			                        height:'100%',
-			                        transitionEffect:"resize",
-			                        animation:true
-			                    }); 
-			    searchRoute();
-			};
-		 //경로 정보 로드
-			function searchRoute(){
-			    var routeFormat = new Tmap.Format.KML({extractStyles:true, extractAttributes:true});
-			    var startX = 14129105.461214;
-			    var startY = 4519042.1926406;
-			    var endX = 14136027.789587;
-			    var endY = 4517571.4945242;
-			    var urlStr = "https://apis.skplanetx.com/tmap/routes?version=1&format=xml";
-			    urlStr += "&startX="+startX;
-			    urlStr += "&startY="+startY;
-			    urlStr += "&endX="+endX;
-			    urlStr += "&endY="+endY;
-			    urlStr += "&passList="+"14128955.639934639,4515998.252083614";
-			   
-			    urlStr += "&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f";
-			    var prtcl = new Tmap.Protocol.HTTP({
-			                                        url: urlStr,
-			                                        format:routeFormat
-			                                        });
+	$(document).ready(function () {
+		
+	initTmap();
+		
+	//초기화 함수
+	function initTmap(lat, lng){
+	    
+		if(lat!=null&&lng!=null){
 			
-			    var routeLayer = new Tmap.Layer.Vector("route", {protocol:prtcl, strategies:[new Tmap.Strategy.Fixed()]});
-			    routeLayer.events.register("featuresadded", routeLayer, onDrawnFeatures);
-			    map.addLayer(routeLayer);
+			/* alert(lat);
+			alert(lng); */
+			
+			//pr_3857 인스탄스 생성.
+			var pr_4326 = new Tmap.Projection("EPSG:4326");
+			
+			//pr_3857 인스탄스 생성.
+			var pr_3857 = new Tmap.Projection("EPSG:3857");
+			
+			var x = get3857LonLat(lng, lat);
+			
+			//WGS84GEO -> EPSG:3857 좌표형식 변환
+			function get3857LonLat(coordX, coordY){
+			    return new Tmap.LonLat(coordX, coordY).transform(pr_4326, pr_3857);
+			}
+			
+			//맵 중심좌표 세팅
+			map.setCenter(x, 14);
+			
+			//줌 레벨 선택
+			map.zoomTo(20);
+		
+		//검색 지역이 없을 때 기본 값 설정
+		} else { 
+			centerLL = new Tmap.LonLat(14145677.4, 4511257.6);
+			
+		    map = new Tmap.Map({div:'gmap',
+		                        width:'100%', 
+		                        height:'100%',
+		                        transitionEffect:"resize",
+		                        animation:true
+		                    });
+		    
+		    
+		    searchRoute();
+		    
+		}
+	};
+		
+	//경로 정보 로드
+	function searchRoute(){
+	     var routeFormat = new Tmap.Format.KML({extractStyles:true, extractAttributes:true});
+	     var startX = 14129105.461214;
+	     var startY = 4517042.1926406;
+	     var endX = 14136027.789587;
+	     var endY = 4517572.4745242;
+	     var startName = "홍대입구";
+	     var endName = "명동";
+	     var urlStr = "https://apis.skplanetx.com/tmap/routes/pedestrian?version=1&format=xml";
+	         urlStr += "&startX="+startX;
+	         urlStr += "&startY="+startY;
+	         urlStr += "&endX="+endX;
+	         urlStr += "&endY="+endY;
+	         urlStr += "&passList="+"14135893.887852, 4518348.1852606_14135881.887852, 4519591.4745242_14134881.887852, 4517572.4745242";
+	         urlStr += "&startName="+encodeURIComponent(startName);
+	         urlStr += "&endName="+encodeURIComponent(endName);
+	         urlStr += "&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f";
+	     var prtcl = new Tmap.Protocol.HTTP({
+	                                         url: urlStr,
+	                                         format:routeFormat
+	                                         });
+	     var routeLayer = new Tmap.Layer.Vector("route", {protocol:prtcl, strategies:[new Tmap.Strategy.Fixed()]});
+	     routeLayer.events.register("featuresadded", routeLayer, onDrawnFeatures);
+	     map.addLayer(routeLayer);
+	     
+	     //컨트롤러 추가(키보드, 마우스 포인터 위경도)
+	     map.addControls([
+	                      new Tmap.Control.KeyboardDefaults(),
+	                      new Tmap.Control.MousePosition(),
+	                  ]);
+	     //경로 레이어 추가
+	     setLayers();
+    
+         var startX = 14129105.461214;
+         var startY = 4517042.1926406;
+         var endX = 14136027.789587;
+         var endY = 4517572.4745242;
+         var startName = "홍대입구";
+         var endName = "명동";
+         var urlStr = "https://apis.skplanetx.com/tmap/routes/pedestrian?version=1&format=json";
+             urlStr += "&startX="+startX;
+             urlStr += "&startY="+startY;
+             urlStr += "&endX="+endX;
+             urlStr += "&endY="+endY;
+             urlStr += "&passList="+"14135893.887852, 4518348.1852606_14135881.887852, 4519591.4745242_14134881.887852, 4517572.4745242";
+             urlStr += "&startName="+encodeURIComponent(startName);
+             urlStr += "&endName="+encodeURIComponent(endName);
+             urlStr += "&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f";
+		    
+		    
+	    $.getJSON(urlStr, function(data){
+		   	$.each(data, function(key, value){
+		   		
+		   			if(key==="features"){
+		   				$('#totalTime').val(Math.round(value[0].properties.totalTime/60) + "분");
+		   				$('#totalDistance').val(value[0].properties.totalDistance + "M");
+		   			}
+		   	});//each end
+	    });//getJSON end  
 			    
-			    //
-			    var form = document.createElement("form");
-			    
-			    urlStr = "https://apis.skplanetx.com/tmap/routes?version=1&format=json";
-			    urlStr += "&startX="+startX;
-			    urlStr += "&startY="+startY;
-			    urlStr += "&endX="+endX;
-			    urlStr += "&endY="+endY;
-			    urlStr += "&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f";
-			    
-			  form.action = urlStr;
-			    
-			    document.body.appendChild(form);
-			    form.method = "post";
-			    
-			  
-			   // form.submit();
-			    $.getJSON(urlStr, function(data){
+		}//searchRoute end
+		
+		//경로 그리기 후 해당영역으로 줌
+		function onDrawnFeatures(e){
+		    map.zoomToExtent(this.getDataExtent());
+		}
+			
+			
+		/* Locale(지역)검색 function */
+		$("#searchLocal").on("keypress", function() {
+			if ( event.which == 13 ) {
+				var local = $("#searchLocal").val();
+				$.ajax({
+					method: "post"
+					, url: "map/sendLocal.action"
+					, dataType: "json"
+					, data: {"local":local}
+					, success: successFunc
+				});
+			  }
+		});
+		
+		//검색 지명 중심 좌표로 이동
+		function successFunc(response){
+			
+		    urlStr = "https://maps.googleapis.com/maps/api/geocode/json?&key=AIzaSyCBo-zr3K1N7rrX2Qh9C3ITBHoh1Dcfswk";
+		    urlStr += "&address="+response.local;
+		    
+		    $.getJSON(urlStr, function(data){
+		    	
 			   	$.each(data, function(key, value){
 			   		
-			   			if(key==="features"){
-			   				alert(value[0].properties.totalDistance);
-			   				alert(value[0].properties.totalTime);
+			   			if(key==="results"){
+			   				var lat = value[0].geometry.location.lat;
+			   				var lng = value[0].geometry.location.lng;
+			   				initTmap(lat,lng);
 			   			}
 			   	});
-			    }); 
-			    
-			   /* 
-			    //output.innerHTML(str); 
-			    alert(str); */
-			   
-			    // 
-			}
-			//경로 그리기 후 해당영역으로 줌
-			function onDrawnFeatures(e){
-			    map.zoomToExtent(this.getDataExtent());
+			  }); 
+		    
+		}
+		
+		//경유지 레이어 추가
+		function setLayers(){
+		
+			//marker A 표시
+			var markerLayer = new Tmap.Layer.Markers();
+			map.addLayer(markerLayer);
+			 
+			var lonlatA = new Tmap.LonLat(14135893.887852, 4518348.1852606);
+			 
+			var size = new Tmap.Size(38,48);
+			var offset = new Tmap.Pixel(-(size.w/2), -(size.h/2));
+			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_a.png', size, offset); 
+			     
+			var marker = new Tmap.Marker(lonlatA, icon);
+			
+			markerLayer.addMarker(marker);
+			
+			//popup 생성 A Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
+			var clickCheckA = 1;//Click 반복시 이벤트 분기를 위한 변수
+			var popupA;
+			marker.events.register("click", marker, onOverMarkerA);
+			
+			function onOverMarkerA(evt){
+				
+				if(clickCheckA===1){
+				popupA = new Tmap.Popup("p1",
+										lonlatA,
+				                        new Tmap.Size(270, 270),
+				                        "<div><a href='http://www.naver.com'><img src='image/food1.ico'/></a></div>"
+				                        ); 
+				map.addPopup(popupA);
+				popupA.show();
+				} else {
+					popupA.hide();
+				}
+				
+				clickCheckA = clickCheckA * (-1);
 			}
 			
-			/* Locale(지역)검색 function */
-			$("#searchLocal").on("keypress", function() {
-				if ( event.which == 13 ) {
-					var local = $("#searchLocal").val();
-					$.ajax({
-						method: "post"
-						, url: "map/sendLocal.action"
-						, dataType: "json"
-						, data: {"local":local}
-						, success: function(response) {
-							
-						}
-					});
-				  }
-			});
-		});/* document.ready function end */
-	</script>
-<style>
-	div#gmap {
-		position: absolute;
-		margin-left: 100px;
+			//marker B 표시	
+			var markerLayer = new Tmap.Layer.Markers();
+			map.addLayer(markerLayer);
+			 
+			var lonlatB = new Tmap.LonLat(14135881.887852, 4519591.4745242);
+			 
+			var size = new Tmap.Size(38,48);
+			var offset = new Tmap.Pixel(-(size.w/2), -(size.h/2));
+			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_b.png', size, offset); 
+			     
+			var marker = new Tmap.Marker(lonlatB, icon);
+			markerLayer.addMarker(marker);
+			
+			//popup 생성 B Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
+			var clickCheckB = 1;//Click 반복시 이벤트 분기를 위한 변수
+			var popupB;
+			marker.events.register("click", marker, onOverMarkerB);
+			
+			function onOverMarkerB(evt){
+				
+				if(clickCheckB===1){
+				popupB = new Tmap.Popup("p1",
+										lonlatB,
+				                        new Tmap.Size(270, 270),
+				                        "<div><a href='http://www.naver.com'><img src='image/food2.ico'/></a></div>"
+				                        ); 
+				map.addPopup(popupB);
+				popupB.show();
+				} else {
+					popupB.hide();
+				}
+				
+				clickCheckB = clickCheckB * (-1);
+			}
+			
+			//marker C 표시	
+			var markerLayer = new Tmap.Layer.Markers();
+			map.addLayer(markerLayer);
+			 
+			var lonlatC = new Tmap.LonLat(14134881.887852, 4517572.4745242);
+			 
+			var size = new Tmap.Size(38,48);
+			var offset = new Tmap.Pixel(-(size.w/2), -(size.h/2));
+			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_c.png', size, offset); 
+			     
+			var marker = new Tmap.Marker(lonlatC, icon);
+			markerLayer.addMarker(marker);
+			 
+			//popup 생성 C Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
+			var clickCheckC = 1;//Click 반복시 이벤트 분기를 위한 변수
+			var popupC;
+			marker.events.register("click", marker, onOverMarkerC);
+			
+			function onOverMarkerC(evt){
+				
+				if(clickCheckC===1){
+				popupC = new Tmap.Popup("p1",
+										lonlatC,
+				                        new Tmap.Size(270, 270),
+				                        "<div><a href='http://www.naver.com'><img src='image/food3.ico'/></a></div>"
+				                        ); 
+				map.addPopup(popupC);
+				popupC.show();
+				} else {
+					popupC.hide();
+				}
+				
+				clickCheckC = clickCheckC * (-1);
+			}
 		
-	}
-
-</style>
+		}
+	});/* document.ready function end */
+	</script>
+	<!-- ksh edit end -->
+	
 </head>
 <body>
 <!--
@@ -156,8 +322,7 @@
                 <span class="circle bg-warning fw-bold text-gray-dark">
                     13
                 </span>
-                &nbsp;
-                Philip <strong>Smith</strong>
+                &nbsp;Philip <strong>Smith</strong>
                 <b class="caret"></b>
             </a>
             <!-- #notifications-dropdown-menu goes here when screen collapsed to xs or sm -->
@@ -429,7 +594,7 @@
                         	<!-- 상단 이미지  -->
                         </span>
                         &nbsp;
-                        Philip <strong>Smith</strong>&nbsp;
+						<strong>gogoThing99</strong>&nbsp;
                         <span class="circle bg-warning fw-bold">
                             13
                         </span>
@@ -442,7 +607,7 @@
                         <section class="panel notifications">
                             <header class="panel-heading">
                                 <div class="text-align-center mb-sm">
-                                    <strong>You have 13 notifications</strong>
+                                    <strong>여기서 카드를 사용할까 도우까...</strong>
                                 </div>
                                 <div class="btn-group btn-group-sm btn-group-justified" id="notifications-toggle" data-toggle="buttons">
                                     <label class="btn btn-default active">
@@ -569,13 +734,15 @@
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-cog fa-lg"></i>
+                        <i class="fa fa-cog fa-lg"> Login</i>
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="#"><i class="glyphicon glyphicon-user"></i> &nbsp; My Account</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">Calendar</a></li>
-                        <li><a href="#">Inbox &nbsp;&nbsp;<span class="badge bg-danger animated bounceIn">9</span></a></li>
+                        <li><a href="#">Log in</a></li>
+                        
+						<!-- 알림 숫자 개수 나타내는 방법 badge bg-danger animated bounceIn -->
+                        <!-- <li><a href="#">Inbox &nbsp;&nbsp;<span class="badge bg-danger animated bounceIn">9</span></a></li> -->
                         <li class="divider"></li>
                         <li><a href="login.html"><i class="fa fa-sign-out"></i> &nbsp; Log Out</a></li>
                     </ul>
@@ -828,12 +995,12 @@
         <div id="gmap" class="content-map">
         </div>
         <h1 class="page-title">私の <span class="fw-semi-bold">夢</span></h1>
-        <div class="content-map-controls">
+        <!-- <div class="content-map-controls">
             <div class="btn-group btn-group-sm">
                 <button class="btn btn-inverse" id="gmap-zoom-in"><i class="fa fa-plus"></i></button>
                 <button class="btn btn-inverse" id="gmap-zoom-out"><i class="fa fa-minus"></i></button>
             </div>
-        </div>
+        </div> -->
     </main>
 </div>
 <!-- The Loader. Is shown when pjax happens -->
@@ -859,11 +1026,11 @@
 <script src="js/settings.js"></script>
 <script src="js/app.js"></script>
 
-<!-- page specific libs -->
-<script src="http://maps.google.com/maps/api/js?sensor=true"></script>
-<script src="vendor/gmaps/gmaps.js"></script>
-
-<!-- page specific js -->
-<script src="js/gmap.js"></script>
+	<!-- ksh_edit -->
+	<div id="foot">
+      	<span>이동 시간</span><input type="text" id="totalTime">&nbsp;&nbsp;<span>이동 거리</span><input type="text" id="totalDistance">
+    </div>
+    <!-- ksh edit end -->
+    
 </body>
 </html>
