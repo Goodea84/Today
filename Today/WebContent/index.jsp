@@ -313,7 +313,7 @@
 				+ "<span class='fw-semi-bold'>Warning : 경로는 최소 2곳 최대 5곳만 지정할 수 있습니다.&nbsp;</span>";
           		+ "</div>"
           		
-				$('.widget-body').html(htm);
+				$('#alertArea').html(htm);
 			}
 		});
 		
@@ -982,12 +982,20 @@
                 <button class="btn btn-inverse" id="gmap-zoom-out"><i class="fa fa-minus"></i></button> -->
             </div>
         </div>
-            <!-- 장민식 --><!-- alert 경고창 위치 -->
-            <section class="widget" style="background-color:transparent;">
-				<div class="widget-body">
-				</div>
-			</section>
+        
+		<!-- 장민식 --><!-- alert 경고창 위치 -->
+		<section id="alertSection" class="widget" style="background-color:transparent;">
+			<div class="widget-body" id="alertArea">
+			</div>
+		</section>
     </main>
+    
+    <!-- ksh_edit -->
+	<div id="foot">
+      	<span>이동 시간</span><input type="text" id="totalTime">&nbsp;&nbsp;<span>이동 거리</span><input type="text" id="totalDistance">
+    </div>
+    <!-- ksh edit end -->
+    
 </div>
 
 <!-- loginform jhs -->
@@ -1051,11 +1059,7 @@
 <script src="js/settings.js"></script>
 <script src="js/app.js"></script>
 
-	<!-- ksh_edit -->
-	<div id="foot">
-      	<span>이동 시간</span><input type="text" id="totalTime">&nbsp;&nbsp;<span>이동 거리</span><input type="text" id="totalDistance">
-    </div>
-    <!-- ksh edit end -->
+	
     
 </body>
 </html>
