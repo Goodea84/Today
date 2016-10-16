@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -28,6 +29,15 @@
 	<!-- TMap API 스크립트 추가 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
 	<script src="https://apis.skplanetx.com/tmap/js?version=1&format=javascript&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f"></script>
+	
+	
+	
+	
+	<!-- YB 브랜치 테스트 입니다.  
+		YB 브랜치 테스트 두번째
+	-->
+	
+	
 	
 	<!-- ksh edit -->
 	<script type="text/javascript">
