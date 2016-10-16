@@ -149,7 +149,7 @@
 		}
 			
 			
-		/* Locale(지역)검색 function */
+		/* 장민식 *//* Locale(지역)검색 function */
 		$("#searchLocal").on("keypress", function() {
 			if ( event.which == 13 ) {
 				var local = $("#searchLocal").val();
@@ -291,8 +291,56 @@
 				
 				clickCheckC = clickCheckC * (-1);
 			}
-		
 		}
+		
+		/* 장민식 *//* 아이템 검색 필드 (추가) */
+		var count = 0; /* 아이템 필드 최대 5개 추가를 위한 count 변수 */
+		$('#addItemField').click(function() {
+			if (count < 3) {
+				$('.sidebar-labels>.endItemField').before(
+					"<li id='addedItemField'>"
+					+ "<a>"
+					+ "<i class='fa fa-circle text-gray mr-xs' ></i>&nbsp;"
+	            	+ "<span class='label-name'><input type='text' class='itemField'></span>"
+	            	+ "</a>"
+	            	+ "</li>"
+				);
+				count++;
+			} else if(count == 3) {
+				var htm = "<div class='alert alert-danger alert-sm fade in'>"
+				+ "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&nbsp;×&nbsp;</button>"
+				+ "<span class='fw-semi-bold'>Warning : 경로는 최소 2곳 최대 5곳만 지정할 수 있습니다.&nbsp;</span>";
+          		+ "</div>"
+          		
+				$('.widget-body').html(htm);
+			}
+		});
+		
+		/* 장민식 *//* 아이템 검색 필드 (삭제) */
+		$('#removeItemField').click(function() {
+			$('#addedItemField:first').remove();
+			if (count > 0) {
+				count--;
+			}
+		});
+		
+		/* 장민식 *//* 아이템 검색 데이터 호출*/
+		$('#searchRoad').click(function() {
+			
+			$(".itemField").each(function(idx){    
+		 
+		        var item = $(".itemField:eq(" + idx + ")").val() ;
+		         
+		        alert(item);
+		        $.ajax({
+		        	method: "post"
+		        	, url: "map/sendItem"
+		        	, dataType: "json"
+		        	, data: {"itemList":item}
+		        });
+		      });
+		});
+		
 	});/* document.ready function end */
 	</script>
 	<!-- ksh edit end -->
@@ -330,95 +378,15 @@
         </div>
         <!-- main notification links are placed inside of .sidebar-nav -->
         <ul class="sidebar-nav">
-            <li>
-                <!-- an example of nested submenu. basic bootstrap collapse component -->
-                <a class="collapsed" href="#sidebar-dashboard" data-toggle="collapse" data-parent="#sidebar">
-                    <span class="icon">
-                        <i class="fa fa-desktop"></i>
-                    </span>
-                    Dashboard
-                    <i class="toggle fa fa-angle-down"></i>
-                </a>
-                <ul id="sidebar-dashboard" class="collapse">
-                    <li><a href="index.html">Dashboard</a></li>
-                    <li><a href="widgets.html">Widgets</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="inbox.html">
-                    <span class="icon">
-                        <i class="fa fa-envelope"></i>
-                    </span>
-                    Email
-                    <span class="label label-danger">
-                        9
-                    </span>
-                </a>
-            </li>
-            <li>
-                <a href="charts.html">
-                    <span class="icon">
-                        <i class="glyphicon glyphicon-stats"></i>
-                    </span>
-                    Charts
-                </a>
-            </li>
-            <li>
-                <a href="profile.html">
-                    <span class="icon">
-                        <i class="glyphicon glyphicon-user"></i>
-                    </span>
-                    Profile
-                    <sup class="text-warning fw-semi-bold">
-                        new
-                    </sup>
-                </a>
-            </li>
+
+
+
         </ul>
         <!-- every .sidebar-nav may have a title -->
-        <h5 class="sidebar-nav-title">Template <a class="action-link" href="#"><i class="glyphicon glyphicon-refresh"></i></a></h5>
+        <h5 class="sidebar-nav-title">Hello <strong>gogoThing99</strong> <a class="action-link" href="#"><i class="fa fa-map-marker"></i></a></h5>
         <ul class="sidebar-nav">
-            <li>
-                <!-- an example of nested submenu. basic bootstrap collapse component -->
-                <a class="collapsed" href="#sidebar-forms" data-toggle="collapse" data-parent="#sidebar">
-                    <span class="icon">
-                        <i class="glyphicon glyphicon-align-right"></i>
-                    </span>
-                    Forms
-                    <i class="toggle fa fa-angle-down"></i>
-                </a>
-                <ul id="sidebar-forms" class="collapse">
-                    <li><a href="form_elements.html">Form Elements</a></li>
-                    <li><a href="form_validation.html">Form Validation</a></li>
-                    <li><a href="form_wizard.html">Form Wizard</a></li>
-                </ul>
-            </li>
-            <li>
-                <a class="collapsed" href="#sidebar-ui" data-toggle="collapse" data-parent="#sidebar">
-                    <span class="icon">
-                        <i class="glyphicon glyphicon-tree-conifer"></i>
-                    </span>
-                    UI Elements
-                    <i class="toggle fa fa-angle-down"></i>
-                </a>
-                <ul id="sidebar-ui" class="collapse">
-                    <li><a href="ui_components.html">Components</a></li>
-                    <li><a href="ui_notifications.html">Notifications</a></li>
-                    <li><a href="ui_icons.html">Icons</a></li>
-                    <li><a href="ui_buttons.html">Buttons</a></li>
-                    <li><a href="ui_tabs_accordion.html">Tabs & Accordion</a></li>
-                    <li><a href="ui_list_groups.html">List Groups</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="grid.html">
-                    <span class="icon">
-                        <i class="glyphicon glyphicon-th"></i>
-                    </span>
-                    Grid
-                </a>
-            </li>
-            <li class="active">
+        
+                        <li class="active">
                 <a href="#sidebar-maps" data-toggle="collapse" data-parent="#sidebar">
                     <span class="icon">
                         <i class="glyphicon glyphicon-map-marker"></i>
@@ -427,44 +395,11 @@
                     <i class="toggle fa fa-angle-down"></i>
                 </a>
                 <ul id="sidebar-maps" class="collapse in">
-                    <!-- data-no-pjax turns off pjax loading for this link. Use in case of complicated js loading on the
-                         target page -->
-                    <li class="active"><a href="maps_google.html" data-no-pjax>Google Maps</a></li>
-                    <li><a href="maps_vector.html">Vector Maps</a></li>
+                    <li class="active"><a href="index.jsp" data-no-pjax>Search Maps</a></li>
                 </ul>
             </li>
-            <li>
-                <!-- an example of nested submenu. basic bootstrap collapse component -->
-                <a class="collapsed" href="#sidebar-tables" data-toggle="collapse" data-parent="#sidebar">
-                    <span class="icon">
-                        <i class="fa fa-table"></i>
-                    </span>
-                    Tables
-                    <i class="toggle fa fa-angle-down"></i>
-                </a>
-                <ul id="sidebar-tables" class="collapse">
-                    <li><a href="tables_basic.html">Tables Basic</a></li>
-                    <li><a href="tables_dynamic.html">Tables Dynamic</a></li>
-                </ul>
-            </li>
-            <li>
-                <a class="collapsed" href="#sidebar-extra" data-toggle="collapse" data-parent="#sidebar">
-                    <span class="icon">
-                        <i class="fa fa-leaf"></i>
-                    </span>
-                    Extra
-                    <i class="toggle fa fa-angle-down"></i>
-                </a>
-                <ul id="sidebar-extra" class="collapse">
-                    <li><a href="calendar.html">Calendar</a></li>
-                    <li><a href="invoice.html">Invoice</a></li>
-                    <li><a href="login.html" target="_blank" data-no-pjax>Login Page</a></li>
-                    <li><a href="error.html" target="_blank" data-no-pjax>Error Page</a></li>
-                    <li><a href="gallery.html">Gallery</a></li>
-                    <li><a href="search.html">Search Results</a></li>
-                    <li><a href="time_line.html" data-no-pjax>Time Line</a></li>
-                </ul>
-            </li>
+            
+            
             <li>
                 <a class="collapsed" href="#sidebar-levels" data-toggle="collapse" data-parent="#sidebar">
                     <span class="icon">
@@ -488,51 +423,39 @@
                 </ul>
             </li>
         </ul>
-        <h5 class="sidebar-nav-title">Labels <a class="action-link" href="#"><i class="glyphicon glyphicon-plus"></i></a></h5>
+        <!-- 장민식 --><!-- 아이템 추가 버튼 필드 -->
+        <h5 class="sidebar-nav-title"><br>
+	        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	        <button class="btn btn-inverse btn-xs mb-xs" id="addItemField" role="button">
+				&nbsp;&nbsp;<i class="fa fa-plus"></i>&nbsp;&nbsp;
+			</button>&nbsp;&nbsp;
+	        <button class="btn btn-inverse btn-xs mb-xs" id="removeItemField" role="button">
+				&nbsp;&nbsp;<i class="fa fa-minus"></i>&nbsp;&nbsp;
+			</button>&nbsp;&nbsp;&nbsp;
+        </h5>
         <!-- some styled links in sidebar. ready to use as links to email folders, projects, groups, etc -->
         <ul class="sidebar-labels">
-            <li>
-                <a href="#">
-                    <!-- yep, .circle again -->
-                    <i class="fa fa-circle text-warning mr-xs"></i>
-                    <span class="label-name">My Recent</span>
-                </a>
+            <li class="firstItemField">
+				<a>
+				<i class="fa fa-circle text-warning mr-xs"></i>
+				<span class="label-name"><input type="text" class="itemField"></span>
+				</a>
             </li>
-            <li>
-                <a href="#">
-                    <i class="fa fa-circle text-gray mr-xs"></i>
-                    <span class="label-name">Starred</span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
+            <li class="endItemField">
+                <a>
                     <i class="fa fa-circle text-danger mr-xs"></i>
-                    <span class="label-name">Background</span>
+                    <span class="label-name"><input type="text" class="itemField"></span>
                 </a>
             </li>
         </ul>
-        <h5 class="sidebar-nav-title">Projects</h5>
-        <!-- A place for sidebar notifications & alerts -->
-        <div class="sidebar-alerts">
-            <div class="alert fade in">
-                <a href="#" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
-                <span class="text-white fw-semi-bold">Sales Report</span> <br>
-                <div class="progress progress-xs mt-xs mb-0">
-                    <div class="progress-bar progress-bar-gray-light" style="width: 16%"></div>
-                </div>
-                <small>Calculating x-axis bias... 65%</small>
-            </div>
-            <div class="alert fade in">
-                <a href="#" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
-                <span class="text-white fw-semi-bold">Personal Responsibility</span> <br>
-                <div class="progress progress-xs mt-xs mb-0">
-                    <div class="progress-bar progress-bar-danger" style="width: 23%"></div>
-                </div>
-                <small>Provide required notes</small>
-            </div>
-        </div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button class="btn btn-warning btn-xs mb-xs" id="searchRoad" role="button">
+				&nbsp;&nbsp;<i class="fa fa-search">&nbsp;SEARCH</i>&nbsp;&nbsp;
+		</button>
     </div>
 </nav>
+        
 <!-- This is the white navigation bar seen on the top. A bit enhanced BS navbar. See .page-controls in _base.scss. -->
 <nav class="page-controls navbar navbar-default">
     <div class="container-fluid">
@@ -996,12 +919,17 @@
         <div id="gmap" class="content-map">
         </div>
         <h1 class="page-title">私の <span class="fw-semi-bold">夢</span></h1>
-        <!-- <div class="content-map-controls">
+        <div class="content-map-controls">
             <div class="btn-group btn-group-sm">
-                <button class="btn btn-inverse" id="gmap-zoom-in"><i class="fa fa-plus"></i></button>
-                <button class="btn btn-inverse" id="gmap-zoom-out"><i class="fa fa-minus"></i></button>
+                <!-- <button class="btn btn-inverse" id="gmap-zoom-in"><i class="fa fa-plus"></i></button>
+                <button class="btn btn-inverse" id="gmap-zoom-out"><i class="fa fa-minus"></i></button> -->
             </div>
-        </div> -->
+        </div>
+            <!-- 장민식 --><!-- alert 경고창 위치 -->
+            <section class="widget" style="background-color:transparent;">
+				<div class="widget-body">
+				</div>
+			</section>
     </main>
 </div>
 <!-- The Loader. Is shown when pjax happens -->
