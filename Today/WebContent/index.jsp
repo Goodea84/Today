@@ -194,7 +194,7 @@
 			var lonlatA = new Tmap.LonLat(14135893.887852, 4518348.1852606);
 			 
 			var size = new Tmap.Size(38,48);
-			var offset = new Tmap.Pixel(-(size.w/2), -(size.h/2));
+			var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
 			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_a.png', size, offset); 
 			     
 			var marker = new Tmap.Marker(lonlatA, icon);
