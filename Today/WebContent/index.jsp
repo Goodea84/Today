@@ -85,18 +85,98 @@
 		                    });
 		    
 		    
-		    searchRoute();
+		    //searchRoute();
 		    
 		}
 	};
+	
+	
+	
+	var ybArray2 = [];
+	/* 장민식 *//* 아이템 검색 데이터 호출*/
+	$('#searchRoad').click(function() {
+		
+		$(".itemField").each(function(idx){
+	        var item = $(".itemField:eq(" + idx + ")").val() ;
+	        
+			ybArray2.push(item);
+	        
+	        $.ajax({
+	        	method: "post"
+	        	, url: "map/sendItem"
+	        	, dataType: "json"
+	        	, data: {"itemList":item}
+	        });//ajax
+	        
+	      });//each
+	      yb_test(ybArray2);//사용자가 입력한 키워드들이 담김
+	});//검색버튼 클릭
+	
+	//유병훈
+	var ybArray = [];
+	function yb_test(ybArray2){
+
+		$.each(ybArray2, function(index, val){
+
+			var local = $("#searchLocal").val();
+			var url = "https://apis.daum.net/local/v1/search/keyword.json?";
+			url += "&apikey=8b061e21394885aaa3c204bedd0f494e";
+			url += "&query=" + local + " " + ybArray2[index];
+			url += "&sort=1";
+			url += "&count=1";
+			
+/* 			var script = document.createElement('script');
+			script.src = url;
+			document.head.appendChild(script); */
+			
+			/* item은 키워드 검색 한 String 값을 가져오고,
+				밑에 ajax는 daum 검색 api의 url을 이용해서 결과값을 가져옴.
+				거기서 받은 결과(data)의 좌표값을 searchRoute로 한꺼번에 보내야 하는데..
+				*/ 
+			$.ajax(url, {
+				dataType: 'jsonp',
+				success: function(data){
+					var test = data.channel.item;
+					
+					$.each(test, function(index, val){
+						//pr_3857 인스탄스 생성.
+						var pr_4326 = new Tmap.Projection("EPSG:4326");
+						
+						//pr_3857 인스탄스 생성.
+						var pr_3857 = new Tmap.Projection("EPSG:3857");
+						
+						var x = get3857LonLat(test[index].longitude, test[index].latitude);
+						ybArray.push(x);
+						
+						//WGS84GEO -> EPSG:3857 좌표형식 변환
+						function get3857LonLat(coordX, coordY){
+						    return new Tmap.LonLat(coordX, coordY).transform(pr_4326, pr_3857);
+						}//get3857LonLat
+					});//each
+				}//success
+			});//ajax 
+		});//each
+		
+		searchRoute();
+	}//yb_test
+	
+	//유병훈
 		
 	//경로 정보 로드
 	function searchRoute(){
+		alert('searchRoute 불림');
 	     var routeFormat = new Tmap.Format.KML({extractStyles:true, extractAttributes:true});
-	     var startX = 14129105.461214;
-	     var startY = 4517042.1926406;
-	     var endX = 14136027.789587;
-	     var endY = 4517572.4745242;
+	     var startX = ybArray[0].lon;
+	     var startY = ybArray[0].lat;
+	     var endX = ybArray[1].lon;
+	     var endY = ybArray[1].lat;
+	     var pass1X;
+	     var pass1Y;
+	     var pass2X;
+	     var pass2Y;
+	     var pass3X;
+	     var pass3Y;
+
 	     var startName = "홍대입구";
 	     var endName = "명동";
 	     var urlStr = "https://apis.skplanetx.com/tmap/routes/pedestrian?version=1&format=xml";
@@ -104,7 +184,7 @@
 	         urlStr += "&startY="+startY;
 	         urlStr += "&endX="+endX;
 	         urlStr += "&endY="+endY;
-	         urlStr += "&passList="+"14135893.887852, 4518348.1852606_14135881.887852, 4519591.4745242_14134881.887852, 4517572.4745242";
+	         //urlStr += "&passList="+"14135893.887852, 4518348.1852606_14135881.887852, 4519591.4745242_14134881.887852, 4517572.4745242";
 	         urlStr += "&startName="+encodeURIComponent(startName);
 	         urlStr += "&endName="+encodeURIComponent(endName);
 	         urlStr += "&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f";
@@ -124,10 +204,10 @@
 	     //경로 레이어 추가
 	     setLayers();
     
-         var startX = 14129105.461214;
-         var startY = 4517042.1926406;
-         var endX = 14136027.789587;
-         var endY = 4517572.4745242;
+	     var startX = ybArray[0].lon;
+	     var startY = ybArray[0].lat;
+	     var endX = ybArray[1].lon;
+	     var endY = ybArray[1].lat;
          var startName = "홍대입구";
          var endName = "명동";
          var urlStr = "https://apis.skplanetx.com/tmap/routes/pedestrian?version=1&format=json";
@@ -135,7 +215,7 @@
              urlStr += "&startY="+startY;
              urlStr += "&endX="+endX;
              urlStr += "&endY="+endY;
-             urlStr += "&passList="+"14135893.887852, 4518348.1852606_14135881.887852, 4519591.4745242_14134881.887852, 4517572.4745242";
+             //urlStr += "&passList="+"14135893.887852, 4518348.1852606_14135881.887852, 4519591.4745242_14134881.887852, 4517572.4745242";
              urlStr += "&startName="+encodeURIComponent(startName);
              urlStr += "&endName="+encodeURIComponent(endName);
              urlStr += "&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f";
@@ -150,7 +230,6 @@
 		   			}
 		   	});//each end
 	    });//getJSON end  
-			    
 		}//searchRoute end
 		
 		//경로 그리기 후 해당영역으로 줌
@@ -334,22 +413,7 @@
 			}
 		});
 		
-		/* 장민식 *//* 아이템 검색 데이터 호출*/
-		$('#searchRoad').click(function() {
-			
-			$(".itemField").each(function(idx){    
-		 
-		        var item = $(".itemField:eq(" + idx + ")").val() ;
-		         
-		        alert(item);
-		        $.ajax({
-		        	method: "post"
-		        	, url: "map/sendItem"
-		        	, dataType: "json"
-		        	, data: {"itemList":item}
-		        });
-		      });
-		});
+	
 		
 	
 	
@@ -393,6 +457,42 @@
 	<!-- ksh edit end -->
 	
 </head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 <body>
