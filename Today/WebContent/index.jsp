@@ -33,13 +33,6 @@
 	
 	
 	
-	
-	<!-- YB 브랜치 테스트 입니다.  
-		YB 브랜치 테스트 두번째
-	-->
-	
-	
-	
 	<!-- ksh edit -->
 	<script type="text/javascript">
 	$(document).ready(function () {
@@ -92,7 +85,7 @@
 	
 	
 	
-	var ybArray2 = [];
+	var ybArray2 = [];//민식이 형이 input text로 받은 아이템들 담는 배열
 	/* 장민식 *//* 아이템 검색 데이터 호출*/
 	$('#searchRoad').click(function() {
 		
@@ -110,19 +103,15 @@
 	        
 	      });//each
 	      
-	      yb_test(ybArray2);
-	      
-	      
+	      yb_test(ybArray2);//크롤링 해서 추천하는 장소 위도, 경도 담는 function으로 이동
 	});//검색버튼 클릭
 	
 	//유병훈
-	var ybArray = [];
+	var ybArray = [];//각 아이템당 추천장소 받아와 위도, 경도 담는 배열
 	function yb_test(ybArray2){
-		//alert("1");
 		var local;
 		var url;
 		var max = ybArray2.length;
-		//alert("=========="+max);
 		var i = 0;
 		$.each(ybArray2, function(index, val){
 			//alert("2");
@@ -131,17 +120,12 @@
 			url += "&apikey=16df0ead2d859a7f12cb816b3683e8c5";
 			url += "&query=" + local + " " + ybArray2[index];
 			url += "&sort=1";
-			url += "&count=1";
+			url += "&count=1";//일단 1개씩만 받고 있음
 	
-			/* item은 키워드 검색 한 String 값을 가져오고,
-				밑에 ajax는 daum 검색 api의 url을 이용해서 결과값을 가져옴.
-				거기서 받은 결과(data)의 좌표값을 searchRoute로 한꺼번에 보내야 하는데..
-				*/ 
 			$.ajax(url, {
 				dataType: 'jsonp',
 				success: function(data){
 					var test = data.channel.item;
-					//alert("3");
 					$.each(test, function(index, val){
 						//pr_3857 인스탄스 생성.
 						var pr_4326 = new Tmap.Projection("EPSG:4326");
@@ -163,28 +147,37 @@
 				}//complete
 			});//ajax 
 		});//each
-		
 	}//yb_test
 	
 	//유병훈
 		
+	
+	
 	//경로 정보 로드
 	function searchRoute(ybArray){
-		//alert('searchRoute 불림');
-		alert(ybArray[0].lon);
-		alert(ybArray[1].lon);
-		var i = 0;
+		var length = ybArray.length;
+		var startX = ybArray[0].lon;//출발지
+		var startY = ybArray[0].lat;
+		var endX = ybArray[length-1].lon;//도착지
+		var endY = ybArray[length-1].lat;
 		
 	     var routeFormat = new Tmap.Format.KML({extractStyles:true, extractAttributes:true});
 
 	     var startName = "홍대입구";
 	     var endName = "명동";
 	     var urlStr = "https://apis.skplanetx.com/tmap/routes/pedestrian?version=1&format=xml";
-	         urlStr += "&startX="+"14135893.887852";
-	         urlStr += "&startY="+"4518348.1852606";
-	         i++;
-	         urlStr += "&endX="+"14135881.887852";
-	         urlStr += "&endY="+"4519591.4745242";
+	         urlStr += "&startX="+startX;
+	         urlStr += "&startY="+startY;
+	         urlStr += "&endX="+endX;
+	         urlStr += "&endY="+endY;
+	     //경유지 추가 분기 처리
+         if(length===3){
+			 urlStr += "&passList="+ybArray[1].lon+","+ybArray[1].lat;
+		 }else if(length===4){
+			 urlStr += "&passList="+ybArray[1].lon+","+ybArray[1].lat+"_"+ybArray[2].lon+","+ybArray[2].lat;
+		 }else if(length===5){
+			 urlStr += "&passList="+ybArray[1].lon+","+ybArray[1].lat+"_"+ybArray[2].lon+","+ybArray[2].lat+"_"+ybArray[3].lon+","+ybArray[3].lat;
+		 }
 	         //urlStr += "&passList="+"14135893.887852, 4518348.1852606_14135881.887852, 4519591.4745242_14134881.887852, 4517572.4745242";
 	         urlStr += "&startName="+encodeURIComponent(startName);
 	         urlStr += "&endName="+encodeURIComponent(endName);
@@ -203,30 +196,37 @@
 	                      new Tmap.Control.MousePosition(),
 	                  ]);
 	     //경로 레이어 추가
-/*	     setLayers();
+	     setLayers();
      
          var startName = "홍대입구";
          var endName = "명동";
-         var urlStr = "https://apis.skplanetx.com/tmap/routes/pedestrian?version=1&format=json";
-	         urlStr += "&startX="+ybArray[i].lon;
-	         urlStr += "&startY="+ybArray[i].lat;
-	         i++;
-	         urlStr += "&endX="+ybArray[i].lon;
-	         urlStr += "&endY="+ybArray[i].lat;
-             //urlStr += "&passList="+"14135893.887852, 4518348.1852606_14135881.887852, 4519591.4745242_14134881.887852, 4517572.4745242";
-             urlStr += "&startName="+encodeURIComponent(startName);
-             urlStr += "&endName="+encodeURIComponent(endName);
-             urlStr += "&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f";
-		     */
+	     var urlStr = "https://apis.skplanetx.com/tmap/routes/pedestrian?version=1&format=xml";
+         urlStr += "&startX="+startX;
+         urlStr += "&startY="+startY;
+         urlStr += "&endX="+endX;
+         urlStr += "&endY="+endY;
+	     if(length===3){
+			urlStr += "&passList="+ybArray[1].lon+","+ybArray[1].lat;
+		 }else if(length===4){
+			 urlStr += "&passList="+ybArray[1].lon+","+ybArray[1].lat+"_"+ybArray[2].lon+","+ybArray[2].lat;
+		 }else if(length===5){
+			 urlStr += "&passList="+ybArray[1].lon+","+ybArray[1].lat+"_"+ybArray[2].lon+","+ybArray[2].lat+"_"+ybArray[3].lon+","+ybArray[3].lat;
+		 }
+            //urlStr += "&passList="+"14135893.887852, 4518348.1852606_14135881.887852, 4519591.4745242_14134881.887852, 4517572.4745242";
+            urlStr += "&startName="+encodeURIComponent(startName);
+            urlStr += "&endName="+encodeURIComponent(endName);
+            urlStr += "&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f";
 		    
+		  
 		    $.getJSON(urlStr, function(data){
 			   	$.each(data, function(key, value){
-			   			if(key==="features"){
-			   				$('#totalTime').val(Math.round(value[0].properties.totalTime/60) + "분");
-			   				$('#totalDistance').val(value[0].properties.totalDistance + "M");
-			   			}//if
+		   			if(key==="features"){
+		   				$('#totalTime').val(Math.round(value[0].properties.totalTime/60) + "분");
+		   				$('#totalDistance').val(value[0].properties.totalDistance + "M");
+		   			}//if
 			   	});//each end
 		    });//getJSON end  
+		    
 		}//searchRoute end
 		
 		
