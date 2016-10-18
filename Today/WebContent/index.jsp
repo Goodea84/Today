@@ -1109,8 +1109,8 @@
 
 <!-- loginform jhs -->
 <div id="overlay_t"></div> 
-<div id="popup_layer">
-                <section class="widget widget-login animated fadeInUp">
+	<div id="popup_layer">
+                <section class="widget widget-login animated fadeInUp test">
                     <header>
                         <h3>Login to your Sing App</h3>
                     </header>
@@ -1142,7 +1142,7 @@
                         </form>
                     </div>
                 </section>
-</div><!-- loginform end jhs -->
+	</div><!-- loginform end jhs -->
 
 
 <!-- The Loader. Is shown when pjax happens -->
