@@ -30,6 +30,11 @@ public class MapControlAction extends ActionSupport implements SessionAware{
 	}//MapControlAction 기본 생성자 end
 	
 	
+	public String recommendSpot() {
+		System.out.println("들어온다.");
+		return SUCCESS;
+	}
+	
 	//지역설정 값을 session에 설정(ex: 홍대, 삼청동, 하남)
 	public String SessionLocal() {
 		
@@ -40,9 +45,6 @@ public class MapControlAction extends ActionSupport implements SessionAware{
 	
 	//사용자가 검색하는 아이템 리스트 설정
 	public String valueItemList() {
-		for (String string : itemList) {
-			System.out.println(session.get("local") + " " + string);
-		}
 		return SUCCESS;
 	}//valueItemList end
 	
