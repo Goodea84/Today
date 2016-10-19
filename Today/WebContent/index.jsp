@@ -31,6 +31,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
 	<script src="https://apis.skplanetx.com/tmap/js?version=1&format=javascript&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f"></script>
 	
+	
+	
 	<!-- ksh edit -->
 	<script type="text/javascript">
 	$(document).ready(function () {
@@ -76,18 +78,91 @@
 		                    });
 		    
 		    
-		    searchRoute();
+		    //searchRoute();
 		    
 		}
 	};
+	
+	
+	
+	var ybArray2 = [];//민식이 형이 input text로 받은 아이템들 담는 배열
+	/* 장민식 *//* 아이템 검색 데이터 호출*/
+	$('#searchRoad').click(function() {
 		
+		$(".itemField").each(function(idx){
+	        var item = $(".itemField:eq(" + idx + ")").val() ;
+	        
+			ybArray2.push(item);//사용자가 입력한 키워드들이 담김
+	        
+	        $.ajax({
+	        	method: "post"
+	        	, url: "map/sendItem"
+	        	, dataType: "json"
+	        	, data: {"itemList":item}
+	        });//ajax
+	        
+	      });//each
+	      
+	      yb_test(ybArray2);//크롤링 해서 추천하는 장소 위도, 경도 담는 function으로 이동
+	});//검색버튼 클릭
+	
+	//유병훈
+	var ybArray = [];//각 아이템당 추천장소 받아와 위도, 경도 담는 배열
+	function yb_test(ybArray2){
+		var local;
+		var url;
+		var max = ybArray2.length;
+		var i = 0;
+		$.each(ybArray2, function(index, val){
+			//alert("2");
+			local = $("#searchLocal").val();
+			url = "https://apis.daum.net/local/v1/search/keyword.json?callback=?";
+			url += "&apikey=16df0ead2d859a7f12cb816b3683e8c5";
+			url += "&query=" + local + " " + ybArray2[index];
+			url += "&sort=1";
+			url += "&count=1";//일단 1개씩만 받고 있음
+	
+			$.ajax(url, {
+				dataType: 'jsonp',
+				success: function(data){
+					var test = data.channel.item;
+					$.each(test, function(index, val){
+						//pr_3857 인스탄스 생성.
+						var pr_4326 = new Tmap.Projection("EPSG:4326");
+						//pr_3857 인스탄스 생성.
+						var pr_3857 = new Tmap.Projection("EPSG:3857");
+						var x = get3857LonLat(test[index].longitude, test[index].latitude);
+						ybArray.push(x);
+						i++;
+						//WGS84GEO -> EPSG:3857 좌표형식 변환
+						function get3857LonLat(coordX, coordY){
+						    return new Tmap.LonLat(coordX, coordY).transform(pr_4326, pr_3857);
+						}//get3857LonLat
+					});//each
+				},
+				complete: function(){
+					if(i>=max){
+						searchRoute(ybArray);
+					}//if
+				}//complete
+			});//ajax 
+		});//each
+	}//yb_test
+	
+	//유병훈
+		
+	
+	
 	//경로 정보 로드
-	function searchRoute(){
+	function searchRoute(ybArray){
+		var length = ybArray.length;
+		var startX = ybArray[0].lon;//출발지
+		var startY = ybArray[0].lat;
+		var endX = ybArray[length-1].lon;//도착지
+		var endY = ybArray[length-1].lat;
+		
 	     var routeFormat = new Tmap.Format.KML({extractStyles:true, extractAttributes:true});
-	     var startX = 14129105.461214;
-	     var startY = 4517042.1926406;
-	     var endX = 14136027.789587;
-	     var endY = 4517572.4745242;
+
 	     var startName = "홍대입구";
 	     var endName = "명동";
 	     var urlStr = "https://apis.skplanetx.com/tmap/routes/pedestrian?version=1&format=xml";
@@ -95,7 +170,15 @@
 	         urlStr += "&startY="+startY;
 	         urlStr += "&endX="+endX;
 	         urlStr += "&endY="+endY;
-	         urlStr += "&passList="+"14135893.887852, 4518348.1852606_14135881.887852, 4519591.4745242_14134881.887852, 4517572.4745242";
+	     //경유지 추가 분기 처리
+         if(length===3){
+			 urlStr += "&passList="+ybArray[1].lon+","+ybArray[1].lat;
+		 }else if(length===4){
+			 urlStr += "&passList="+ybArray[1].lon+","+ybArray[1].lat+"_"+ybArray[2].lon+","+ybArray[2].lat;
+		 }else if(length===5){
+			 urlStr += "&passList="+ybArray[1].lon+","+ybArray[1].lat+"_"+ybArray[2].lon+","+ybArray[2].lat+"_"+ybArray[3].lon+","+ybArray[3].lat;
+		 }
+	         //urlStr += "&passList="+"14135893.887852, 4518348.1852606_14135881.887852, 4519591.4745242_14134881.887852, 4517572.4745242";
 	         urlStr += "&startName="+encodeURIComponent(startName);
 	         urlStr += "&endName="+encodeURIComponent(endName);
 	         urlStr += "&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f";
@@ -114,30 +197,33 @@
 	                  ]);
 	     //경로 레이어 추가
 	     setLayers();
-    
-         var startX = 14129105.461214;
-         var startY = 4517042.1926406;
-         var endX = 14136027.789587;
-         var endY = 4517572.4745242;
+     
          var startName = "홍대입구";
          var endName = "명동";
-         var urlStr = "https://apis.skplanetx.com/tmap/routes/pedestrian?version=1&format=json";
-             urlStr += "&startX="+startX;
-             urlStr += "&startY="+startY;
-             urlStr += "&endX="+endX;
-             urlStr += "&endY="+endY;
-             urlStr += "&passList="+"14135893.887852, 4518348.1852606_14135881.887852, 4519591.4745242_14134881.887852, 4517572.4745242";
-             urlStr += "&startName="+encodeURIComponent(startName);
-             urlStr += "&endName="+encodeURIComponent(endName);
-             urlStr += "&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f";
+	     var urlStr = "https://apis.skplanetx.com/tmap/routes/pedestrian?version=1&format=xml";
+         urlStr += "&startX="+startX;
+         urlStr += "&startY="+startY;
+         urlStr += "&endX="+endX;
+         urlStr += "&endY="+endY;
+	     if(length===3){
+			urlStr += "&passList="+ybArray[1].lon+","+ybArray[1].lat;
+		 }else if(length===4){
+			 urlStr += "&passList="+ybArray[1].lon+","+ybArray[1].lat+"_"+ybArray[2].lon+","+ybArray[2].lat;
+		 }else if(length===5){
+			 urlStr += "&passList="+ybArray[1].lon+","+ybArray[1].lat+"_"+ybArray[2].lon+","+ybArray[2].lat+"_"+ybArray[3].lon+","+ybArray[3].lat;
+		 }
+            //urlStr += "&passList="+"14135893.887852, 4518348.1852606_14135881.887852, 4519591.4745242_14134881.887852, 4517572.4745242";
+            urlStr += "&startName="+encodeURIComponent(startName);
+            urlStr += "&endName="+encodeURIComponent(endName);
+            urlStr += "&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f";
 		    
-		    
-	    $.getJSON(urlStr, function(data){
-		   	$.each(data, function(key, value){
-		   		
+		  
+		    $.getJSON(urlStr, function(data){
+			   	$.each(data, function(key, value){
 		   			if(key==="features"){
 		   				$('#totalTime').val(Math.round(value[0].properties.totalTime/60) + "분");
 		   				$('#totalDistance').val(value[0].properties.totalDistance + "M");
+<<<<<<< HEAD
 		   				
 		   				
 		   				
@@ -155,7 +241,25 @@
 		   	});//each end
 	    });//getJSON end  
 			    
+=======
+		   			}//if
+			   	});//each end
+		    });//getJSON end  
+		    
+>>>>>>> branch 'master' of https://github.com/Goodea84/Today.git
 		}//searchRoute end
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		//경로 그리기 후 해당영역으로 줌
 		function onDrawnFeatures(e){
@@ -369,22 +473,7 @@
 			}
 		});
 		
-		/* 장민식 *//* 아이템 검색 데이터 호출*/
-		$('#searchRoad').click(function() {
-			
-			$(".itemField").each(function(idx){    
-		 
-		        var item = $(".itemField:eq(" + idx + ")").val() ;
-		         
-		        alert(item);
-		        $.ajax({
-		        	method: "post"
-		        	, url: "map/sendItem"
-		        	, dataType: "json"
-		        	, data: {"itemList":item}
-		        });
-		      });
-		});
+	
 		
 	
 	
@@ -428,6 +517,42 @@
 	<!-- ksh edit end -->
 	
 </head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 <body>
