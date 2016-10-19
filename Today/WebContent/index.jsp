@@ -138,6 +138,19 @@
 		   			if(key==="features"){
 		   				$('#totalTime').val(Math.round(value[0].properties.totalTime/60) + "분");
 		   				$('#totalDistance').val(value[0].properties.totalDistance + "M");
+		   				
+		   				
+		   				
+		   				/* //경로 디테일 안내 정보
+		   				alert(value.length);
+		   				for(var i=0; i<value.length; i++){
+		   					var str;
+
+		   					 if(!value[i].properties.description.includes(","))
+		   						
+		   						str =  str + value[i].properties.description + "\n";
+		   				}
+		   				alert(str); */
 		   			}
 		   	});//each end
 	    });//getJSON end  
@@ -194,7 +207,7 @@
 			var lonlatA = new Tmap.LonLat(14135893.887852, 4518348.1852606);
 			 
 			var size = new Tmap.Size(38,48);
-			var offset = new Tmap.Pixel(-(size.w/2), -(size.h/2));
+			var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
 			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_a.png', size, offset); 
 			     
 			var marker = new Tmap.Marker(lonlatA, icon);
@@ -230,7 +243,7 @@
 			var lonlatB = new Tmap.LonLat(14135881.887852, 4519591.4745242);
 			 
 			var size = new Tmap.Size(38,48);
-			var offset = new Tmap.Pixel(-(size.w/2), -(size.h/2));
+			var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
 			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_b.png', size, offset); 
 			     
 			var marker = new Tmap.Marker(lonlatB, icon);
@@ -293,6 +306,37 @@
 				clickCheckC = clickCheckC * (-1);
 			}
 		}
+		
+		/* 김승훈 경로 디테일 안내 정보 추출 */
+		$("#pass_A").on("click", function() {
+			
+			 var startX = 14129105.461214;
+	         var startY = 4517042.1926406;
+	         var endX = 14135893.887852;
+	         var endY = 4518348.1852606;
+			
+	         var startName = "A";
+	         var endName = "B";
+	         var urlStr = "https://apis.skplanetx.com/tmap/routes/pedestrian?version=1&format=json";
+	             urlStr += "&startX="+startX;
+	             urlStr += "&startY="+startY;
+	             urlStr += "&endX="+endX;
+	             urlStr += "&endY="+endY;
+	             urlStr += "&startName="+encodeURIComponent(startName);
+	             urlStr += "&endName="+encodeURIComponent(endName);
+	             urlStr += "&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f";
+	             
+				$.ajax({
+					method: "post"
+					, url: "map/pass_A"
+					, dataType: "json"
+					, data: {"urlStr":urlStr}
+					, success: function(resp){
+						alert(resp.roadDetail);
+					}
+				});
+		});
+		
 		
 		/* 장민식 *//* 아이템 검색 필드 (추가) */
 		var count = 0; /* 아이템 필드 최대 5개 추가를 위한 count 변수 */
@@ -992,7 +1036,7 @@
     
     <!-- ksh_edit -->
 	<div id="foot">
-      	<span>이동 시간</span><input type="text" id="totalTime">&nbsp;&nbsp;<span>이동 거리</span><input type="text" id="totalDistance">
+      	<span>이동 시간</span><input type="text" id="totalTime">&nbsp;&nbsp;<span>이동 거리</span><input type="text" id="totalDistance">&nbsp;<input type="button" value="경로 1" id="pass_A">
     </div>
     <!-- ksh edit end -->
     
