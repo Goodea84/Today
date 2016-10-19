@@ -1,7 +1,7 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-        <%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -108,22 +108,24 @@
 	
 	//유병훈
 	var ybArray = [];//각 아이템당 추천장소 받아와 위도, 경도 담는 배열
+	var url01;
+	var url02;
+	var local;
+	
 	function yb_test(ybArray2){
-		var local;
-		var url;
 		var max = ybArray2.length;
 		var i = 0;
 		$.each(ybArray2, function(index, val){
 			//alert("2");
 			local = $("#searchLocal").val();
-			url = "https://apis.daum.net/local/v1/search/keyword.json?callback=?";
-			url += "&apikey=16df0ead2d859a7f12cb816b3683e8c5";
-			url += "&query=" + local + " " + ybArray2[index];
-			url += "&sort=1";
-			url += "&count=1";//일단 1개씩만 받고 있음
+			url01 = "https://apis.daum.net/local/v1/search/keyword.json?callback=?";
+			url01 += "&apikey=16df0ead2d859a7f12cb816b3683e8c5";
+			url01 += "&query=" + local + " " + ybArray2[index];
+			url01 += "&sort=1";
+			url01 += "&count=1";//일단 1개씩만 받고 있음
 	
-			$.ajax(url, {
-				dataType: 'jsonp',
+			$.ajax(url01, {
+				dataType: 'json',
 				success: function(data){
 					var test = data.channel.item;
 					$.each(test, function(index, val){
@@ -144,14 +146,29 @@
 					if(i>=max){
 						searchRoute(ybArray);
 					}//if
-				}//complete
+				},//complete
+				beforeSend: recommend
 			});//ajax 
 		});//each
 	}//yb_test
 	
 	//유병훈
-		
 	
+	function recommend() {
+		$.ajax({
+			method: "post"
+			, url: "map/recommendSpot"
+			, dataType: "json"
+			, success: function() {
+				alert("ok");
+				$.each(ybArray2, function(index, item) {
+					alert(item);
+				});
+			}
+		});
+		
+		
+	}
 	
 	//경로 정보 로드
 	function searchRoute(ybArray){

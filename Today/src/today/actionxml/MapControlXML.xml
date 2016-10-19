@@ -16,5 +16,9 @@
 			<result type="json"></result>
 		</action>
 		
+		<action name="recommendSpot" class="action.MapControlAction" method="recommendSpot">
+			<result type="json"></result>
+		</action>
+		
     </package>
 </struts>
