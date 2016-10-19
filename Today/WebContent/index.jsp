@@ -223,7 +223,7 @@
 		   			if(key==="features"){
 		   				$('#totalTime').val(Math.round(value[0].properties.totalTime/60) + "분");
 		   				$('#totalDistance').val(value[0].properties.totalDistance + "M");
-<<<<<<< HEAD
+
 		   				
 		   				
 		   				
@@ -241,12 +241,7 @@
 		   	});//each end
 	    });//getJSON end  
 			    
-=======
-		   			}//if
-			   	});//each end
-		    });//getJSON end  
-		    
->>>>>>> branch 'master' of https://github.com/Goodea84/Today.git
+
 		}//searchRoute end
 		
 		
