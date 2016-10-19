@@ -20,5 +20,9 @@
 			<result type="json"></result>
 		</action>
 		
+		<action name="pass_A" class="action.MapControlAction" method="pass_A">
+			<result type="json"></result>
+		</action>
+		
     </package>
 </struts>
