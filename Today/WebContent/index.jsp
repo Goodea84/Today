@@ -28,7 +28,6 @@
 	<script src="script/jquery-ui.min.js" type="text/javascript"></script> 
     
 	<!-- TMap API 스크립트 추가 -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
 	<script src="https://apis.skplanetx.com/tmap/js?version=1&format=javascript&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f"></script>
 	
 	
@@ -177,6 +176,7 @@
 			 urlStr += "&passList="+ybArray[1].lon+","+ybArray[1].lat+"_"+ybArray[2].lon+","+ybArray[2].lat;
 		 }else if(length===5){
 			 urlStr += "&passList="+ybArray[1].lon+","+ybArray[1].lat+"_"+ybArray[2].lon+","+ybArray[2].lat+"_"+ybArray[3].lon+","+ybArray[3].lat;
+			 
 		 }
 	         //urlStr += "&passList="+"14135893.887852, 4518348.1852606_14135881.887852, 4519591.4745242_14134881.887852, 4517572.4745242";
 	         urlStr += "&startName="+encodeURIComponent(startName);
@@ -196,11 +196,11 @@
 	                      new Tmap.Control.MousePosition(),
 	                  ]);
 	     //경로 레이어 추가
-	     setLayers();
+	     setLayers(length, ybArray);
      
          var startName = "홍대입구";
          var endName = "명동";
-	     var urlStr = "https://apis.skplanetx.com/tmap/routes/pedestrian?version=1&format=xml";
+	     var urlStr = "https://apis.skplanetx.com/tmap/routes/pedestrian?version=1&format=json";
          urlStr += "&startX="+startX;
          urlStr += "&startY="+startY;
          urlStr += "&endX="+endX;
@@ -224,9 +224,6 @@
 		   				$('#totalTime').val(Math.round(value[0].properties.totalTime/60) + "분");
 		   				$('#totalDistance').val(value[0].properties.totalDistance + "M");
 
-		   				
-		   				
-		   				
 		   				/* //경로 디테일 안내 정보
 		   				alert(value.length);
 		   				for(var i=0; i<value.length; i++){
@@ -240,20 +237,10 @@
 		   			}
 		   	});//each end
 	    });//getJSON end  
-			    
+		ybArray.length = 0;
+	    ybArray2.length = 0;
 
 		}//searchRoute end
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		
 		//경로 그리기 후 해당영역으로 줌
@@ -297,113 +284,122 @@
 		}
 		
 		//경유지 레이어 추가
-		function setLayers(){
-		
-			//marker A 표시
-			var markerLayer = new Tmap.Layer.Markers();
-			map.addLayer(markerLayer);
-			 
-			var lonlatA = new Tmap.LonLat(14135893.887852, 4518348.1852606);
-			 
-			var size = new Tmap.Size(38,48);
-			var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
-			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_a.png', size, offset); 
-			     
-			var marker = new Tmap.Marker(lonlatA, icon);
-			
-			markerLayer.addMarker(marker);
-			
-			//popup 생성 A Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
-			var clickCheckA = 1;//Click 반복시 이벤트 분기를 위한 변수
-			var popupA;
-			marker.events.register("click", marker, onOverMarkerA);
-			
-			function onOverMarkerA(evt){
+		function setLayers(length, ybArray){
+			alert(length);
+			//경로지가 1, 2, 3개일 때
+			if(length===3||length===4||length===5){
+				//marker A 표시
 				
-				if(clickCheckA===1){
-				popupA = new Tmap.Popup("p1",
-										lonlatA,
-				                        new Tmap.Size(270, 270),
-				                        "<div><a href='http://www.naver.com'><img src='image/food1.ico'/></a></div>"
-				                        ); 
-				map.addPopup(popupA);
-				popupA.show();
-				} else {
-					popupA.hide();
-				}
+				var markerLayer = new Tmap.Layer.Markers();
+				map.addLayer(markerLayer);
+				 
+				var lonlatA = new Tmap.LonLat(ybArray[1].lon, ybArray[1].lat);
+				 
+				var size = new Tmap.Size(38,48);
+				var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
+				var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_a.png', size, offset); 
+				     
+				var marker = new Tmap.Marker(lonlatA, icon);
 				
-				clickCheckA = clickCheckA * (-1);
-			}
-			
-			//marker B 표시	
-			var markerLayer = new Tmap.Layer.Markers();
-			map.addLayer(markerLayer);
-			 
-			var lonlatB = new Tmap.LonLat(14135881.887852, 4519591.4745242);
-			 
-			var size = new Tmap.Size(38,48);
-			var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
-			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_b.png', size, offset); 
-			     
-			var marker = new Tmap.Marker(lonlatB, icon);
-			markerLayer.addMarker(marker);
-			
-			//popup 생성 B Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
-			var clickCheckB = 1;//Click 반복시 이벤트 분기를 위한 변수
-			var popupB;
-			marker.events.register("click", marker, onOverMarkerB);
-			
-			function onOverMarkerB(evt){
+				markerLayer.addMarker(marker);
 				
-				if(clickCheckB===1){
-				popupB = new Tmap.Popup("p1",
-										lonlatB,
-				                        new Tmap.Size(270, 270),
-				                        "<div><a href='http://www.naver.com'><img src='image/food2.ico'/></a></div>"
-				                        ); 
-				map.addPopup(popupB);
-				popupB.show();
-				} else {
-					popupB.hide();
-				}
+				//popup 생성 A Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
+				var clickCheckA = 1;//Click 반복시 이벤트 분기를 위한 변수
+				var popupA;
+				marker.events.register("click", marker, onOverMarkerA);
 				
-				clickCheckB = clickCheckB * (-1);
-			}
+				function onOverMarkerA(evt){
+					
+					if(clickCheckA===1){
+					popupA = new Tmap.Popup("p1",
+											lonlatA,
+					                        new Tmap.Size(270, 270),
+					                        "<div><a href='http://www.naver.com'><img src='image/food1.ico'/></a></div>"
+					                        ); 
+					map.addPopup(popupA);
+					popupA.show();
+					} else {
+						popupA.hide();
+					}
+					
+					clickCheckA = clickCheckA * (-1);
+				}//end function
+			}//end if
+			//경로지가 2, 3개일 때
+			if(length===4||length===5){
+				//marker B 표시	
+				var markerLayer = new Tmap.Layer.Markers();
+				map.addLayer(markerLayer);
+				 
+				var lonlatB = new Tmap.LonLat(ybArray[2].lon, ybArray[2].lat);
+				 
+				var size = new Tmap.Size(38,48);
+				var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
+				var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_b.png', size, offset); 
+				     
+				var marker = new Tmap.Marker(lonlatB, icon);
+				markerLayer.addMarker(marker);
+				
+				//popup 생성 B Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
+				var clickCheckB = 1;//Click 반복시 이벤트 분기를 위한 변수
+				var popupB;
+				marker.events.register("click", marker, onOverMarkerB);
+				
+				function onOverMarkerB(evt){
+					
+					if(clickCheckB===1){
+					popupB = new Tmap.Popup("p1",
+											lonlatB,
+					                        new Tmap.Size(270, 270),
+					                        "<div><a href='http://www.naver.com'><img src='image/food2.ico'/></a></div>"
+					                        ); 
+					map.addPopup(popupB);
+					popupB.show();
+					} else {
+						popupB.hide();
+					}
+					
+					clickCheckB = clickCheckB * (-1);
+				}//end function
+			}//end if
 			
-			//marker C 표시	
-			var markerLayer = new Tmap.Layer.Markers();
-			map.addLayer(markerLayer);
-			 
-			var lonlatC = new Tmap.LonLat(14134881.887852, 4517572.4745242);
-			 
-			var size = new Tmap.Size(38,48);
-			var offset = new Tmap.Pixel(-(size.w/2), -(size.h/2));
-			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_c.png', size, offset); 
-			     
-			var marker = new Tmap.Marker(lonlatC, icon);
-			markerLayer.addMarker(marker);
-			 
-			//popup 생성 C Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
-			var clickCheckC = 1;//Click 반복시 이벤트 분기를 위한 변수
-			var popupC;
-			marker.events.register("click", marker, onOverMarkerC);
-			
-			function onOverMarkerC(evt){
+			//경로지가  3개일 때
+			if(length===5){
+				//marker C 표시	
+				var markerLayer = new Tmap.Layer.Markers();
+				map.addLayer(markerLayer);
+				 
+				var lonlatC = new Tmap.LonLat(ybArray[3].lon, ybArray[3].lat);
+				 
+				var size = new Tmap.Size(38,48);
+				var offset = new Tmap.Pixel(-(size.w/2), -(size.h/2));
+				var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_c.png', size, offset); 
+				     
+				var marker = new Tmap.Marker(lonlatC, icon);
+				markerLayer.addMarker(marker);
+				 
+				//popup 생성 C Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
+				var clickCheckC = 1;//Click 반복시 이벤트 분기를 위한 변수
+				var popupC;
+				marker.events.register("click", marker, onOverMarkerC);
 				
-				if(clickCheckC===1){
-				popupC = new Tmap.Popup("p1",
-										lonlatC,
-				                        new Tmap.Size(270, 270),
-				                        "<div><a href='http://www.naver.com'><img src='image/food3.ico'/></a></div>"
-				                        ); 
-				map.addPopup(popupC);
-				popupC.show();
-				} else {
-					popupC.hide();
-				}
-				
-				clickCheckC = clickCheckC * (-1);
-			}
+				function onOverMarkerC(evt){
+					
+					if(clickCheckC===1){
+					popupC = new Tmap.Popup("p1",
+											lonlatC,
+					                        new Tmap.Size(270, 270),
+					                        "<div><a href='http://www.naver.com'><img src='image/food3.ico'/></a></div>"
+					                        ); 
+					map.addPopup(popupC);
+					popupC.show();
+					} else {
+						popupC.hide();
+					}
+					
+					clickCheckC = clickCheckC * (-1);
+				}//end function
+			}//end if
 		}
 		
 		/* 김승훈 경로 디테일 안내 정보 추출 */
@@ -483,6 +479,13 @@
         e.preventDefault(); 
         $('#popup_layer, #overlay_t').hide(); 
     });
+    
+    //맵 초기화 테스트 - 김승훈
+    $('#testbutton').on('click', function(){	
+ 		map.destroy();
+ 		initTmap();
+ 	});
+ 	
 
 
 	});/* document.ready function end */
@@ -506,6 +509,7 @@
      		
      		form.submit();
      	}/* login end - jhs  */
+     	
      	
     	
 	</script>
@@ -1156,7 +1160,7 @@
     
     <!-- ksh_edit -->
 	<div id="foot">
-      	<span>이동 시간</span><input type="text" id="totalTime">&nbsp;&nbsp;<span>이동 거리</span><input type="text" id="totalDistance">&nbsp;<input type="button" value="경로 1" id="pass_A">
+      	<span>이동 시간</span><input type="text" id="totalTime">&nbsp;&nbsp;<span>이동 거리</span><input type="text" id="totalDistance">&nbsp;<input type="button" value="경로 1" id="pass_A">&nbsp;<input type="button" value="test" id="testbutton">
     </div>
     <!-- ksh edit end -->
     
