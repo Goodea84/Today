@@ -51,19 +51,6 @@ public class MapControlAction extends ActionSupport implements SessionAware{
 	
 
 	 public void jsonParsing() throws UnsupportedEncodingException, IOException {
-		 
-		/* 공통부분 */
-		String startX = "14129105.461214";
-	    String startY = "4519042.1926406";
-	    String endX = "14136027.789587";
-	    String endY = "4517571.4945242";
-		
-		String urlStr = "https://apis.skplanetx.com/tmap/routes?version=1&format=json";
-	     urlStr += "&startX="+startX;
-	     urlStr += "&startY="+startY;
-	     urlStr += "&endX="+endX;
-	     urlStr += "&endY="+endY;
-	     urlStr += "&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f";
 		
 	     System.setProperty("jsse.enableSNIExtension", "false") ;
 	   	 URL url = new URL(urlStr);

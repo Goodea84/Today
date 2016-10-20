@@ -32,7 +32,7 @@
 	
 	
 	
-	<!-- ksh edit -->
+	<!-- 김승훈 edit -->
 	<script type="text/javascript">
 	$(document).ready(function () {
 		
@@ -75,8 +75,6 @@
 		                        transitionEffect:"resize",
 		                        animation:true
 		                    });
-		    
-		    
 		    //searchRoute();
 		    
 		}
@@ -118,7 +116,7 @@
 			//alert("2");
 			local = $("#searchLocal").val();
 			url01 = "https://apis.daum.net/local/v1/search/keyword.json?callback=?";
-			url01 += "&apikey=16df0ead2d859a7f12cb816b3683e8c5";
+			url01 += "&apikey=d0224817161ef3c311a65c73ea03f837";
 			url01 += "&query=" + local + " " + ybArray2[index];
 			url01 += "&sort=1";
 			url01 += "&count=1";//일단 1개씩만 받고 있음
@@ -159,14 +157,12 @@
 			, url: "map/recommendSpot"
 			, dataType: "json"
 			, success: function() {
-				alert("ok");
+				/* alert("ok");
 				$.each(ybArray2, function(index, item) {
 					alert(item);
-				});
+				}); */
 			}
 		});
-		
-		
 	}
 	
 	//경로 정보 로드
@@ -253,7 +249,11 @@
 		   				alert(str); */
 		   			}
 		   	});//each end
-	    });//getJSON end  
+	    });//getJSON end
+	    
+	    //경로 상세 정보 추출
+	    routeDetail(ybArray, length);
+	    
 		ybArray.length = 0;
 	    ybArray2.length = 0;
 
@@ -300,9 +300,85 @@
 		    
 		}
 		
-		//경유지 레이어 추가
+		//경유지 레이어 추가 - 김승훈
 		function setLayers(length, ybArray){
-			alert(length);
+			
+			//출발지 마크 생성 및 팝업 생성
+			var markerLayer = new Tmap.Layer.Markers();
+			map.addLayer(markerLayer);
+			 
+			var lonlatS = new Tmap.LonLat(ybArray[0].lon, ybArray[0].lat);
+			 
+			var size = new Tmap.Size(38,48);
+			var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
+			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_a.png', size, offset); 
+			     
+			var marker = new Tmap.Marker(lonlatS, icon);
+			
+			markerLayer.addMarker(marker);
+			
+			//popup 생성 E(출발점) Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
+			var clickCheckS = 1;//Click 반복시 이벤트 분기를 위한 변수
+			var popupS;
+			marker.events.register("click", marker, onOverMarkerS);
+			
+			function onOverMarkerS(evt){
+				
+				if(clickCheckS===1){
+				popupS = new Tmap.Popup("p1",
+										lonlatS,
+				                        new Tmap.Size(270, 270),
+				                        "<div><a href='http://www.naver.com'><img src='image/food1.ico'/></a></div>"
+				                        ); 
+				map.addPopup(popupS);
+				popupS.show();
+				} else {
+					popupS.hide();
+				}
+				
+				clickCheckS = clickCheckS * (-1);
+			}//end function
+			
+			
+			//
+			//도착지 마크 생성 및 팝업 생성
+			var markerLayer = new Tmap.Layer.Markers();
+			map.addLayer(markerLayer);
+			 
+			var lonlatE = new Tmap.LonLat(ybArray[length-1].lon, ybArray[length-1].lat);
+			 
+			var size = new Tmap.Size(38,48);
+			var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
+			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_a.png', size, offset); 
+			     
+			var marker = new Tmap.Marker(lonlatE, icon);
+			
+			markerLayer.addMarker(marker);
+			
+			//popup 생성 E(출발점) Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
+			var clickCheckE = 1;//Click 반복시 이벤트 분기를 위한 변수
+			var popupE;
+			marker.events.register("click", marker, onOverMarkerE);
+			
+			function onOverMarkerE(evt){
+				
+				if(clickCheckE===1){
+				popupE = new Tmap.Popup("p1",
+										lonlatE,
+				                        new Tmap.Size(270, 270),
+				                        "<div><a href='http://www.naver.com'><img src='image/food1.ico'/></a></div>"
+				                        ); 
+				map.addPopup(popupE);
+				popupE.show();
+				} else {
+					popupE.hide();
+				}
+				
+				clickCheckE = clickCheckE * (-1);
+			}//end function
+			
+			
+			//alert(length);
 			//경로지가 1, 2, 3개일 때
 			if(length===3||length===4||length===5){
 				//marker A 표시
@@ -419,14 +495,22 @@
 			}//end if
 		}
 		
-		/* 김승훈 경로 디테일 안내 정보 추출 */
-		$("#pass_A").on("click", function() {
+		//경로지 디테일 안내 메시지 저장 변수 - 김승훈
+		var route_A;
+		var route_B;
+		var route_C;
+		var route_D;
+		
+		//경로 안내 멘트 제이슨 값 받아서 변수에 저장 - 김승훈
+		function routeDetail(ybArray, length){
 			
-			 var startX = 14129105.461214;
-	         var startY = 4517042.1926406;
-	         var endX = 14135893.887852;
-	         var endY = 4518348.1852606;
+			for(var i=1; i<length; i++){
 			
+			 var startX = ybArray[i-1].lon;
+	         var startY = ybArray[i-1].lat;
+	         var endX = ybArray[i].lon;
+	         var endY = ybArray[i].lat;
+	        
 	         var startName = "A";
 	         var endName = "B";
 	         var urlStr = "https://apis.skplanetx.com/tmap/routes/pedestrian?version=1&format=json";
@@ -438,17 +522,52 @@
 	             urlStr += "&endName="+encodeURIComponent(endName);
 	             urlStr += "&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f";
 	             
-				$.ajax({
-					method: "post"
-					, url: "map/pass_A"
-					, dataType: "json"
-					, data: {"urlStr":urlStr}
-					, success: function(resp){
-						alert(resp.roadDetail);
-					}
-				});
-		});
+	             routeDetailAjax(i, urlStr);
+				
+			}//end for	
+		}//end function
 		
+		function routeDetailAjax(i, urlStr){
+			
+			alert(urlStr);
+			
+			$.ajax({
+				method: "post"
+				, url: "map/pass_A"
+				, dataType: "json"
+				, data: {"urlStr":urlStr}
+				, success: function(resp){
+					//로드 디테일 출력 테스트
+					//alert(resp.roadDetail);
+					if(i===1){
+						route_A = resp.roadDetail;
+					} else if(i===2){
+						route_B = resp.roadDetail;
+					} else if(i===3){
+						route_C = resp.roadDetail;
+					} else if(i===4){
+						route_D = resp.roadDetail;
+					}
+				}
+			});//end ajax
+			
+		}//end function
+		
+		
+		/* 김승훈 경로 디테일 안내 정보 추출 */
+		$("#pass_A").on("click", function() {
+			alert(route_A);			
+		});
+		$("#pass_B").on("click", function() {
+			alert(route_B);			
+		});
+		$("#pass_C").on("click", function() {
+			alert(route_C);			
+		});
+		$("#pass_D").on("click", function() {
+			alert(route_D);			
+		});
+		//
 		
 		/* 장민식 *//* 아이템 검색 필드 (추가) */
 		var count = 0; /* 아이템 필드 최대 5개 추가를 위한 count 변수 */
@@ -497,7 +616,7 @@
         $('#popup_layer, #overlay_t').hide(); 
     });
     
-    //맵 초기화 테스트 - 김승훈
+    //맵 초기화 테스트 BOMB button - 김승훈
     $('#testbutton').on('click', function(){	
  		map.destroy();
  		initTmap();
@@ -530,46 +649,9 @@
      	
     	
 	</script>
-	<!-- ksh edit end -->
+	<!-- 김승훈 edit end -->
 	
 </head>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <body>
 <!--
@@ -1175,11 +1257,16 @@
 		</section>
     </main>
     
-    <!-- ksh_edit -->
+    <!-- 김승훈_edit -->
 	<div id="foot">
-      	<span>이동 시간</span><input type="text" id="totalTime">&nbsp;&nbsp;<span>이동 거리</span><input type="text" id="totalDistance">&nbsp;<input type="button" value="경로 1" id="pass_A">&nbsp;<input type="button" value="test" id="testbutton">
+      	<span>이동 시간</span><input type="text" id="totalTime">&nbsp;&nbsp;<span>이동 거리</span><input type="text" id="totalDistance">&nbsp;
+      	<input type="button" value="경로 1" id="pass_A">&nbsp;
+      	<input type="button" value="경로 2" id="pass_B">&nbsp;
+      	<input type="button" value="경로 3" id="pass_C">&nbsp;
+      	<input type="button" value="경로 4" id="pass_D">&nbsp;
+      	<input type="button" value="BOMB" id="testbutton">
     </div>
-    <!-- ksh edit end -->
+    <!-- 김승훈 edit end -->
     
 </div>
 
