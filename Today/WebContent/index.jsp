@@ -167,6 +167,8 @@
 	
 	//경로 정보 로드
 	function searchRoute(ybArray){
+		map.destroy();
+		initTmap();
 		var length = ybArray.length;
 		var startX = ybArray[0].lon;//출발지
 		var startY = ybArray[0].lat;
@@ -529,7 +531,8 @@
 		
 		function routeDetailAjax(i, urlStr){
 			
-			alert(urlStr);
+			//urlStr 출력 테스트
+			//alert(urlStr);
 			
 			$.ajax({
 				method: "post"
