@@ -1157,24 +1157,6 @@
     <!-- 유병훈 end -->
     
 </div>
-<%-- 	<script>
-		$(function(){
-		//유병훈 above_foot div태그 열었다 닫았다 하는 부분 & 클릭 부분 이미지 & 이미지 변경 처리
-			var za = 1;
-			$('#slide_extend').on('click', function(){
-				if(za===1){
-					$('#slide_extend').removeClass('glyphicon glyphicon-resize-full');
-					$('#slide_extend').addClass('glyphicon glyphicon-resize-small');
-					za = 2;
-				}else if(za===2){
-					$('#slide_extend').removeClass('glyphicon glyphicon-resize-small');
-					$('#slide_extend').addClass('glyphicon glyphicon-resize-full');
-					za = 1;
-				}
-				$('#above_foot').toggle();
-			});//slide
-		});//onload
-	</script>  --%>
 
 <!-- loginform jhs -->
 <div id="overlay_t"></div> 
