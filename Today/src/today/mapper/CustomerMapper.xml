@@ -4,8 +4,19 @@
 <mapper namespace="CustomerMapper">
 
 
-<!-- 고객정보 읽기 -->
+<!-- user정보 읽기 (email)-->
 <select id="selectCustomer" parameterType="string" resultType="Customer">
 select * from customer where email = #{email}
 </select>
+       
+<!-- 한 user의 모든 친구 정보 -->
+<select id="friendList" parameterType="int" resultType="int">
+select friendcust_id from friendlist where mycust_id = #{custid}
+</select>
+
+<!-- user정보 읽기2 (custid)-->
+<select id="selectCustomer2" parameterType="int" resultType="Customer">
+select * from customer where cust_id = #{custid}
+</select>
+
 </mapper>

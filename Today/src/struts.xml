@@ -12,8 +12,16 @@
 		<default-action-ref name="index"/>
 		
 		<action name="index">
-			<result>/index.jsp</result>
+       		<result>/index.jsp</result>
 		</action>
+		
+		
+		<!-- 로그인 -->
+		<action name="login" class="action.CustomerAction" method="login">
+			<result name="success">/index.jsp</result>
+			<result name="input" type="redirect">/index.jsp</result>
+		</action>
+		
 		
     </package>
 	
