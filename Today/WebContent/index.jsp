@@ -29,12 +29,11 @@
 	<script src="script/jquery-ui.min.js" type="text/javascript"></script> 
     
 	<!-- TMap API 스크립트 추가 -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
 	<script src="https://apis.skplanetx.com/tmap/js?version=1&format=javascript&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f"></script>
 	
 	
 	
-	<!-- ksh edit -->
+	<!-- 김승훈 edit -->
 	<script type="text/javascript">
 	$(document).ready(function () {
 	$.ajaxSettings.traditional = true;	
@@ -77,8 +76,6 @@
 		                        transitionEffect:"resize",
 		                        animation:true
 		                    });
-		    
-		    
 		    //searchRoute();
 		    
 		}
@@ -166,19 +163,14 @@
 			, url: "map/recommendSpot"
 			, dataType: "json"
 			, success: function() {
-				
-				/* alert("ok");
-				$.each(ybArray2, function(index, item) {
-					alert(item);
-				}); */
 			}
 		});
-		
-		
 	}
 	
 	//경로 정보 로드
 	function searchRoute(ybArray){
+		map.destroy();
+		initTmap();
 		var length = ybArray.length;
 		var startX = ybArray[0].lon;//출발지
 		var startY = ybArray[0].lat;
@@ -201,6 +193,7 @@
 			 urlStr += "&passList="+ybArray[1].lon+","+ybArray[1].lat+"_"+ybArray[2].lon+","+ybArray[2].lat;
 		 }else if(length===5){
 			 urlStr += "&passList="+ybArray[1].lon+","+ybArray[1].lat+"_"+ybArray[2].lon+","+ybArray[2].lat+"_"+ybArray[3].lon+","+ybArray[3].lat;
+			 
 		 }
 	         //urlStr += "&passList="+"14135893.887852, 4518348.1852606_14135881.887852, 4519591.4745242_14134881.887852, 4517572.4745242";
 	         urlStr += "&startName="+encodeURIComponent(startName);
@@ -220,11 +213,11 @@
 	                      new Tmap.Control.MousePosition(),
 	                  ]);
 	     //경로 레이어 추가
-	     setLayers();
+	     setLayers(length, ybArray);
      
          var startName = "홍대입구";
          var endName = "명동";
-	     var urlStr = "https://apis.skplanetx.com/tmap/routes/pedestrian?version=1&format=xml";
+	     var urlStr = "https://apis.skplanetx.com/tmap/routes/pedestrian?version=1&format=json";
          urlStr += "&startX="+startX;
          urlStr += "&startY="+startY;
          urlStr += "&endX="+endX;
@@ -248,9 +241,6 @@
 		   				$('#totalTime').val(Math.round(value[0].properties.totalTime/60) + "분");
 		   				$('#totalDistance').val(value[0].properties.totalDistance + "M");
 
-		   				
-		   				
-		   				
 		   				/* //경로 디테일 안내 정보
 		   				alert(value.length);
 		   				for(var i=0; i<value.length; i++){
@@ -263,21 +253,15 @@
 		   				alert(str); */
 		   			}
 		   	});//each end
-	    });//getJSON end  
-			    
+	    });//getJSON end
+	    
+	    //경로 상세 정보 추출
+	    routeDetail(ybArray, length);
+	    
+		ybArray.length = 0;
+	    ybArray2.length = 0;
 
 		}//searchRoute end
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		
 		//경로 그리기 후 해당영역으로 줌
@@ -321,124 +305,217 @@
 		    
 		}
 		
-		//경유지 레이어 추가
-		function setLayers(){
-		
-			//marker A 표시
+		//경유지 레이어 추가 - 김승훈
+		function setLayers(length, ybArray){
+			
+			//출발지 마크 생성 및 팝업 생성
 			var markerLayer = new Tmap.Layer.Markers();
 			map.addLayer(markerLayer);
 			 
-			var lonlatA = new Tmap.LonLat(14135893.887852, 4518348.1852606);
+			var lonlatS = new Tmap.LonLat(ybArray[0].lon, ybArray[0].lat);
 			 
 			var size = new Tmap.Size(38,48);
 			var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
 			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_a.png', size, offset); 
 			     
-			var marker = new Tmap.Marker(lonlatA, icon);
+			var marker = new Tmap.Marker(lonlatS, icon);
 			
 			markerLayer.addMarker(marker);
 			
-			//popup 생성 A Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
-			var clickCheckA = 1;//Click 반복시 이벤트 분기를 위한 변수
-			var popupA;
-			marker.events.register("click", marker, onOverMarkerA);
+			//popup 생성 E(출발점) Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
+			var clickCheckS = 1;//Click 반복시 이벤트 분기를 위한 변수
+			var popupS;
+			marker.events.register("click", marker, onOverMarkerS);
 			
-			function onOverMarkerA(evt){
+			function onOverMarkerS(evt){
 				
-				if(clickCheckA===1){
-				popupA = new Tmap.Popup("p1",
-										lonlatA,
+				if(clickCheckS===1){
+				popupS = new Tmap.Popup("p1",
+										lonlatS,
 				                        new Tmap.Size(270, 270),
 				                        "<div><a href='http://www.naver.com'><img src='image/food1.ico'/></a></div>"
 				                        ); 
-				map.addPopup(popupA);
-				popupA.show();
+				map.addPopup(popupS);
+				popupS.show();
 				} else {
-					popupA.hide();
+					popupS.hide();
 				}
 				
-				clickCheckA = clickCheckA * (-1);
-			}
+				clickCheckS = clickCheckS * (-1);
+			}//end function
 			
-			//marker B 표시	
+			
+			//
+			//도착지 마크 생성 및 팝업 생성
 			var markerLayer = new Tmap.Layer.Markers();
 			map.addLayer(markerLayer);
 			 
-			var lonlatB = new Tmap.LonLat(14135881.887852, 4519591.4745242);
+			var lonlatE = new Tmap.LonLat(ybArray[length-1].lon, ybArray[length-1].lat);
 			 
 			var size = new Tmap.Size(38,48);
 			var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
-			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_b.png', size, offset); 
+			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_a.png', size, offset); 
 			     
-			var marker = new Tmap.Marker(lonlatB, icon);
+			var marker = new Tmap.Marker(lonlatE, icon);
+			
 			markerLayer.addMarker(marker);
 			
-			//popup 생성 B Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
-			var clickCheckB = 1;//Click 반복시 이벤트 분기를 위한 변수
-			var popupB;
-			marker.events.register("click", marker, onOverMarkerB);
+			//popup 생성 E(출발점) Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
+			var clickCheckE = 1;//Click 반복시 이벤트 분기를 위한 변수
+			var popupE;
+			marker.events.register("click", marker, onOverMarkerE);
 			
-			function onOverMarkerB(evt){
+			function onOverMarkerE(evt){
 				
-				if(clickCheckB===1){
-				popupB = new Tmap.Popup("p1",
-										lonlatB,
+				if(clickCheckE===1){
+				popupE = new Tmap.Popup("p1",
+										lonlatE,
 				                        new Tmap.Size(270, 270),
-				                        "<div><a href='http://www.naver.com'><img src='image/food2.ico'/></a></div>"
+				                        "<div><a href='http://www.naver.com'><img src='image/food1.ico'/></a></div>"
 				                        ); 
-				map.addPopup(popupB);
-				popupB.show();
+				map.addPopup(popupE);
+				popupE.show();
 				} else {
-					popupB.hide();
+					popupE.hide();
 				}
 				
-				clickCheckB = clickCheckB * (-1);
-			}
+				clickCheckE = clickCheckE * (-1);
+			}//end function
 			
-			//marker C 표시	
-			var markerLayer = new Tmap.Layer.Markers();
-			map.addLayer(markerLayer);
-			 
-			var lonlatC = new Tmap.LonLat(14134881.887852, 4517572.4745242);
-			 
-			var size = new Tmap.Size(38,48);
-			var offset = new Tmap.Pixel(-(size.w/2), -(size.h/2));
-			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_c.png', size, offset); 
-			     
-			var marker = new Tmap.Marker(lonlatC, icon);
-			markerLayer.addMarker(marker);
-			 
-			//popup 생성 C Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
-			var clickCheckC = 1;//Click 반복시 이벤트 분기를 위한 변수
-			var popupC;
-			marker.events.register("click", marker, onOverMarkerC);
 			
-			function onOverMarkerC(evt){
+			//alert(length);
+			//경로지가 1, 2, 3개일 때
+			if(length===3||length===4||length===5){
+				//marker A 표시
 				
-				if(clickCheckC===1){
-				popupC = new Tmap.Popup("p1",
-										lonlatC,
-				                        new Tmap.Size(270, 270),
-				                        "<div><a href='http://www.naver.com'><img src='image/food3.ico'/></a></div>"
-				                        ); 
-				map.addPopup(popupC);
-				popupC.show();
-				} else {
-					popupC.hide();
-				}
+				var markerLayer = new Tmap.Layer.Markers();
+				map.addLayer(markerLayer);
+				 
+				var lonlatA = new Tmap.LonLat(ybArray[1].lon, ybArray[1].lat);
+				 
+				var size = new Tmap.Size(38,48);
+				var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
+				var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_a.png', size, offset); 
+				     
+				var marker = new Tmap.Marker(lonlatA, icon);
 				
-				clickCheckC = clickCheckC * (-1);
-			}
+				markerLayer.addMarker(marker);
+				
+				//popup 생성 A Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
+				var clickCheckA = 1;//Click 반복시 이벤트 분기를 위한 변수
+				var popupA;
+				marker.events.register("click", marker, onOverMarkerA);
+				
+				function onOverMarkerA(evt){
+					
+					if(clickCheckA===1){
+					popupA = new Tmap.Popup("p1",
+											lonlatA,
+					                        new Tmap.Size(270, 270),
+					                        "<div><a href='http://www.naver.com'><img src='image/food1.ico'/></a></div>"
+					                        ); 
+					map.addPopup(popupA);
+					popupA.show();
+					} else {
+						popupA.hide();
+					}
+					
+					clickCheckA = clickCheckA * (-1);
+				}//end function
+			}//end if
+			//경로지가 2, 3개일 때
+			if(length===4||length===5){
+				//marker B 표시	
+				var markerLayer = new Tmap.Layer.Markers();
+				map.addLayer(markerLayer);
+				 
+				var lonlatB = new Tmap.LonLat(ybArray[2].lon, ybArray[2].lat);
+				 
+				var size = new Tmap.Size(38,48);
+				var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
+				var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_b.png', size, offset); 
+				     
+				var marker = new Tmap.Marker(lonlatB, icon);
+				markerLayer.addMarker(marker);
+				
+				//popup 생성 B Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
+				var clickCheckB = 1;//Click 반복시 이벤트 분기를 위한 변수
+				var popupB;
+				marker.events.register("click", marker, onOverMarkerB);
+				
+				function onOverMarkerB(evt){
+					
+					if(clickCheckB===1){
+					popupB = new Tmap.Popup("p1",
+											lonlatB,
+					                        new Tmap.Size(270, 270),
+					                        "<div><a href='http://www.naver.com'><img src='image/food2.ico'/></a></div>"
+					                        ); 
+					map.addPopup(popupB);
+					popupB.show();
+					} else {
+						popupB.hide();
+					}
+					
+					clickCheckB = clickCheckB * (-1);
+				}//end function
+			}//end if
+			
+			//경로지가  3개일 때
+			if(length===5){
+				//marker C 표시	
+				var markerLayer = new Tmap.Layer.Markers();
+				map.addLayer(markerLayer);
+				 
+				var lonlatC = new Tmap.LonLat(ybArray[3].lon, ybArray[3].lat);
+				 
+				var size = new Tmap.Size(38,48);
+				var offset = new Tmap.Pixel(-(size.w/2), -(size.h/2));
+				var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_c.png', size, offset); 
+				     
+				var marker = new Tmap.Marker(lonlatC, icon);
+				markerLayer.addMarker(marker);
+				 
+				//popup 생성 C Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
+				var clickCheckC = 1;//Click 반복시 이벤트 분기를 위한 변수
+				var popupC;
+				marker.events.register("click", marker, onOverMarkerC);
+				
+				function onOverMarkerC(evt){
+					
+					if(clickCheckC===1){
+					popupC = new Tmap.Popup("p1",
+											lonlatC,
+					                        new Tmap.Size(270, 270),
+					                        "<div><a href='http://www.naver.com'><img src='image/food3.ico'/></a></div>"
+					                        ); 
+					map.addPopup(popupC);
+					popupC.show();
+					} else {
+						popupC.hide();
+					}
+					
+					clickCheckC = clickCheckC * (-1);
+				}//end function
+			}//end if
 		}
 		
-		/* 김승훈 경로 디테일 안내 정보 추출 */
-		$("#pass_A").on("click", function() {
+		//경로지 디테일 안내 메시지 저장 변수 - 김승훈
+		var route_A;
+		var route_B;
+		var route_C;
+		var route_D;
+		
+		//경로 안내 멘트 제이슨 값 받아서 변수에 저장 - 김승훈
+		function routeDetail(ybArray, length){
 			
-			 var startX = 14129105.461214;
-	         var startY = 4517042.1926406;
-	         var endX = 14135893.887852;
-	         var endY = 4518348.1852606;
+			for(var i=1; i<length; i++){
 			
+			 var startX = ybArray[i-1].lon;
+	         var startY = ybArray[i-1].lat;
+	         var endX = ybArray[i].lon;
+	         var endY = ybArray[i].lat;
+	        
 	         var startName = "A";
 	         var endName = "B";
 	         var urlStr = "https://apis.skplanetx.com/tmap/routes/pedestrian?version=1&format=json";
@@ -450,17 +527,53 @@
 	             urlStr += "&endName="+encodeURIComponent(endName);
 	             urlStr += "&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f";
 	             
-				$.ajax({
-					method: "post"
-					, url: "map/pass_A"
-					, dataType: "json"
-					, data: {"urlStr":urlStr}
-					, success: function(resp){
-						alert(resp.roadDetail);
-					}
-				});
-		});
+	             routeDetailAjax(i, urlStr);
+				
+			}//end for	
+		}//end function
 		
+		function routeDetailAjax(i, urlStr){
+			
+			//urlStr 출력 테스트
+			//alert(urlStr);
+			
+			$.ajax({
+				method: "post"
+				, url: "map/pass_A"
+				, dataType: "json"
+				, data: {"urlStr":urlStr}
+				, success: function(resp){
+					//로드 디테일 출력 테스트
+					//alert(resp.roadDetail);
+					if(i===1){
+						route_A = resp.roadDetail;
+					} else if(i===2){
+						route_B = resp.roadDetail;
+					} else if(i===3){
+						route_C = resp.roadDetail;
+					} else if(i===4){
+						route_D = resp.roadDetail;
+					}
+				}
+			});//end ajax
+			
+		}//end function
+		
+		
+		/* 김승훈 경로 디테일 안내 정보 추출 */
+		$("#pass_A").on("click", function() {
+			alert(route_A);			
+		});
+		$("#pass_B").on("click", function() {
+			alert(route_B);			
+		});
+		$("#pass_C").on("click", function() {
+			alert(route_C);			
+		});
+		$("#pass_D").on("click", function() {
+			alert(route_D);			
+		});
+		//
 		
 		/* 장민식 *//* 아이템 검색 필드 (추가) */
 		var count = 0; /* 아이템 필드 최대 5개 추가를 위한 count 변수 */
@@ -508,6 +621,13 @@
         e.preventDefault(); 
         $('#popup_layer, #overlay_t').hide(); 
     });
+    
+    //맵 초기화 테스트 BOMB button - 김승훈
+    $('#testbutton').on('click', function(){	
+ 		map.destroy();
+ 		initTmap();
+ 	});
+ 	
 
 
 	});/* document.ready function end */
@@ -532,48 +652,12 @@
      		form.submit();
      	}/* login end - jhs  */
      	
+     	
     	
 	</script>
-	<!-- ksh edit end -->
+	<!-- 김승훈 edit end -->
 	
 </head>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <body>
 <!--
@@ -1179,11 +1263,16 @@
 		</section>
     </main>
     
-    <!-- ksh_edit -->
+    <!-- 김승훈_edit -->
 	<div id="foot">
-      	<span>이동 시간</span><input type="text" id="totalTime">&nbsp;&nbsp;<span>이동 거리</span><input type="text" id="totalDistance">&nbsp;<input type="button" value="경로 1" id="pass_A">
+      	<span>이동 시간</span><input type="text" id="totalTime">&nbsp;&nbsp;<span>이동 거리</span><input type="text" id="totalDistance">&nbsp;
+      	<input type="button" value="경로 1" id="pass_A">&nbsp;
+      	<input type="button" value="경로 2" id="pass_B">&nbsp;
+      	<input type="button" value="경로 3" id="pass_C">&nbsp;
+      	<input type="button" value="경로 4" id="pass_D">&nbsp;
+      	<input type="button" value="BOMB" id="testbutton">
     </div>
-    <!-- ksh edit end -->
+    <!-- 김승훈 edit end -->
     
 </div>
 

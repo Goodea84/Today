@@ -117,7 +117,7 @@ public class MapControlAction extends ActionSupport implements SessionAware{
 			}
 		}
 		
-		System.out.println(roadDetail);
+		//System.out.println(roadDetail);
     }   
 
 		  
