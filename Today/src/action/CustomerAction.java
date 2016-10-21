@@ -42,7 +42,7 @@ public class CustomerAction extends ActionSupport implements SessionAware{
 		//로그인 성공하는 경우 세션에 로그인 정보 저장
 		session.put("loginId", customer.getEmail());
 		session.put("loginName", customer.getName());
-		System.out.println("loginId session :"+ session.get("loginId"));
+		//System.out.println("loginId session :"+ session.get("loginId"));
 		
 		//친구리스트
 		list = dao.friendList(customer.getCust_id()); 
@@ -54,7 +54,7 @@ public class CustomerAction extends ActionSupport implements SessionAware{
 			customer = dao.selectCustomer2(list.get(i));
 			flist.add(customer);
 		}
-		System.out.println("flist:"+ flist.get(0).getCust_image());
+		//System.out.println("flist:"+ flist.get(0).getCust_image());
 
 		return SUCCESS;
 	}

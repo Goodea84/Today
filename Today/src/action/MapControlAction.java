@@ -21,9 +21,10 @@ public class MapControlAction extends ActionSupport implements SessionAware{
 	private String local;
 	private Map<String, Object> session;
 	private ArrayList<String> itemList;
-	private int countItem;
 	private String urlStr;
 	private String roadDetail = "";
+	
+	private ArrayList<String> recommendedItem;
 	
 	//MapControlAction 기본 생성자
 	public MapControlAction() {	
@@ -43,18 +44,20 @@ public class MapControlAction extends ActionSupport implements SessionAware{
 		return SUCCESS;
 	}//setSessionLocal end
 	
-	//사용자가 검색하는 아이템 리스트 설정
+	//사용자가 검색하는 추천 아이템 리스트 설정
 	public String valueItemList() throws UnsupportedEncodingException, IOException {
+		recommendedItem = new ArrayList<>();
 		int count = 1;
+		String tempLocation = null;
 		for (String item : itemList) {
-			String urlStr = "";
 			
-			if (count <= 5) {
+			String urlStr = "";
+			if (count == 1) {
 				urlStr += "https://apis.daum.net/local/v1/search/keyword.json?";
 				urlStr += "apikey=d0224817161ef3c311a65c73ea03f837";
 				urlStr += "&query=" + session.get("local") + "%20" + item;
 				urlStr += "&sort=0"; //0정확도 / 1인기순 / 2거리순
-				urlStr += "&count=3";//일단 1개씩만 받고 있음
+				urlStr += "&count=3";
 				
 				System.setProperty("jsse.enableSNIExtension", "false") ;
 				URL url = new URL(urlStr);
@@ -64,22 +67,49 @@ public class MapControlAction extends ActionSupport implements SessionAware{
 				JSONObject channel = (JSONObject) object.get("channel");
 				JSONArray bodyArray = (JSONArray) channel.get("item");
 				
+				recommendedItem.add(channel.toJSONString());
+				
 				for (int i = 0; i < bodyArray.size(); i++) {
 					JSONObject data = (JSONObject) bodyArray.get(i);
-					System.out.println(data.get("title").toString());
+					System.out.println("[" + count + "번 아이템] : " + data.get("title").toString());
+					if (i == 0) {
+						tempLocation = "&location=" + data.get("latitude") + "," +data.get("longitude");
+					}
 				}
 				count++;
-				
 			} else {
+				
 				urlStr += "https://apis.daum.net/local/v1/search/keyword.json?";
 				urlStr += "apikey=d0224817161ef3c311a65c73ea03f837";
 				urlStr += "&query=" + session.get("local") + "%20" + item;
-				urlStr += "&sort=1"; //0정확도 / 1인기순 / 2거리순
-				urlStr += "&count=10";//일단 1개씩만 받고 있음
+				urlStr += "&sort=0"; //0정확도 / 1인기순 / 2거리순
+				urlStr += "&count=3";
+				urlStr += tempLocation;
+				urlStr += "&radius=5000";
 				
-
-				System.out.println("여기들어와");
-			}
+				System.setProperty("jsse.enableSNIExtension", "false") ;
+				URL url = new URL(urlStr);
+				InputStreamReader isr = new InputStreamReader(url.openConnection().getInputStream(), "utf-8");
+				JSONObject object = (JSONObject) JSONValue.parse(isr);
+				
+				JSONObject channel = (JSONObject) object.get("channel");
+				JSONArray bodyArray = (JSONArray) channel.get("item");
+				
+				recommendedItem.add(channel.toJSONString());
+				
+				for (int i = 0; i < bodyArray.size(); i++) {
+					JSONObject data = (JSONObject) bodyArray.get(i);
+					System.out.println("[" + count + "번 아이템] : " + data.get("title").toString());
+					if (i == 0) {
+						tempLocation = "&location=" + data.get("latitude") + "," +data.get("longitude");
+					}//if end
+				}//for end
+				count++;
+			}//else end
+		}//for end
+		
+		for (String string : recommendedItem) {
+			System.out.println(string);
 		}
 		
 		return SUCCESS;
@@ -132,6 +162,14 @@ public class MapControlAction extends ActionSupport implements SessionAware{
 	//▼▼▼▼▼▼▼▼ setters getters ▼▼▼▼▼▼▼▼
 	public ArrayList<String> getItemList() {
 		return itemList;
+	}
+
+	public ArrayList<String> getRecommendedItem() {
+		return recommendedItem;
+	}
+
+	public void setRecommendedItem(ArrayList<String> recommendedItem) {
+		this.recommendedItem = recommendedItem;
 	}
 
 	public void setItemList(ArrayList<String> itemList) {

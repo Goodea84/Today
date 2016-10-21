@@ -84,14 +84,11 @@
 	
 	
 	var ybArray2 = [];//민식이 형이 input text로 받은 아이템들 담는 배열
-	var item = [];
 	/* 장민식 *//* 아이템 검색 데이터 호출*/
 	$('#searchRoad').click(function() {
-
+	var item = [];
 		$(".itemField").each(function(idx){
-			
 	        var item0 = $(".itemField:eq(" + idx + ")").val();
-
 			item.push(encodeURI(item0));
 			ybArray2.push(item0);//사용자가 입력한 키워드들이 담김
 	     });//each
@@ -101,9 +98,17 @@
         	, url: "map/sendItem"
         	, dataType: "json"
         	, data: {"itemList":item}
+        	, success: function(response) {
+				var recommendedItem = response.recommendedItem;
+				$(recommendedItem).each(function(index, value) {
+					var jsonValue = JSON.parse(value);
+					//alert(JSON.stringify(jsonValue));
+					//alert(jsonValue.item[index].title);
+				});
+			}
         });//ajax
 	      
-	      yb_test(ybArray2);//크롤링 해서 추천하는 장소 위도, 경도 담는 function으로 이동
+	     yb_test(ybArray2);//크롤링 해서 추천하는 장소 위도, 경도 담는 function으로 이동
 	});//검색버튼 클릭
 	
 	//유병훈
