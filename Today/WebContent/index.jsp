@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
     <title>오늘 뭐하지?</title>
     <link href="css/application.min.css" rel="stylesheet">
     <!-- as of IE9 cannot parse css files with more that 4K classes separating in two files -->
@@ -36,7 +37,7 @@
 	<!-- ksh edit -->
 	<script type="text/javascript">
 	$(document).ready(function () {
-		
+	$.ajaxSettings.traditional = true;	
 	initTmap();
 		
 	//초기화 함수
@@ -86,22 +87,24 @@
 	
 	
 	var ybArray2 = [];//민식이 형이 input text로 받은 아이템들 담는 배열
+	var item = [];
 	/* 장민식 *//* 아이템 검색 데이터 호출*/
 	$('#searchRoad').click(function() {
-		
+
 		$(".itemField").each(function(idx){
-	        var item = $(".itemField:eq(" + idx + ")").val() ;
-	        
-			ybArray2.push(item);//사용자가 입력한 키워드들이 담김
-	        
-	        $.ajax({
-	        	method: "post"
-	        	, url: "map/sendItem"
-	        	, dataType: "json"
-	        	, data: {"itemList":item}
-	        });//ajax
-	        
-	      });//each
+			
+	        var item0 = $(".itemField:eq(" + idx + ")").val();
+
+			item.push(encodeURI(item0));
+			ybArray2.push(item0);//사용자가 입력한 키워드들이 담김
+	     });//each
+	      
+        $.ajax({
+        	method: "post"
+        	, url: "map/sendItem"
+        	, dataType: "json"
+        	, data: {"itemList":item}
+        });//ajax
 	      
 	      yb_test(ybArray2);//크롤링 해서 추천하는 장소 위도, 경도 담는 function으로 이동
 	});//검색버튼 클릭
@@ -119,7 +122,7 @@
 			//alert("2");
 			local = $("#searchLocal").val();
 			url01 = "https://apis.daum.net/local/v1/search/keyword.json?callback=?";
-			url01 += "&apikey=16df0ead2d859a7f12cb816b3683e8c5";
+			url01 += "&apikey=d0224817161ef3c311a65c73ea03f837";
 			url01 += "&query=" + local + " " + ybArray2[index];
 			url01 += "&sort=1";
 			url01 += "&count=1";//일단 1개씩만 받고 있음
@@ -147,23 +150,27 @@
 						searchRoute(ybArray);
 					}//if
 				},//complete
-				beforeSend: recommend
+				beforeSend: recommend /* 경로를 보내기 전 추천경로를 받아온다. */
 			});//ajax 
 		});//each
 	}//yb_test
 	
 	//유병훈
 	
+	
+	/* 장민식 */ /* 추천 경로를 지정하기 위한 펑션 */
 	function recommend() {
+		
 		$.ajax({
 			method: "post"
 			, url: "map/recommendSpot"
 			, dataType: "json"
 			, success: function() {
-				alert("ok");
+				
+				/* alert("ok");
 				$.each(ybArray2, function(index, item) {
 					alert(item);
-				});
+				}); */
 			}
 		});
 		
@@ -282,7 +289,8 @@
 		/* 장민식 *//* Locale(지역)검색 function */
 		$("#searchLocal").on("keypress", function() {
 			if ( event.which == 13 ) {
-				var local = $("#searchLocal").val();
+				var local0 = $("#searchLocal").val();
+				var local = encodeURI(local0);
 				$.ajax({
 					method: "post"
 					, url: "map/sendLocal.action"
