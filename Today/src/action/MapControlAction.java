@@ -21,7 +21,7 @@ public class MapControlAction extends ActionSupport implements SessionAware{
 	private String local;
 	private Map<String, Object> session;
 	private ArrayList<String> itemList;
-	
+	private int countItem;
 	private String urlStr;
 	private String roadDetail = "";
 	
@@ -29,9 +29,9 @@ public class MapControlAction extends ActionSupport implements SessionAware{
 	public MapControlAction() {	
 	}//MapControlAction 기본 생성자 end
 	
-	
+	//추천 경로를 지정하기 위한 알고리즘
 	public String recommendSpot() {
-		System.out.println("들어온다.");
+		
 		return SUCCESS;
 	}
 	
@@ -44,20 +44,58 @@ public class MapControlAction extends ActionSupport implements SessionAware{
 	}//setSessionLocal end
 	
 	//사용자가 검색하는 아이템 리스트 설정
-	public String valueItemList() {
+	public String valueItemList() throws UnsupportedEncodingException, IOException {
+		int count = 1;
+		for (String item : itemList) {
+			String urlStr = "";
+			
+			if (count <= 5) {
+				urlStr += "https://apis.daum.net/local/v1/search/keyword.json?";
+				urlStr += "apikey=d0224817161ef3c311a65c73ea03f837";
+				urlStr += "&query=" + session.get("local") + "%20" + item;
+				urlStr += "&sort=0"; //0정확도 / 1인기순 / 2거리순
+				urlStr += "&count=3";//일단 1개씩만 받고 있음
+				
+				System.setProperty("jsse.enableSNIExtension", "false") ;
+				URL url = new URL(urlStr);
+				InputStreamReader isr = new InputStreamReader(url.openConnection().getInputStream(), "utf-8");
+				JSONObject object = (JSONObject) JSONValue.parse(isr);
+				
+				JSONObject channel = (JSONObject) object.get("channel");
+				JSONArray bodyArray = (JSONArray) channel.get("item");
+				
+				for (int i = 0; i < bodyArray.size(); i++) {
+					JSONObject data = (JSONObject) bodyArray.get(i);
+					System.out.println(data.get("title").toString());
+				}
+				count++;
+				
+			} else {
+				urlStr += "https://apis.daum.net/local/v1/search/keyword.json?";
+				urlStr += "apikey=d0224817161ef3c311a65c73ea03f837";
+				urlStr += "&query=" + session.get("local") + "%20" + item;
+				urlStr += "&sort=1"; //0정확도 / 1인기순 / 2거리순
+				urlStr += "&count=10";//일단 1개씩만 받고 있음
+				
+
+				System.out.println("여기들어와");
+			}
+		}
+		
 		return SUCCESS;
 	}//valueItemList end
 	
 	
 
 	 public void jsonParsing() throws UnsupportedEncodingException, IOException {
+	     
 		
 	     System.setProperty("jsse.enableSNIExtension", "false") ;
 	   	 URL url = new URL(urlStr);
 		
 		InputStreamReader isr = new InputStreamReader(url.openConnection().getInputStream(), "UTF-8");
 		JSONObject object = (JSONObject) JSONValue.parse(isr);
-
+		
 		/* Object로 받을 경우 
 		JSONObject head = (JSONObject) object.get("head");
 		System.out.println(head.get("code").toString());

@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
     <title>오늘 뭐하지?</title>
     <link href="css/application.min.css" rel="stylesheet">
     <!-- as of IE9 cannot parse css files with more that 4K classes separating in two files -->
@@ -83,9 +84,10 @@
 	
 	
 	var ybArray2 = [];//민식이 형이 input text로 받은 아이템들 담는 배열
+	var item = [];
 	/* 장민식 *//* 아이템 검색 데이터 호출*/
 	$('#searchRoad').click(function() {
-		
+
 		$(".itemField").each(function(idx){
 	        var item = $(".itemField:eq(" + idx + ")").val() ;
 	        
@@ -99,6 +101,19 @@
 	        });//ajax
 	        
 	      });//each
+			
+	        var item0 = $(".itemField:eq(" + idx + ")").val();
+
+			item.push(encodeURI(item0));
+			ybArray2.push(item0);//사용자가 입력한 키워드들이 담김
+	     });//each
+	      
+        $.ajax({
+        	method: "post"
+        	, url: "map/sendItem"
+        	, dataType: "json"
+        	, data: {"itemList":item}
+        });//ajax
 	      
 	      yb_test(ybArray2);//크롤링 해서 추천하는 장소 위도, 경도 담는 function으로 이동
 	});//검색버튼 클릭
@@ -145,25 +160,31 @@
 						searchRoute(ybArray);
 					}//if
 				},//complete
-				beforeSend: recommend
+				beforeSend: recommend /* 경로를 보내기 전 추천경로를 받아온다. */
 			});//ajax 
 		});//each
 	}//yb_test
 	
 	//유병훈
 	
+	
+	/* 장민식 */ /* 추천 경로를 지정하기 위한 펑션 */
 	function recommend() {
+		
 		$.ajax({
 			method: "post"
 			, url: "map/recommendSpot"
 			, dataType: "json"
 			, success: function() {
+				
 				/* alert("ok");
 				$.each(ybArray2, function(index, item) {
 					alert(item);
 				}); */
 			}
 		});
+		
+		
 	}
 	
 	//경로 정보 로드
@@ -192,7 +213,6 @@
 			 urlStr += "&passList="+ybArray[1].lon+","+ybArray[1].lat+"_"+ybArray[2].lon+","+ybArray[2].lat;
 		 }else if(length===5){
 			 urlStr += "&passList="+ybArray[1].lon+","+ybArray[1].lat+"_"+ybArray[2].lon+","+ybArray[2].lat+"_"+ybArray[3].lon+","+ybArray[3].lat;
-			 
 		 }
 	         //urlStr += "&passList="+"14135893.887852, 4518348.1852606_14135881.887852, 4519591.4745242_14134881.887852, 4517572.4745242";
 	         urlStr += "&startName="+encodeURIComponent(startName);

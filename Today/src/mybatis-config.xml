@@ -6,6 +6,8 @@
 	<properties resource="db.properties"/>
 	<typeAliases>
 		<typeAlias type="today.vo.Customer" alias="Customer" />
+		<typeAlias type="today.vo.FriendList" alias="FriendList" />
+		
 	</typeAliases>
 	
 	<!-- DB접속 정보 셋팅 -->

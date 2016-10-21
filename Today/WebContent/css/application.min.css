@@ -81,5 +81,14 @@ Copyright (c) 2015 Daniel Eden
 	}
 	
 	/* login end jhs */
-		
+	
+	/*friend list jhs*/
+	#friendimg{
+   max-width: 34px; /* 넓이를 지정 */
+   height: 30px; /* 높이를 지정 */
+	}	
+	#eee{
+	margin-left: 10px;
+	}
+	/*friend list end jhs*/	
 		
