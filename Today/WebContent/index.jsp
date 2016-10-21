@@ -90,7 +90,7 @@
 	        var item = $(".itemField:eq(" + idx + ")").val() ;
 	        
 			ybArray2.push(item);//사용자가 입력한 키워드들이 담김
-	        
+	        alert(item);
 	        $.ajax({
 	        	method: "post"
 	        	, url: "map/sendItem"
@@ -131,6 +131,7 @@
 						//pr_3857 인스탄스 생성.
 						var pr_3857 = new Tmap.Projection("EPSG:3857");
 						var x = get3857LonLat(test[index].longitude, test[index].latitude);
+						alert(test[index].title);
 						ybArray.push(x);
 						i++;
 						//WGS84GEO -> EPSG:3857 좌표형식 변환
@@ -313,7 +314,7 @@
 			 
 			var size = new Tmap.Size(38,48);
 			var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
-			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_a.png', size, offset); 
+			var icon = new Tmap.Icon('image/poket.png', size, offset); 
 			     
 			var marker = new Tmap.Marker(lonlatS, icon);
 			
@@ -351,7 +352,7 @@
 			 
 			var size = new Tmap.Size(38,48);
 			var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
-			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_a.png', size, offset); 
+			var icon = new Tmap.Icon('image/poket.png', size, offset); 
 			     
 			var marker = new Tmap.Marker(lonlatE, icon);
 			
@@ -392,7 +393,7 @@
 				 
 				var size = new Tmap.Size(38,48);
 				var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
-				var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_a.png', size, offset); 
+				var icon = new Tmap.Icon('image/poket.png', size, offset); 
 				     
 				var marker = new Tmap.Marker(lonlatA, icon);
 				
