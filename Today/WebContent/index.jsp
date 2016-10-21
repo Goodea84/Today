@@ -607,12 +607,10 @@
 		
 	
 	
-	//login
+		/* 전혜선 *//* 로그인 */
 	
     $('.trigger').click(function(){ 
         $('#popup_layer, #overlay_t').show(); 
-        //$('#popup_layer').css("top", Math.max(0, $(window).scrollTop() + 100) + "px"); 
-        // $('#popup_layer').css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + $(window).scrollTop()) + "px"); 
     }); 
     $('#overlay_t, .close').click(function(e){ 
         e.preventDefault(); 
@@ -630,7 +628,7 @@
 	});/* document.ready function end */
 	
 	
-    /* login - jhs  */
+    /* 전혜선 - 로그인2 */
     function formSubmit() {
      	 
      		var form = document.getElementById('loginform');
@@ -647,7 +645,7 @@
      		}
      		
      		form.submit();
-     	}/* login end - jhs  */
+     	}/* login end - 전혜선  */
      	
      	
     	
@@ -822,14 +820,15 @@
                 </div>
             </div>
             <ul class="nav navbar-nav navbar-right">
-            <s:if test="#session.loginId != null">
+   <ul class="nav navbar-nav navbar-right">
+            <s:if test="#session.loginId != null"> <!-- 로그인이 되어있을 때  -->
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle dropdown-toggle-notifications" id="notifications-dropdown-toggle" data-toggle="dropdown">
                         <span class="thumb-sm avatar pull-left">
                         	<!-- 상단 이미지  -->
                         </span>
                         &nbsp;
-						<strong><s:property value="#session.loginId" /></strong>&nbsp;
+						<strong><s:property value="#session.loginName" /></strong>&nbsp;
                         <span class="circle bg-warning fw-bold">
                             13
                         </span>
@@ -975,7 +974,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-cog fa-lg"></i>
                     </a>
-                    <s:if test="#session.loginId == null">
+                    <s:if test="#session.loginId == null"><!-- 로그인이 안돼있을 때 -->
                     
                     <ul class="dropdown-menu">
  
@@ -994,35 +993,27 @@
                         <!-- <li><a href="#">Inbox &nbsp;&nbsp;<span class="badge bg-danger animated bounceIn">9</span></a></li> -->
                         <li><a href="customer/logout.action"><i class="fa fa-sign-out"></i> &nbsp; Log Out</a></li>
                     </ul>
-                  </s:else> <!-- login menu end jhs -->
+                  </s:else> <!-- login menu end 전혜선 -->
                   
                   
                 </li>
-                <li>
+                 <s:if test="#session.loginId != null"><!-- 로그인 돼있을 때 -->
+                 <li>
                     <a href="#" data-toggle="chat-sidebar">
                         <i class="fa fa-globe fa-lg"></i>
                     </a>
-                    <div id="chat-notification" class="chat-notification hide">
-                        <div class="chat-notification-inner">
-                            <h6 class="title">
-                                <span class="thumb-xs">
-                                    <img src="demo/img/people/a6.jpg" class="img-circle mr-xs pull-left">
-                                </span>
-                                Jess Smith
-                            </h6>
-                            <p class="text">Hey! What's up?</p>
-                        </div>
-                    </div>
                 </li>
+                </s:if>
             </ul>
         </div>
     </div>
 </nav>
-
+<!-- 친구리스트 전혜선-->
+<s:if test="#session.loginId != null"><!-- 로그인 돼있을 때 -->
 <div class="chat-sidebar" id="chat">
     <div class="chat-sidebar-content">
         <header class="chat-sidebar-header">
-            <h4 class="chat-sidebar-title">Contacts</h4>
+            <h4 class="chat-sidebar-title">Friend Search</h4>
             <div class="form-group no-margin">
                 <div class="input-group input-group-dark">
                     <input class="form-control fs-mini" id="chat-sidebar-search" type="text" placeholder="Search...">
@@ -1032,213 +1023,36 @@
                 </div>
             </div>
         </header>
+        
+        
         <div class="chat-sidebar-contacts chat-sidebar-panel open">
-            <h5 class="sidebar-nav-title">Today</h5>
-            <div class="list-group chat-sidebar-user-group">
-                <a class="list-group-item" href="#chat-sidebar-user-1">
-                    <i class="fa fa-circle text-success pull-right"></i>
+            <h5 class="sidebar-nav-title">FriendList</h5>
+ 
+            <!-- <div class="list-group chat-sidebar-user-group"> -->
+ 				<div class="list-group chat-sidebar-user-group">
+ 			<s:iterator value="flist"> 
+  
+               <div class="list-group-item">
+                <a href="#"><i id="eee" class="glyphicon glyphicon-envelope pull-right" ></i></a>
+                <a href="#"><i class="glyphicon glyphicon-info-sign pull-right" ></i></a>
+                     <!-- <i class="fa fa-circle text-success pull-right"></i> -->
+                     <!-- <i class="fa fa-circle text-success pull-right"></i> -->
                     <span class="thumb-sm pull-left mr">
-                        <img class="img-circle" src="demo/img/people/a2.jpg" alt="...">
+                        <img id="friendimg" class="img-circle" src="<s:property value='cust_image' />" alt="..." > <!-- 사진 -->
                     </span>
-                    <h5 class="message-sender">Chris Gray</h5>
-                    <p class="message-preview">Hey! What's up? So many times since we</p>
-                </a>
-                <a class="list-group-item" href="#chat-sidebar-user-2">
-                    <i class="fa fa-circle text-gray-light pull-right"></i>
-                <span class="thumb-sm pull-left mr">
-                    <img class="img-circle" src="img/avatar.png" alt="...">
-                </span>
-                    <h5 class="message-sender">Jamey Brownlow</h5>
-                    <p class="message-preview">Good news coming tonight. Seems they agreed to proceed</p>
-                </a>
-                <a class="list-group-item" href="#chat-sidebar-user-3">
-                    <i class="fa fa-circle text-danger pull-right"></i>
-                <span class="thumb-sm pull-left mr">
-                    <img class="img-circle" src="demo/img/people/a1.jpg" alt="...">
-                </span>
-                    <h5 class="message-sender">Livia Walsh</h5>
-                    <p class="message-preview">Check out my latest email plz!</p>
-                </a>
-                <a class="list-group-item" href="#chat-sidebar-user-4">
-                    <i class="fa fa-circle text-gray-light pull-right"></i>
-                <span class="thumb-sm pull-left mr">
-                    <img class="img-circle" src="img/avatar.png" alt="...">
-                </span>
-                    <h5 class="message-sender">Jaron Fitzroy</h5>
-                    <p class="message-preview">What about summer break?</p>
-                </a>
-                <a class="list-group-item" href="#chat-sidebar-user-5">
-                    <i class="fa fa-circle text-success pull-right"></i>
-                <span class="thumb-sm pull-left mr">
-                    <img class="img-circle" src="demo/img/people/a4.jpg" alt="...">
-                </span>
-                    <h5 class="message-sender">Mike Lewis</h5>
-                    <p class="message-preview">Just ain't sure about the weekend now. 90% I'll make it.</p>
-                </a>
+                    <h5 class="message-sender"><s:property value="name" /></h5> <!-- 이름 -->
+                   <!--  <p class="message-preview">Hey! What's up? So many times since we</p>  --><!--  프리뷰 -->
+                </div>
+  
+            </s:iterator>
+ 
             </div>
-            <h5 class="sidebar-nav-title">Last Week</h5>
-            <div class="list-group chat-sidebar-user-group">
-                <a class="list-group-item" href="#chat-sidebar-user-6">
-                    <i class="fa fa-circle text-gray-light pull-right"></i>
-                <span class="thumb-sm pull-left mr">
-                    <img class="img-circle" src="demo/img/people/a6.jpg" alt="...">
-                </span>
-                    <h5 class="message-sender">Freda Edison</h5>
-                    <p class="message-preview">Hey what's up? Me and Monica going for a lunch somewhere. Wanna join?</p>
-                </a>
-                <a class="list-group-item" href="#chat-sidebar-user-7">
-                    <i class="fa fa-circle text-success pull-right"></i>
-                <span class="thumb-sm pull-left mr">
-                    <img class="img-circle" src="demo/img/people/a5.jpg" alt="...">
-                </span>
-                    <h5 class="message-sender">Livia Walsh</h5>
-                    <p class="message-preview">Check out my latest email plz!</p>
-                </a>
-                <a class="list-group-item" href="#chat-sidebar-user-8">
-                    <i class="fa fa-circle text-warning pull-right"></i>
-                <span class="thumb-sm pull-left mr">
-                    <img class="img-circle" src="demo/img/people/a3.jpg" alt="...">
-                </span>
-                    <h5 class="message-sender">Jaron Fitzroy</h5>
-                    <p class="message-preview">What about summer break?</p>
-                </a>
-                <a class="list-group-item" href="#chat-sidebar-user-9">
-                    <i class="fa fa-circle text-gray-light pull-right"></i>
-                <span class="thumb-sm pull-left mr">
-                    <img class="img-circle" src="img/avatar.png" alt="...">
-                </span>
-                    <h5 class="message-sender">Mike Lewis</h5>
-                    <p class="message-preview">Just ain't sure about the weekend now. 90% I'll make it.</p>
-                </a>
-            </div>
+   
         </div>
-        <div class="chat-sidebar-chat chat-sidebar-panel" id="chat-sidebar-user-1">
-            <h5 class="title">
-                <a class="js-back" href="#">
-                    <i class="fa fa-angle-left mr-xs"></i>
-                    Chris Gray
-                </a>
-            </h5>
-            <ul class="message-list">
-                <li class="message">
-                    <span class="thumb-sm">
-                        <img class="img-circle" src="demo/img/people/a2.jpg" alt="...">
-                    </span>
-                    <div class="message-body">
-                        Hey! What's up?
-                    </div>
-                </li>
-                <li class="message">
-                    <span class="thumb-sm">
-                        <img class="img-circle" src="demo/img/people/a2.jpg" alt="...">
-                    </span>
-                    <div class="message-body">
-                        Are you there?
-                    </div>
-                </li>
-                <li class="message">
-                    <span class="thumb-sm">
-                        <img class="img-circle" src="demo/img/people/a2.jpg" alt="...">
-                    </span>
-                    <div class="message-body">
-                        Let me know when you come back.
-                    </div>
-                </li>
-                <li class="message from-me">
-                    <span class="thumb-sm">
-                        <img class="img-circle" src="img/avatar.png" alt="...">
-                    </span>
-                    <div class="message-body">
-                        I am here!
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div class="chat-sidebar-chat chat-sidebar-panel" id="chat-sidebar-user-2">
-            <h5 class="title">
-                <a class="js-back" href="#">
-                    <i class="fa fa-angle-left mr-xs"></i>
-                    Jamey Brownlow
-                </a>
-            </h5>
-            <ul class="message-list">
-            </ul>
-        </div>
-        <div class="chat-sidebar-chat chat-sidebar-panel" id="chat-sidebar-user-3">
-            <h5 class="title">
-                <a class="js-back" href="#">
-                    <i class="fa fa-angle-left mr-xs"></i>
-                    Livia Walsh
-                </a>
-            </h5>
-            <ul class="message-list">
-            </ul>
-        </div>
-        <div class="chat-sidebar-chat chat-sidebar-panel" id="chat-sidebar-user-4">
-            <h5 class="title">
-                <a class="js-back" href="#">
-                    <i class="fa fa-angle-left mr-xs"></i>
-                    Jaron Fitzroy
-                </a>
-            </h5>
-            <ul class="message-list">
-            </ul>
-        </div>
-        <div class="chat-sidebar-chat chat-sidebar-panel" id="chat-sidebar-user-5">
-            <h5 class="title">
-                <a class="js-back" href="#">
-                    <i class="fa fa-angle-left mr-xs"></i>
-                    Mike Lewis
-                </a>
-            </h5>
-            <ul class="message-list">
-            </ul>
-        </div>
-        <div class="chat-sidebar-chat chat-sidebar-panel" id="chat-sidebar-user-6">
-            <h5 class="title">
-                <a class="js-back" href="#">
-                    <i class="fa fa-angle-left mr-xs"></i>
-                    Freda Edison
-                </a>
-            </h5>
-            <ul class="message-list">
-            </ul>
-        </div>
-        <div class="chat-sidebar-chat chat-sidebar-panel" id="chat-sidebar-user-7">
-            <h5 class="title">
-                <a class="js-back" href="#">
-                    <i class="fa fa-angle-left mr-xs"></i>
-                    Livia Walsh
-                </a>
-            </h5>
-            <ul class="message-list">
-            </ul>
-        </div>
-        <div class="chat-sidebar-chat chat-sidebar-panel" id="chat-sidebar-user-8">
-            <h5 class="title">
-                <a class="js-back" href="#">
-                    <i class="fa fa-angle-left mr-xs"></i>
-                    Jaron Fitzroy
-                </a>
-            </h5>
-            <ul class="message-list">
-            </ul>
-        </div>
-        <div class="chat-sidebar-chat chat-sidebar-panel" id="chat-sidebar-user-9">
-            <h5 class="title">
-                <a class="js-back" href="#">
-                    <i class="fa fa-angle-left mr-xs"></i>
-                    Mike Lewis
-                </a>
-            </h5>
-            <ul class="message-list">
-            </ul>
-        </div>
-        <footer class="chat-sidebar-footer form-group">
-            <input class="form-control input-dark fs-mini" id="chat-sidebar-input" type="text"  placeholder="Type your message">
-        </footer>
+        
     </div>
 </div>
+</s:if><!-- 친구리스트 전혜선 end-->
 
 <div class="content-wrap">
     <!-- main page content. the place to put widgets in. usually consists of .row > .col-md-* > .widget.  -->
@@ -1273,7 +1087,7 @@
     
 </div>
 
-<!-- loginform jhs -->
+<!-- loginform 전혜선 -->
 <div id="overlay_t"></div> 
 	<div id="popup_layer">
                 <section class="widget widget-login animated fadeInUp test">
@@ -1281,7 +1095,7 @@
                         <h3>Login to your Sing App</h3>
                     </header>
                     <div class="widget-body">
-                        <form class="login-form mt-lg" id="loginform" action="customer/login.action" method="post">
+                        <form class="login-form mt-lg" id="loginform" action="login.action" method="post">
                             <div class="form-group">
                                 <input type="text" class="form-control" id="email" name="email" placeholder="Username">
                             </div>
@@ -1308,7 +1122,7 @@
                         </form>
                     </div>
                 </section>
-	</div><!-- loginform end jhs -->
+	</div><!-- loginform end 전혜선 -->
 
 
 <!-- The Loader. Is shown when pjax happens -->
