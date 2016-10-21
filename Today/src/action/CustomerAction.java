@@ -1,5 +1,6 @@
 package action;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
@@ -15,6 +16,9 @@ public class CustomerAction extends ActionSupport implements SessionAware{
 	CustomerDAO dao = new CustomerDAO();
 	String email;
 	String password;
+	ArrayList<Integer> list;
+	ArrayList<Customer> flist;
+	
 	Map<String, Object> session;
 	
 	/**
@@ -34,9 +38,23 @@ public class CustomerAction extends ActionSupport implements SessionAware{
 			return INPUT;
 		}
 		
+		
 		//로그인 성공하는 경우 세션에 로그인 정보 저장
-		session.put("loginId", customer.getName());
+		session.put("loginId", customer.getEmail());
+		session.put("loginName", customer.getName());
 		System.out.println("loginId session :"+ session.get("loginId"));
+		
+		//친구리스트
+		list = dao.friendList(customer.getCust_id()); 
+		//custid로 friendcust_id받아옴
+		
+		flist = new ArrayList<>();
+		
+		for (int i = 0; i < list.size(); i++) {
+			customer = dao.selectCustomer2(list.get(i));
+			flist.add(customer);
+		}
+		System.out.println("flist:"+ flist.get(0).getCust_image());
 
 		return SUCCESS;
 	}
@@ -49,6 +67,15 @@ public class CustomerAction extends ActionSupport implements SessionAware{
 		return SUCCESS;
 	}
 	
+/*	*//**
+	 * 친구목록
+	 *//*
+	public String friendList() {
+		String loginId = (String) session.get("loginId");
+		customer = dao.selectCustomer(loginId);
+		friendList = dao.friendList(customer.getCust_id());
+		return SUCCESS;
+	}*/
 	
 	@Override
 	public void setSession(Map<String, Object> session) {
@@ -87,5 +114,23 @@ public class CustomerAction extends ActionSupport implements SessionAware{
 		this.password = password;
 	}
 
+	public ArrayList<Integer> getList() {
+		return list;
+	}
+
+	public void setList(ArrayList<Integer> list) {
+		this.list = list;
+	}
+
+	public ArrayList<Customer> getFlist() {
+		return flist;
+	}
+
+	public void setFlist(ArrayList<Customer> flist) {
+		this.flist = flist;
+	}
 	
+	
+
 }
+
