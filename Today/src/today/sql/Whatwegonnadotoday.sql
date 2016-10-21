@@ -62,7 +62,8 @@ ALTER TABLE FriendList
 	REFERENCES CUSTOMER (CUST_ID)
 ;
 
-
+SELECT * FROM CUSTOMER;
+SELECT * FROM FriendList;
 
 --CREATE SEQUENCE
 CREATE SEQUENCE CUST_SEQ;
@@ -75,11 +76,11 @@ insert into CUSTOMER values(cust_seq.nextval,'ccc@ccc.ccc','ccc','ccc','경기�
 insert into CUSTOMER values(cust_seq.nextval,'ddd@ddd.ddd','ddd','ddd','경기도','01044444444','friendimg/four.jpg');
 insert into CUSTOMER values(cust_seq.nextval,'eee@eee.eee','eee','eee','경기도','01055555555','friendimg/five.jpg');
 
-insert into FriendList values(friend_seq.nextval,1,2);
-insert into FriendList values(friend_seq.nextval,2,1);
-insert into FriendList values(friend_seq.nextval,1,3);
-insert into FriendList values(friend_seq.nextval,3,1);
-insert into FriendList values(friend_seq.nextval,1,4);
-insert into FriendList values(friend_seq.nextval,4,1);
-insert into FriendList values(friend_seq.nextval,1,5);
-insert into FriendList values(friend_seq.nextval,5,1);
+insert into FriendList values(friend_seq.nextval,2,3);
+insert into FriendList values(friend_seq.nextval,2,3);
+insert into FriendList values(friend_seq.nextval,2,3);
+insert into FriendList values(friend_seq.nextval,3,2);
+insert into FriendList values(friend_seq.nextval,2,4);
+insert into FriendList values(friend_seq.nextval,4,2);
+insert into FriendList values(friend_seq.nextval,2,5);
+insert into FriendList values(friend_seq.nextval,5,2);
