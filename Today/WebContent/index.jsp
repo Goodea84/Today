@@ -35,8 +35,9 @@
 	<!-- 김승훈 edit -->
 	<script type="text/javascript">
 	$(document).ready(function () {
-		
 	initTmap();
+	$('#foot').css('display', 'none');//최초에 하단 바 안보이도록(유병훈)
+	$('#above_foot').css('display', 'none');
 		
 	//초기화 함수
 	function initTmap(lat, lng){
@@ -114,6 +115,7 @@
 		var i = 0;
 		$.each(ybArray2, function(index, val){
 			//alert("2");
+			//alert(ybArray2[index]);
 			local = $("#searchLocal").val();
 			url01 = "https://apis.daum.net/local/v1/search/keyword.json?callback=?";
 			url01 += "&apikey=d0224817161ef3c311a65c73ea03f837";
@@ -126,7 +128,9 @@
 				success: function(data){
 					var test = data.channel.item;
 					$.each(test, function(index, val){
-						//pr_3857 인스탄스 생성.
+						//alert(test[index].title);
+						
+						//pr_3857 인스탄스c 생성.
 						var pr_4326 = new Tmap.Projection("EPSG:4326");
 						//pr_3857 인스탄스 생성.
 						var pr_3857 = new Tmap.Projection("EPSG:3857");
@@ -169,13 +173,31 @@
 	function searchRoute(ybArray){
 		map.destroy();
 		initTmap();
+		/* 맵 새로고침 */
+		
+		$('#pass_1').css('display', 'none');
+		$('#pass_2').css('display', 'none');
+		$('#pass_3').css('display', 'none');
+		$('#pass_4').css('display', 'none');
+		/* 최초 경로 버튼 감추기 */
+
 		var length = ybArray.length;
 		var startX = ybArray[0].lon;//출발지
 		var startY = ybArray[0].lat;
 		var endX = ybArray[length-1].lon;//도착지
 		var endY = ybArray[length-1].lat;
 		
-	     var routeFormat = new Tmap.Format.KML({extractStyles:true, extractAttributes:true});
+		$('#foot').css('display', '');//유병훈 하단 BAR 보이게
+		$.each(ybArray, function(index, val){
+		/* 경로 버튼 해당 하는 만큼 보이기 */
+			if(index!=0){
+				$('#pass_'+index).css('display', '');
+			}//if
+		});//each
+	    
+		  
+		  
+		 var routeFormat = new Tmap.Format.KML({extractStyles:true, extractAttributes:true});
 
 	     var startName = "홍대입구";
 	     var endName = "명동";
@@ -197,6 +219,9 @@
 	         urlStr += "&startName="+encodeURIComponent(startName);
 	         urlStr += "&endName="+encodeURIComponent(endName);
 	         urlStr += "&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f";
+	         
+	   
+	         
 	     var prtcl = new Tmap.Protocol.HTTP({
 	                                         url: urlStr,
 	                                         format:routeFormat
@@ -362,6 +387,8 @@
 			var popupE;
 			marker.events.register("click", marker, onOverMarkerE);
 			
+			
+			
 			function onOverMarkerE(evt){
 				
 				if(clickCheckE===1){
@@ -509,7 +536,7 @@
 			for(var i=1; i<length; i++){
 			
 			 var startX = ybArray[i-1].lon;
-	         var startY = ybArray[i-1].lat;
+	         var startY = ybArray[i-1].lat;	
 	         var endX = ybArray[i].lon;
 	         var endY = ybArray[i].lat;
 	        
@@ -550,27 +577,63 @@
 						route_C = resp.roadDetail;
 					} else if(i===4){
 						route_D = resp.roadDetail;
-					}
-				}
+					}//else if
+				}//success
 			});//end ajax
 			
 		}//end function
 		
 		
 		/* 김승훈 경로 디테일 안내 정보 추출 */
-		$("#pass_A").on("click", function() {
-			alert(route_A);			
+		var showOrHide = true;
+		//유병훈; 경로 버튼 누를 시, 각 경로 당 정보 띄우기
+		//예; 경로1에서 경로2를 바로 클릭할 경우, div가 내려가버림.
+		//		그래서 경로 버튼에서 서로를 클릭할 때는 div안에 내용만 바뀌게 함.
+		//		완전히 끄려면 오른쪽 하단의 이미지를 클릭하여야 함.
+		$('#foot').on('click', '#pass_1', function(){
+			$('#above_foot').toggle(showOrHide);
+			if(showOrHide==true){$('#above_foot').show();}
+			else{$('#above_foot').hide();}
+			$('#route_desp').text('');
+			$('#route_desp').append("<p>"+ route_A  +"</p>");
 		});
-		$("#pass_B").on("click", function() {
-			alert(route_B);			
+		$('#foot').on('click', '#pass_2', function(){
+			$('#above_foot').toggle(showOrHide);
+			if(showOrHide==true){$('#above_foot').show();}
+			else{$('#above_foot').hide();}
+			$('#route_desp').text('');
+			$('#route_desp').append("<p>"+ route_B  +"</p>");
 		});
-		$("#pass_C").on("click", function() {
-			alert(route_C);			
+		$('#foot').on('click', '#pass_3', function(){
+			$('#above_foot').toggle(showOrHide);
+			if(showOrHide==true){$('#above_foot').show();}
+			else{$('#above_foot').hide();}
+			$('#route_desp').text('');
+			$('#route_desp').append("<p>"+ route_C  +"</p>");
 		});
-		$("#pass_D").on("click", function() {
-			alert(route_D);			
+		$('#foot').on('click', '#pass_4', function(){
+			$('#above_foot').toggle(showOrHide);
+			if(showOrHide==true){$('#above_foot').show();}
+			else{$('#above_foot').hide();}
+			$('#route_desp').text('');
+			$('#route_desp').append("<p>"+ route_D  +"</p>");
 		});
 		//
+	  	//유병훈 above_foot div태그 열었다 닫았다 하는 부분 & 클릭 부분 이미지 & 이미지 변경 처리
+		var za = 1;
+		$('#slide_extend').on('click', function(){
+			if(za===1){
+				$('#slide_extend').removeClass('glyphicon glyphicon-resize-full');
+				$('#slide_extend').addClass('glyphicon glyphicon-resize-small');
+				za = 2;
+			}else if(za===2){
+				$('#slide_extend').removeClass('glyphicon glyphicon-resize-small');
+				$('#slide_extend').addClass('glyphicon glyphicon-resize-full');
+				za = 1;
+			}
+			$('#above_foot').toggle();
+		});//slide
+		
 		
 		/* 장민식 *//* 아이템 검색 필드 (추가) */
 		var count = 0; /* 아이템 필드 최대 5개 추가를 위한 count 변수 */
@@ -604,8 +667,6 @@
 		});
 		
 	
-		
-	
 	
 	//login
 	
@@ -624,8 +685,8 @@
  		map.destroy();
  		initTmap();
  	});
+    
  	
-
 
 	});/* document.ready function end */
 	
@@ -649,8 +710,8 @@
      		form.submit();
      	}/* login end - jhs  */
      	
-     	
-    	
+		
+		
 	</script>
 	<!-- 김승훈 edit end -->
 	
@@ -1260,18 +1321,45 @@
 		</section>
     </main>
     
-    <!-- 김승훈_edit -->
+<!--     <div id="foot">
+    	<input type="button" value="화살표" id="slide"/>
+    </div> -->
+     <!-- 김승훈_edit -->
 	<div id="foot">
       	<span>이동 시간</span><input type="text" id="totalTime">&nbsp;&nbsp;<span>이동 거리</span><input type="text" id="totalDistance">&nbsp;
-      	<input type="button" value="경로 1" id="pass_A">&nbsp;
-      	<input type="button" value="경로 2" id="pass_B">&nbsp;
-      	<input type="button" value="경로 3" id="pass_C">&nbsp;
-      	<input type="button" value="경로 4" id="pass_D">&nbsp;
-      	<input type="button" value="BOMB" id="testbutton">
+      	<input type="button" value="경로 1" id="pass_1">&nbsp;
+      	<input type="button" value="경로 2" id="pass_2">&nbsp;
+      	<input type="button" value="경로 3" id="pass_3">&nbsp;
+      	<input type="button" value="경로 4" id="pass_4">&nbsp;
+      	<!-- <input type="button" value="BOMB" id="testbutton"> -->
+      	<span class="glyphicon glyphicon-resize-full" id="slide_extend"></span>
     </div>
     <!-- 김승훈 edit end -->
+    <!-- 유병훈  세부경로가 입력되는 div태그	-->
+    <div id="above_foot">
+    	<div id="route_desp"></div>
+    </div>
+    <!-- 유병훈 end -->
     
 </div>
+<%-- 	<script>
+		$(function(){
+		//유병훈 above_foot div태그 열었다 닫았다 하는 부분 & 클릭 부분 이미지 & 이미지 변경 처리
+			var za = 1;
+			$('#slide_extend').on('click', function(){
+				if(za===1){
+					$('#slide_extend').removeClass('glyphicon glyphicon-resize-full');
+					$('#slide_extend').addClass('glyphicon glyphicon-resize-small');
+					za = 2;
+				}else if(za===2){
+					$('#slide_extend').removeClass('glyphicon glyphicon-resize-small');
+					$('#slide_extend').addClass('glyphicon glyphicon-resize-full');
+					za = 1;
+				}
+				$('#above_foot').toggle();
+			});//slide
+		});//onload
+	</script>  --%>
 
 <!-- loginform jhs -->
 <div id="overlay_t"></div> 
