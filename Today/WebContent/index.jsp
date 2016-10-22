@@ -93,7 +93,7 @@
 		$(".itemField").each(function(idx){
 	        var item0 = $(".itemField:eq(" + idx + ")").val();
 			item.push(encodeURI(item0));
-			ybArray2.push(item0);//사용자가 입력한 키워드들이 담김
+			
 	     });//each
 	      
         $.ajax({
@@ -107,11 +107,11 @@
 					var jsonValue = JSON.parse(value);
 					//alert(JSON.stringify(jsonValue));
 					//alert(jsonValue.item[index].title);
+					ybArray2.push(jsonValue);//사용자가 입력한 키워드들이 담김
 				});
+			    yb_test(ybArray2);//크롤링 해서 추천하는 장소 위도, 경도 담는 function으로 이동
 			}
         });//ajax
-	      
-	     yb_test(ybArray2);//크롤링 해서 추천하는 장소 위도, 경도 담는 function으로 이동
 	});//검색버튼 클릭
 	
 	//유병훈
@@ -123,60 +123,27 @@
 	function yb_test(ybArray2){
 		var max = ybArray2.length;
 		var i = 0;
-		$.each(ybArray2, function(index, val){
-			//alert("2");
-			//alert(ybArray2[index]);
-			local = $("#searchLocal").val();
-			url01 = "https://apis.daum.net/local/v1/search/keyword.json?callback=?";
-			url01 += "&apikey=d0224817161ef3c311a65c73ea03f837";
-			url01 += "&query=" + local + " " + ybArray2[index];
-			url01 += "&sort=1";
-			url01 += "&count=1";//일단 1개씩만 받고 있음
-	
-			$.ajax(url01, {
-				dataType: 'json',
-				success: function(data){
-					var test = data.channel.item;
-					$.each(test, function(index, val){
-						//alert(test[index].title);
-						
-						//pr_3857 인스탄스c 생성.
-						var pr_4326 = new Tmap.Projection("EPSG:4326");
-						//pr_3857 인스탄스 생성.
-						var pr_3857 = new Tmap.Projection("EPSG:3857");
-						var x = get3857LonLat(test[index].longitude, test[index].latitude);
-						ybArray.push(x);
-						i++;
-						//WGS84GEO -> EPSG:3857 좌표형식 변환
-						function get3857LonLat(coordX, coordY){
-						    return new Tmap.LonLat(coordX, coordY).transform(pr_4326, pr_3857);
-						}//get3857LonLat
-					});//each
-				},
-				complete: function(){
-					if(i>=max){
-						searchRoute(ybArray);
-					}//if
-				},//complete
-				beforeSend: recommend /* 경로를 보내기 전 추천경로를 받아온다. */
-			});//ajax 
+		$.each(ybArray2, function(index, value){
+			
+			//alert(test[index].title);
+			//pr_3857 인스탄스c 생성.
+			var pr_4326 = new Tmap.Projection("EPSG:4326");
+			//pr_3857 인스탄스 생성.
+			var pr_3857 = new Tmap.Projection("EPSG:3857");
+			var x = get3857LonLat(value.item[0].longitude, value.item[0].latitude);
+			ybArray.push(x);
+			i++;
+			//WGS84GEO -> EPSG:3857 좌표형식 변환
+			function get3857LonLat(coordX, coordY){
+			    return new Tmap.LonLat(coordX, coordY).transform(pr_4326, pr_3857);
+			}//get3857LonLat
+			if(i>=max){
+				searchRoute(ybArray);
+			}//if
+				
 		});//each
 	}//yb_test
-	
 	//유병훈
-	
-	
-	/* 장민식 */ /* 추천 경로를 지정하기 위한 펑션 */
-	function recommend() {
-		
-		$.ajax({
-			method: "post"
-			, url: "map/recommendSpot"
-			, dataType: "json"
-			, success: function() {
-			}
-		});
-	}
 	
 	//경로 정보 로드
 	function searchRoute(ybArray){
@@ -628,6 +595,13 @@
 			$('#route_desp').text('');
 			$('#route_desp').append("<p>"+ route_D  +"</p>");
 		});
+		$('#foot').on('click', '#pass_5', function(){
+			$('#above_foot').toggle(showOrHide);
+			if(showOrHide==true){$('#above_foot').show();}
+			else{$('#above_foot').hide();}
+			$('#route_desp').text('');
+			$('#route_desp').append("<p>"+ route_D  +"</p>");
+		});
 		//
 	  	//유병훈 above_foot div태그 열었다 닫았다 하는 부분 & 클릭 부분 이미지 & 이미지 변경 처리
 		var za = 1;
@@ -645,15 +619,20 @@
 		});//slide
 		
 		
+		/* $('#clickMe').click(function() {
+			$('img').slideToggle(1000);
+		}); */
+		
 		/* 장민식 *//* 아이템 검색 필드 (추가) */
 		var count = 0; /* 아이템 필드 최대 5개 추가를 위한 count 변수 */
 		$('#addItemField').click(function() {
 			if (count < 3) {
+				
 				$('.sidebar-labels>.endItemField').before(
 					"<li id='addedItemField'>"
 					+ "<a>"
 					+ "<i class='fa fa-circle text-gray mr-xs' ></i>&nbsp;"
-	            	+ "<span class='label-name'><input type='text' class='itemField'></span>"
+	            	+ "<span class='label-name'><input type='text' class='itemField fade in'></span>"
 	            	+ "</a>"
 	            	+ "</li>"
 				);
@@ -856,7 +835,6 @@
                 </li>
 				<!-- 왼쪽 상단 리프레시 / 취소 -->
                 <li class="ml-sm mr-n-xs hidden-xs"><a href="index.jsp"><i class="fa fa-refresh fa-lg"></i></a></li>
-                <li class="ml-n-xs hidden-xs"><a href="#"><i class="fa fa-times fa-lg"></i></a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right visible-xs">
                 <li>
@@ -1146,18 +1124,45 @@
     </div> -->
      <!-- 김승훈_edit -->
 	<div id="foot">
-      	<span>이동 시간</span><input type="text" id="totalTime">&nbsp;&nbsp;<span>이동 거리</span><input type="text" id="totalDistance">&nbsp;
-      	<input type="button" value="경로 1" id="pass_1">&nbsp;
-      	<input type="button" value="경로 2" id="pass_2">&nbsp;
-      	<input type="button" value="경로 3" id="pass_3">&nbsp;
-      	<input type="button" value="경로 4" id="pass_4">&nbsp;
-      	<!-- <input type="button" value="BOMB" id="testbutton"> -->
-      	<span class="glyphicon glyphicon-resize-full" id="slide_extend"></span>
+      	<%-- <span>이동 시간</span><input type="text" id="totalTime">&nbsp;&nbsp;<span>이동 거리</span><input type="text" id="totalDistance">&nbsp; --%>
+		<span class="glyphicon glyphicon-resize-full" id="slide_extend"></span>
+		<!-- 장민식 --><!-- 경로 아이콘 --> 
+		<span id="pass_1">
+			<i class="glyphicon glyphicon-map-marker"></i>
+		</span>
+		<span id="pass_2">
+			<i class="glyphicon glyphicon-map-marker"></i>
+		</span>
+		<span id="pass_3">
+			<i class="glyphicon glyphicon-map-marker"></i>
+		</span>
+		<span id="pass_4">
+			<i class="glyphicon glyphicon-map-marker"></i>
+		</span>
+		<span id="pass_5">
+			<i class="glyphicon glyphicon-map-marker"></i>
+		</span>
+      	
     </div>
     <!-- 김승훈 edit end -->
     <!-- 유병훈  세부경로가 입력되는 div태그	-->
     <div id="above_foot">
-    	<div id="route_desp"></div>
+		<section class="widget" id="default-widget">
+			<header>
+			    <h5>Watasino <span class="fw-semi-bold">Yume</span></h5>
+			    <div class="widget-controls">
+			        <a data-widgster="load" title="Reload" href="#"><i class="fa fa-refresh"></i></a>
+			        <a data-widgster="expand" title="Expand" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a>
+			        <a data-widgster="collapse" title="Collapse" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a>
+			        <a data-widgster="fullscreen" title="Full Screen" href="#"><i class="glyphicon glyphicon-fullscreen"></i></a>
+			        <a data-widgster="restore" title="Restore" href="#"><i class="glyphicon glyphicon-resize-small"></i></a>
+			    </div>
+			</header>
+			<div class="widget-body" id="contentsField">
+			    <p>A timestamp this widget was created: Apr 24, 19:07:07</p>
+			    <p>A timestamp this widget was updated: Apr 24, 19:07:07</p>
+			</div>
+		</section>
     </div>
     <!-- 유병훈 end -->
     

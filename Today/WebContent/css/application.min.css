@@ -38,10 +38,10 @@ Copyright (c) 2015 Daniel Eden
 		position: absolute;
 		bottom: 0px;
 		width: 100%;
-		height: 50px;
-		background-color: #ffffff;
-		padding-top: 10px;
-		padding-left: 80px;	
+		height: 67px;
+		background-color: #f3f3f3;
+		padding-top: 7px;
+		padding-left: 80px;
 	}
 	
 	div#foot span{
@@ -96,12 +96,13 @@ Copyright (c) 2015 Daniel Eden
 	/* 유병훈: 하단 bar 크기 조정 */
 	div#above_foot{
 		position: absolute;
-		bottom: 50px;
+		bottom: 67px;
 		width: 100%;
 		height: 300px;
-		background-color: #ffffff;
+		background-color: #f3f3f3;
 		padding-top: 10px;
-		padding-left: 80px;	
+		padding-left: 20px;
+		padding-right: 20px;
 	}
 	#slide_extend{
 		cursor: pointer;
@@ -114,5 +115,53 @@ Copyright (c) 2015 Daniel Eden
 		height: auto;
 		overflow: scroll;
 	}
+	
+	/* 장민식 */ /* 경로 아이콘 */
+	#pass_1{
+	position:absolute;left:20%;width:50px;height:50px;line-height:37px;margin-left:-25px;background-color:#fff;
+	border:7px solid #fff;border-radius:50%;text-align:center;
+	}
+	#pass_1{
+	background-color:#f0b518;border-color:#f7c43e;cursor: pointer;
+	}
+	
+	#pass_2{
+	position:absolute;left:35%;width:50px;height:50px;line-height:37px;margin-left:-25px;background-color:#fff;
+	border:7px solid #fff;border-radius:50%;text-align:center;
+	}
+	
+	#pass_3{
+	position:absolute;left:50%;width:50px;height:50px;line-height:37px;margin-left:-25px;background-color:#fff;
+	border:7px solid #fff;border-radius:50%;text-align:center;
+	}
+	
+	#pass_4{
+	position:absolute;left:65%;width:50px;height:50px;line-height:37px;margin-left:-25px;background-color:#fff;
+	border:7px solid #fff;border-radius:50%;text-align:center;
+	}
+	
+	#pass_2, #pass_3, #pass_4{
+	background-color:#919191;border-color:#b5b5b5;cursor: pointer;
+	}
+	
+	#pass_5{
+	position:absolute;left:80%;width:50px;height:50px;line-height:37px;margin-left:-25px;background-color:#fff;
+	border:7px solid #fff;border-radius:50%;text-align:center;
+	}
+	#pass_5{
+	background-color:#dd5826;border-color:#e27045;cursor: pointer;
+	}/* 경로아이콘 end */
+	
+	#contentsField{
+		height: 225px;
+	}
+	
+	/* .timeline .event-icon.event-icon-warning{background-color:#f0b518;border-color:#f2c03a}
+	.timeline .event-icon.event-icon-success{background-color:#64bd63;border-color:#7dc87c}
+	.timeline .event-icon.event-icon-info{background-color:#5dc4bf;border-color:#77cec9}
+	.timeline .event-icon.event-icon-primary{background-color:#5d8fc2;border-color:#77a1cc}
+	.timeline .event-icon.event-icon-danger,.timeline .event-icon.event-icon-warning,.timeline .event-icon.event-icon-success,.timeline .event-icon.event-icon-info,.timeline .event-icon.event-icon-primary
+	{color:#fff}@media (min-width: 992px){.timeline .event-icon{left:50%}}.timeline 
+	.event-icon>img{width:36px;height:36px;margin-top:-4px}.event-heading{margin:0 0 2px;font-weight:600} */
 		
 		

@@ -30,12 +30,6 @@ public class MapControlAction extends ActionSupport implements SessionAware{
 	public MapControlAction() {	
 	}//MapControlAction 기본 생성자 end
 	
-	//추천 경로를 지정하기 위한 알고리즘
-	public String recommendSpot() {
-		
-		return SUCCESS;
-	}
-	
 	//지역설정 값을 session에 설정(ex: 홍대, 삼청동, 하남)
 	public String SessionLocal() {
 		
@@ -85,7 +79,7 @@ public class MapControlAction extends ActionSupport implements SessionAware{
 				urlStr += "&sort=0"; //0정확도 / 1인기순 / 2거리순
 				urlStr += "&count=3";
 				urlStr += tempLocation;
-				urlStr += "&radius=5000";
+				urlStr += "&radius=3000";
 				
 				System.setProperty("jsse.enableSNIExtension", "false") ;
 				URL url = new URL(urlStr);
