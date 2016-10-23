@@ -313,7 +313,7 @@
 			 
 			var lonlatS = new Tmap.LonLat(ybArray[0].lon, ybArray[0].lat);
 			 
-			var size = new Tmap.Size(38,48);
+			var size = new Tmap.Size(24,38);
 			var offset = new Tmap.Pixel((-size.w/2),(-size.h/2));
 			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_a.png', size, offset); 
 			     
@@ -352,7 +352,7 @@
 			 
 			var lonlatE = new Tmap.LonLat(ybArray[length-1].lon, ybArray[length-1].lat);
 			 
-			var size = new Tmap.Size(38,48);
+			var size = new Tmap.Size(24,38);
 			var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
 			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_a.png', size, offset); 
 			     
@@ -396,7 +396,7 @@
 				 
 				var lonlatA = new Tmap.LonLat(ybArray[1].lon, ybArray[1].lat);
 				 
-				var size = new Tmap.Size(38,48);
+				var size = new Tmap.Size(24,38);
 				var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
 				var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_a.png', size, offset); 
 				     
@@ -435,7 +435,7 @@
 				 
 				var lonlatB = new Tmap.LonLat(ybArray[2].lon, ybArray[2].lat);
 				 
-				var size = new Tmap.Size(38,48);
+				var size = new Tmap.Size(24,38);
 				var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
 				var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_b.png', size, offset); 
 				     
@@ -474,7 +474,7 @@
 				 
 				var lonlatC = new Tmap.LonLat(ybArray[3].lon, ybArray[3].lat);
 				 
-				var size = new Tmap.Size(38,48);
+				var size = new Tmap.Size(24,38);
 				var offset = new Tmap.Pixel(-(size.w/2), -(size.h/2));
 				var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_c.png', size, offset); 
 				     
