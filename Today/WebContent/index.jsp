@@ -36,7 +36,7 @@
 	<!-- 김승훈 edit -->
 	<script type="text/javascript">
 	$(document).ready(function () {
-
+		
 	$.ajaxSettings.traditional = true;	
 	initTmap();
 	$('#foot').css('display', 'none');//최초에 하단 바 안보이도록(유병훈)
@@ -716,9 +716,11 @@
 <nav id="sidebar" class="sidebar" role="navigation">
     <!-- need this .js class to initiate slimscroll -->
     <div class="js-sidebar-content">
+    
         <header class="logo hidden-xs">
-            <a href="index.jsp">singg</a>
+            <a href="index.jsp">sing</a>
         </header>
+        
         <!-- seems like lots of recent admin template have this feature of user info in the sidebar.
              looks good, so adding it and enhancing with notifications -->
         <div class="sidebar-status visible-xs">
@@ -746,21 +748,19 @@
         <h5 class="sidebar-nav-title">Hello <strong><s:property value="#session.loginName" /></strong> <a class="action-link" href="#"><i class="fa fa-map-marker"></i></a></h5>
         <ul class="sidebar-nav">
         
-                        <li class="active">
-                <a href="#sidebar-maps" data-toggle="collapse" data-parent="#sidebar">
-                    <span class="icon">
-                        <i class="glyphicon glyphicon-map-marker"></i>
-                    </span>
+             <li class="active">
+                <a href="index">
+                    <span class="icon"><i class="glyphicon glyphicon-map-marker"></i></span>
                     Maps
-                    <i class="toggle fa fa-angle-down"></i>
                 </a>
-                <ul id="sidebar-maps" class="collapse in">
-                    <li class="active"><a href="index.jsp" data-no-pjax>Search Maps</a></li>
-                </ul>
+                <a href="page_moveTo_gallery">
+                    <span class="icon"><i class="glyphicon glyphicon-inbox"></i></span>
+                    My Card
+                </a>
             </li>
             
             
-            <li>
+<%--             <li>
                 <a class="collapsed" href="#sidebar-levels" data-toggle="collapse" data-parent="#sidebar">
                     <span class="icon">
                         <i class="fa fa-folder-open"></i>
@@ -781,7 +781,7 @@
                         </ul>
                     </li>
                 </ul>
-            </li>
+            </li> --%>
         </ul>
         <!-- 장민식 --><!-- 아이템 추가 버튼 필드 -->
         <h5 class="sidebar-nav-title"><br>

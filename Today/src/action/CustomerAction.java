@@ -67,6 +67,12 @@ public class CustomerAction extends ActionSupport implements SessionAware{
 		return SUCCESS;
 	}
 	
+	
+	public String execute(){
+		System.out.println("테스트===============================================");
+		return SUCCESS;
+	}
+	
 /*	*//**
 	 * 친구목록
 	 *//*
