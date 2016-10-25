@@ -87,6 +87,7 @@
 	
 	
 	var ybArray2 = [];//민식이 형이 input text로 받은 아이템들 담는 배열
+	var ybArray3 = [];//블로그 정보를 보내기 위한 변수
 	/* 장민식 *//* 아이템 검색 데이터 호출*/
 	$('#searchRoad').click(function() {
 	var item = [];
@@ -108,6 +109,7 @@
 					//alert(JSON.stringify(jsonValue));
 					//alert(jsonValue.item[index].title);
 					ybArray2.push(jsonValue);//사용자가 입력한 키워드들이 담김
+					ybArray3.push(jsonValue);
 				});
 			    yb_test(ybArray2);//크롤링 해서 추천하는 장소 위도, 경도 담는 function으로 이동
 			}
@@ -571,6 +573,9 @@
 			$('#above_foot').toggle(showOrHide);
 			if(showOrHide==true){$('#above_foot').show();}
 			else{$('#above_foot').hide();}
+			var item = ybArray3[0].item[0].title;
+			blogInfo(item);
+			//ybArray3.length = 0;
 			$('#route_desp').text('');
 			$('#route_desp').append("<p>"+ route_A  +"</p>");
 		});
@@ -618,10 +623,27 @@
 			$('#above_foot').toggle();
 		});//slide
 		
+		var blogDataReturn;
 		
-		/* $('#clickMe').click(function() {
-			$('img').slideToggle(1000);
-		}); */
+		//장민식 블로그 정보를 얻어오기 위한 펑션
+		function blogInfo(item) {
+			var blogItemIngo = encodeURI(item);
+			$.ajax({
+				method: "post"
+				,url: "map/blogInfo"
+				,dataType: "json"
+				,data:{"blogItem":blogItemIngo}
+				,success: function(response) {
+					
+					var blogInfo1 = JSON.parse(response.blogInfoReturn);
+					var blogInfo2 = JSON.parse(response.blogInfoReturn2);
+					alert(JSON.stringify(blogInfo1.item[0].author));
+					alert(JSON.stringify(blogInfo2.item[0].image));
+					
+					$('#blogSearchTitle').text("  ");
+				}
+			});
+		}
 		
 		/* 장민식 *//* 아이템 검색 필드 (추가) */
 		var count = 0; /* 아이템 필드 최대 5개 추가를 위한 count 변수 */
@@ -1149,7 +1171,7 @@
     <div id="above_foot">
 		<section class="widget" id="default-widget">
 			<header>
-			    <h5>Watasino <span class="fw-semi-bold">Yume</span></h5>
+			    <h5>search<span class="fw-semi-bold" id="blogSearchTitle"></span></h5>
 			    <div class="widget-controls">
 			        <a data-widgster="load" title="Reload" href="#"><i class="fa fa-refresh"></i></a>
 			        <a data-widgster="expand" title="Expand" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a>
@@ -1159,8 +1181,36 @@
 			    </div>
 			</header>
 			<div class="widget-body" id="contentsField">
-			    <p>A timestamp this widget was created: Apr 24, 19:07:07</p>
-			    <p>A timestamp this widget was updated: Apr 24, 19:07:07</p>
+			    <section class="search-result-item">
+                    <a class="image-link" href="#">
+                        <img class="image" src="demo/img/pictures/1.jpg">
+                    </a>
+                    <div class="search-result-item-body">
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <h4 class="search-result-item-heading">
+                                    <a href="#">Next generation admin template</a>
+                                </h4>
+                                <p class="info">
+                                    New York, NY 20188
+                                </p>
+                                <p class="description">
+                                    Not just usual Metro. But something bigger. Not just usual widgets, but real
+                                    widgets. Not just yet another admin template, but next generation admin template.
+                                </p>
+                            </div>
+                            <div class="col-sm-3 text-align-center">
+                                <p class="value3 mt-sm">
+                                    $9, 700
+                                </p>
+                                <p class="fs-mini text-muted">
+                                    PER WEEK
+                                </p>
+                                <a class="btn btn-primary btn-info btn-sm" href="#">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
 			</div>
 		</section>
     </div>
