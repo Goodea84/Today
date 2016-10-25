@@ -315,7 +315,7 @@
 			 
 			var lonlatS = new Tmap.LonLat(ybArray[0].lon, ybArray[0].lat);
 			 
-			var size = new Tmap.Size(38,48);
+			var size = new Tmap.Size(24,38);
 			var offset = new Tmap.Pixel((-size.w/2),(-size.h/2));
 			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_a.png', size, offset); 
 			     
@@ -323,7 +323,7 @@
 			
 			markerLayer.addMarker(marker);
 			
-			//popup 생성 E(출발점) Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
+			//popup 생성 S(출발점) Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
 			var clickCheckS = 1;//Click 반복시 이벤트 분기를 위한 변수
 			var popupS;
 			marker.events.register("click", marker, onOverMarkerS);
@@ -333,9 +333,10 @@
 				if(clickCheckS===1){
 				popupS = new Tmap.Popup("p1",
 										lonlatS,
-				                        new Tmap.Size(270, 270),
-				                        "<div><a href='http://www.naver.com'><img src='image/food1.ico'/></a></div>"
-				                        ); 
+				                        new Tmap.Size(620, 500),
+				                        "<div class='col-xl-9 col-xl-pull-3'> <section class='search-result-item'> <a class='image-link' href='#'> <img class='image' src='demo/img/pictures/1.jpg'> </a> <div class='search-result-item-body'> <div class='row'> <div class='col-md-9'> <h5 class='search-result-item-heading'> <a href='#'>Next generation admin template</a> </h5> <p class='info'> New York, NY 20188 </p> <textarea rows='4' cols='50' > Not just usual Metro. But something bigger. Not just usual widgets, but real widgets. Not just yet another admin template, but next generation admin template. </textarea> </div> </div> </div> </section> <section class='search-result-item'> <a class='image-link' href='#'> <img class='image' src='demo/img/pictures/5.jpg'> </a> <div class='search-result-item-body'> <div class='row'> <div class='col-md-9'> <h5 class='search-result-item-heading'> <a href='#'>Try. Posted by Okendoken</a> <span class='label label-pill label-danger fw-normal pull-xs-right'>Best Deal!</span> </h5> <p class='info'> Los Angeles, NY 20188 </p> <textarea rows='4' cols='50' > You will never know exactly how something will go until you try it. You can think three hundred times and still have no precise result. </textarea> </div> </div> </div> </section> <section class='search-result-item'> <a class='image-link' href='#'> <img class='image' src='demo/img/pictures/13.jpg'> </a> <div class='search-result-item-body'> <div class='row'> <div class='col-md-9'> <h5 class='search-result-item-heading'> <a href='#'>Vitaut the Great</a> </h5> <p class='info'> New York, NY 20188 </p><textarea rows='4' cols='50' >The Great Prince of the Grand Duchy of Lithuania he had stopped the invasion to Europe of Timur (Tamerlan) from Asia heading a big Army of Belarusians, Lithuanians. </textarea> </div> </div> </div> </section> </div>",
+				                        true
+										); 
 				map.addPopup(popupS);
 				popupS.show();
 				} else {
@@ -353,7 +354,7 @@
 			 
 			var lonlatE = new Tmap.LonLat(ybArray[length-1].lon, ybArray[length-1].lat);
 			 
-			var size = new Tmap.Size(38,48);
+			var size = new Tmap.Size(24,38);
 			var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
 			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_a.png', size, offset); 
 			     
@@ -361,7 +362,7 @@
 			
 			markerLayer.addMarker(marker);
 			
-			//popup 생성 E(출발점) Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
+			//popup 생성 E(도착점) Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
 			var clickCheckE = 1;//Click 반복시 이벤트 분기를 위한 변수
 			var popupE;
 			marker.events.register("click", marker, onOverMarkerE);
@@ -373,8 +374,9 @@
 				if(clickCheckE===1){
 				popupE = new Tmap.Popup("p1",
 										lonlatE,
-				                        new Tmap.Size(270, 270),
-				                        "<div><a href='http://www.naver.com'><img src='image/food1.ico'/></a></div>"
+				                        new Tmap.Size(620, 500),
+				                        "<div class='col-xl-9 col-xl-pull-3'> <section class='search-result-item'> <a class='image-link' href='#'> <img class='image' src='demo/img/pictures/1.jpg'> </a> <div class='search-result-item-body'> <div class='row'> <div class='col-md-9'> <h5 class='search-result-item-heading'> <a href='#'>Next generation admin template</a> </h5> <p class='info'> New York, NY 20188 </p> <textarea rows='4' cols='50' > Not just usual Metro. But something bigger. Not just usual widgets, but real widgets. Not just yet another admin template, but next generation admin template. </textarea> </div> </div> </div> </section> <section class='search-result-item'> <a class='image-link' href='#'> <img class='image' src='demo/img/pictures/5.jpg'> </a> <div class='search-result-item-body'> <div class='row'> <div class='col-md-9'> <h5 class='search-result-item-heading'> <a href='#'>Try. Posted by Okendoken</a> <span class='label label-pill label-danger fw-normal pull-xs-right'>Best Deal!</span> </h5> <p class='info'> Los Angeles, NY 20188 </p> <textarea rows='4' cols='50' > You will never know exactly how something will go until you try it. You can think three hundred times and still have no precise result. </textarea> </div> </div> </div> </section> <section class='search-result-item'> <a class='image-link' href='#'> <img class='image' src='demo/img/pictures/13.jpg'> </a> <div class='search-result-item-body'> <div class='row'> <div class='col-md-9'> <h5 class='search-result-item-heading'> <a href='#'>Vitaut the Great</a> </h5> <p class='info'> New York, NY 20188 </p><textarea rows='4' cols='50' >The Great Prince of the Grand Duchy of Lithuania he had stopped the invasion to Europe of Timur (Tamerlan) from Asia heading a big Army of Belarusians, Lithuanians. </textarea> </div> </div> </div> </section> </div>",
+				                        true
 				                        ); 
 				map.addPopup(popupE);
 				popupE.show();
@@ -396,7 +398,7 @@
 				 
 				var lonlatA = new Tmap.LonLat(ybArray[1].lon, ybArray[1].lat);
 				 
-				var size = new Tmap.Size(38,48);
+				var size = new Tmap.Size(24,38);
 				var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
 				var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_a.png', size, offset); 
 				     
@@ -414,9 +416,10 @@
 					if(clickCheckA===1){
 					popupA = new Tmap.Popup("p1",
 											lonlatA,
-					                        new Tmap.Size(270, 270),
-					                        "<div><a href='http://www.naver.com'><img src='image/food1.ico'/></a></div>"
-					                        ); 
+					                        new Tmap.Size(620, 500),
+					                        "<div class='col-xl-9 col-xl-pull-3'> <section class='search-result-item'> <a class='image-link' href='#'> <img class='image' src='demo/img/pictures/1.jpg'> </a> <div class='search-result-item-body'> <div class='row'> <div class='col-md-9'> <h5 class='search-result-item-heading'> <a href='#'>Next generation admin template</a> </h5> <p class='info'> New York, NY 20188 </p> <textarea rows='4' cols='50' > Not just usual Metro. But something bigger. Not just usual widgets, but real widgets. Not just yet another admin template, but next generation admin template. </textarea> </div> </div> </div> </section> <section class='search-result-item'> <a class='image-link' href='#'> <img class='image' src='demo/img/pictures/5.jpg'> </a> <div class='search-result-item-body'> <div class='row'> <div class='col-md-9'> <h5 class='search-result-item-heading'> <a href='#'>Try. Posted by Okendoken</a> <span class='label label-pill label-danger fw-normal pull-xs-right'>Best Deal!</span> </h5> <p class='info'> Los Angeles, NY 20188 </p> <textarea rows='4' cols='50' > You will never know exactly how something will go until you try it. You can think three hundred times and still have no precise result. </textarea> </div> </div> </div> </section> <section class='search-result-item'> <a class='image-link' href='#'> <img class='image' src='demo/img/pictures/13.jpg'> </a> <div class='search-result-item-body'> <div class='row'> <div class='col-md-9'> <h5 class='search-result-item-heading'> <a href='#'>Vitaut the Great</a> </h5> <p class='info'> New York, NY 20188 </p><textarea rows='4' cols='50' >The Great Prince of the Grand Duchy of Lithuania he had stopped the invasion to Europe of Timur (Tamerlan) from Asia heading a big Army of Belarusians, Lithuanians. </textarea> </div> </div> </div> </section> </div>",
+					                        true
+											); 
 					map.addPopup(popupA);
 					popupA.show();
 					} else {
@@ -434,7 +437,7 @@
 				 
 				var lonlatB = new Tmap.LonLat(ybArray[2].lon, ybArray[2].lat);
 				 
-				var size = new Tmap.Size(38,48);
+				var size = new Tmap.Size(24,38);
 				var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
 				var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_b.png', size, offset); 
 				     
@@ -451,8 +454,9 @@
 					if(clickCheckB===1){
 					popupB = new Tmap.Popup("p1",
 											lonlatB,
-					                        new Tmap.Size(270, 270),
-					                        "<div><a href='http://www.naver.com'><img src='image/food2.ico'/></a></div>"
+					                        new Tmap.Size(620, 500),
+					                        "<div class='col-xl-9 col-xl-pull-3'> <section class='search-result-item'> <a class='image-link' href='#'> <img class='image' src='demo/img/pictures/1.jpg'> </a> <div class='search-result-item-body'> <div class='row'> <div class='col-md-9'> <h5 class='search-result-item-heading'> <a href='#'>Next generation admin template</a> </h5> <p class='info'> New York, NY 20188 </p> <textarea rows='4' cols='50' > Not just usual Metro. But something bigger. Not just usual widgets, but real widgets. Not just yet another admin template, but next generation admin template. </textarea> </div> </div> </div> </section> <section class='search-result-item'> <a class='image-link' href='#'> <img class='image' src='demo/img/pictures/5.jpg'> </a> <div class='search-result-item-body'> <div class='row'> <div class='col-md-9'> <h5 class='search-result-item-heading'> <a href='#'>Try. Posted by Okendoken</a> <span class='label label-pill label-danger fw-normal pull-xs-right'>Best Deal!</span> </h5> <p class='info'> Los Angeles, NY 20188 </p> <textarea rows='4' cols='50' > You will never know exactly how something will go until you try it. You can think three hundred times and still have no precise result. </textarea> </div> </div> </div> </section> <section class='search-result-item'> <a class='image-link' href='#'> <img class='image' src='demo/img/pictures/13.jpg'> </a> <div class='search-result-item-body'> <div class='row'> <div class='col-md-9'> <h5 class='search-result-item-heading'> <a href='#'>Vitaut the Great</a> </h5> <p class='info'> New York, NY 20188 </p><textarea rows='4' cols='50' >The Great Prince of the Grand Duchy of Lithuania he had stopped the invasion to Europe of Timur (Tamerlan) from Asia heading a big Army of Belarusians, Lithuanians. </textarea> </div> </div> </div> </section> </div>",
+					                        true
 					                        ); 
 					map.addPopup(popupB);
 					popupB.show();
@@ -472,7 +476,7 @@
 				 
 				var lonlatC = new Tmap.LonLat(ybArray[3].lon, ybArray[3].lat);
 				 
-				var size = new Tmap.Size(38,48);
+				var size = new Tmap.Size(24,38);
 				var offset = new Tmap.Pixel(-(size.w/2), -(size.h/2));
 				var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_c.png', size, offset); 
 				     
@@ -489,8 +493,9 @@
 					if(clickCheckC===1){
 					popupC = new Tmap.Popup("p1",
 											lonlatC,
-					                        new Tmap.Size(270, 270),
-					                        "<div><a href='http://www.naver.com'><img src='image/food3.ico'/></a></div>"
+					                        new Tmap.Size(620, 500),
+					                        "<div class='col-xl-9 col-xl-pull-3'> <section class='search-result-item'> <a class='image-link' href='#'> <img class='image' src='demo/img/pictures/1.jpg'> </a> <div class='search-result-item-body'> <div class='row'> <div class='col-md-9'> <h5 class='search-result-item-heading'> <a href='#'>Next generation admin template</a> </h5> <p class='info'> New York, NY 20188 </p> <textarea rows='4' cols='50' > Not just usual Metro. But something bigger. Not just usual widgets, but real widgets. Not just yet another admin template, but next generation admin template. </textarea> </div> </div> </div> </section> <section class='search-result-item'> <a class='image-link' href='#'> <img class='image' src='demo/img/pictures/5.jpg'> </a> <div class='search-result-item-body'> <div class='row'> <div class='col-md-9'> <h5 class='search-result-item-heading'> <a href='#'>Try. Posted by Okendoken</a> <span class='label label-pill label-danger fw-normal pull-xs-right'>Best Deal!</span> </h5> <p class='info'> Los Angeles, NY 20188 </p> <textarea rows='4' cols='50' > You will never know exactly how something will go until you try it. You can think three hundred times and still have no precise result. </textarea> </div> </div> </div> </section> <section class='search-result-item'> <a class='image-link' href='#'> <img class='image' src='demo/img/pictures/13.jpg'> </a> <div class='search-result-item-body'> <div class='row'> <div class='col-md-9'> <h5 class='search-result-item-heading'> <a href='#'>Vitaut the Great</a> </h5> <p class='info'> New York, NY 20188 </p><textarea rows='4' cols='50' >The Great Prince of the Grand Duchy of Lithuania he had stopped the invasion to Europe of Timur (Tamerlan) from Asia heading a big Army of Belarusians, Lithuanians. </textarea> </div> </div> </div> </section> </div>",
+					                        true
 					                        ); 
 					map.addPopup(popupC);
 					popupC.show();
