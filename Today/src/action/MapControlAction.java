@@ -132,6 +132,9 @@ public class MapControlAction extends ActionSupport implements SessionAware{
 			blogPubDate.add((String) val.get("pubDate"));
 			blogDescription.add(((String) val.get("title")).replace("&lt;b&gt;", "").replace("&lt;/b&gt;", ""));	//<b></b>테그 제거
 			blogURL.add((String) val.get("link"));
+			
+			System.out.println((String) val.get("author") + "   " + (String) val.get("pubDate") + "   " + ((String) val.get("title")).replace("&lt;b&gt;", "").replace("&lt;/b&gt;", ""));
+			System.out.println((String) val.get("link"));
 		}
 		// 블로그 정보 크롤링&파싱 end
 		
@@ -153,9 +156,15 @@ public class MapControlAction extends ActionSupport implements SessionAware{
 		
 		ArrayList<String> blogThumbnail = new ArrayList<>();	//블로그 글 요약
 		
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < item.size(); i++) {
 			JSONObject val = (JSONObject) item.get(i);
 			blogThumbnail.add((String) val.get("thumbnail"));
+			if (i == 2) {
+				break;
+			}
+		}
+		if (blogThumbnail.size() == 2) {
+			blogThumbnail.add("image/noImage.png");
 		}
 		
 		blogInfoReturn2 = "<div class='col-md-12'><section class='widget' id='overayInDiv'><header>"
