@@ -10,14 +10,14 @@
 
 		
 		<!-- 로그아웃 -->
-			<action name="logout" class="action.CustomerAction" method="logout">
+		<action name="logout" class="action.CustomerAction" method="logout">
 			<result name="success" type="redirect">/index.action</result>
 		</action>
 		
 		<!-- 친구목록 수정해야함 !! -->
-			<action name="friendList" class="action.CustomerAction" method="friendList">
+		<action name="friendList" class="action.CustomerAction" method="friendList">
 			<result>/index.action</result>
-			</action>
+		</action>
 		
     </package>
 </struts>

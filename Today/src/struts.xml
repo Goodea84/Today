@@ -22,7 +22,7 @@
 		
 		<default-action-ref name="index"/>
 		
-		<action name="index" class="action.CustomerAction" method="execute">
+		<action name="index">
        		<result>/index.jsp</result>
 		</action>
 		

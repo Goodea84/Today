@@ -58,16 +58,18 @@
         <br/>
                 <h5 class="sidebar-nav-title">Hello <strong><s:property value="#session.loginName" /></strong> <a class="action-link" href="#"><i class="fa fa-map-marker"></i></a></h5>
         <ul class="sidebar-nav">
-             <li class="active">
+            <li>
                 <a href="index">
                     <span class="icon"><i class="glyphicon glyphicon-map-marker"></i></span>
                     Maps
                 </a>
+            </li>
+            <li class="active">
                 <a href="page_moveTo_gallery">
                     <span class="icon"><i class="glyphicon glyphicon-inbox"></i></span>
                     My Card
                 </a>
-            </li>
+           	</li>
          </ul>
     </div>
 </nav>
@@ -90,7 +92,7 @@
                     </a>
                 </li>
 				<!-- 왼쪽 상단 리프레시 / 취소 -->
-                <li class="ml-sm mr-n-xs hidden-xs"><a href="index.jsp"><i class="fa fa-refresh fa-lg"></i></a></li>
+                <li class="ml-sm mr-n-xs hidden-xs"><a href="page_moveTo_gallery"><i class="fa fa-refresh fa-lg"></i></a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right visible-xs">
                 <li>
@@ -101,7 +103,7 @@
                 </li>
             </ul>
             <!-- xs & sm screen logo -->
-            <a class="navbar-brand visible-xs" href="index.html">
+            <a class="navbar-brand visible-xs" href="index">
                 <i class="fa fa-circle text-gray mr-n-sm"></i>
                 <i class="fa fa-circle text-warning"></i>
                 &nbsp;
