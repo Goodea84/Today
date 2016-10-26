@@ -398,7 +398,7 @@
 			var lonlatS = new Tmap.LonLat(ybArray[0].lon, ybArray[0].lat);
 			 
 			var size = new Tmap.Size(24,38);
-			var offset = new Tmap.Pixel((-size.w/2),(-size.h/2));
+			var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
 			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_a.png', size, offset); 
 			     
 			var marker = new Tmap.Marker(lonlatS, icon);
@@ -409,10 +409,10 @@
 			var clickCheckS = 1;//Click 반복시 이벤트 분기를 위한 변수
 			var popupS;
 			marker.events.register("click", marker, onOverMarkerS);
-			var item;
+			
 			function onOverMarkerS(evt){
 				if(clickCheckS===1){
-				item = ybArray3[0].item[0].title;
+				var item = ybArray3[0].item[0].title;
 				blogInfoStart(item);						//블로그 정보를 가져오기 위한 키워드와 인덱스 호출
 				popupS = new Tmap.Popup("p1",
 										lonlatS,
@@ -452,7 +452,7 @@
 			function onOverMarkerE(evt){
 				
 				if(clickCheckE===1){
-				item = ybArray3[itemCount-1].item[0].title;
+				var item = ybArray3[itemCount-1].item[0].title;
 				blogInfoEnd(item);
 				popupE = new Tmap.Popup("p1",
 										lonlatE,
@@ -496,7 +496,7 @@
 				function onOverMarkerA(evt){
 					
 					if(clickCheckA===1){
-					item = ybArray3[1].item[0].title;
+					var item = ybArray3[1].item[0].title;
 					blogInfoA(item);					//블로그 정보를 가져오기 위한 키워드와 인덱스 호출
 					popupA = new Tmap.Popup("p1",
 											lonlatA,
@@ -536,7 +536,7 @@
 				function onOverMarkerB(evt){
 					
 					if(clickCheckB===1){
-					item = ybArray3[2].item[0].title;
+					var item = ybArray3[2].item[0].title;
 					blogInfoB(item);					//블로그 정보를 가져오기 위한 키워드와 인덱스 호출
 					popupB = new Tmap.Popup("p1",
 											lonlatB,
@@ -577,7 +577,7 @@
 				function onOverMarkerC(evt){
 					
 					if(clickCheckC===1){
-					item = ybArray3[3].item[0].title;
+					var item = ybArray3[3].item[0].title;
 					blogInfoC(item);					//블로그 정보를 가져오기 위한 키워드와 인덱스 호출
 					popupC = new Tmap.Popup("p1",
 											lonlatC,
