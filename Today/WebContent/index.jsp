@@ -88,8 +88,10 @@
 	
 	var ybArray2 = [];//민식이 형이 input text로 받은 아이템들 담는 배열
 	var ybArray3 = [];//블로그 정보를 보내기 위한 변수
+	var itemCount = 0;
 	/* 장민식 *//* 아이템 검색 데이터 호출*/
 	$('#searchRoad').click(function() {
+	ybArray3.length = 0;
 	var item = [];
 		$(".itemField").each(function(idx){
 	        var item0 = $(".itemField:eq(" + idx + ")").val();
@@ -111,6 +113,7 @@
 					ybArray2.push(jsonValue);//사용자가 입력한 키워드들이 담김
 					ybArray3.push(jsonValue);
 				});
+				itemCount = ybArray3.length;
 			    yb_test(ybArray2);//크롤링 해서 추천하는 장소 위도, 경도 담는 function으로 이동
 			}
         });//ajax
@@ -303,7 +306,86 @@
 			   			}
 			   	});
 			  }); 
-		    
+		}
+		
+		//장민식 블로그 정보를 얻어오기 위한 펑션
+		function blogInfoStart(item) {
+			var blogItemIngo = encodeURI(item);
+			var blogInfo2;
+			$.ajax({
+				method: "post"
+				,url: "map/blogInfo"
+				,dataType: "json"
+				,data:{"blogItem":blogItemIngo}
+				,success: function(response) {
+					
+					blogInfo2 = JSON.stringify(response.blogInfoReturn2);
+					$("#overayDivStart").append(blogInfo2.substring(1, blogInfo2.length-1));
+				}
+			});
+		}
+		function blogInfoEnd(item) {
+			var blogItemIngo = encodeURI(item);
+			var blogInfo2;
+			$.ajax({
+				method: "post"
+				,url: "map/blogInfo"
+				,dataType: "json"
+				,data:{"blogItem":blogItemIngo}
+				,success: function(response) {
+					
+					blogInfo2 = JSON.stringify(response.blogInfoReturn2);
+					$("#overayDivEnd").append(blogInfo2.substring(1, blogInfo2.length-1));
+				}
+			});
+		}
+		
+		function blogInfoA(item) {
+			var blogItemIngo = encodeURI(item);
+			var blogInfo2;
+			$.ajax({
+				method: "post"
+				,url: "map/blogInfo"
+				,dataType: "json"
+				,data:{"blogItem":blogItemIngo}
+				,success: function(response) {
+					
+					blogInfo2 = JSON.stringify(response.blogInfoReturn2);
+					$("#overayDivA").append(blogInfo2.substring(1, blogInfo2.length-1));
+				}
+			});
+		}
+		
+		function blogInfoB(item) {
+			var blogItemIngo = encodeURI(item);
+			var blogInfo2;
+			$.ajax({
+				method: "post"
+				,url: "map/blogInfo"
+				,dataType: "json"
+				,data:{"blogItem":blogItemIngo}
+				,success: function(response) {
+					
+					blogInfo2 = JSON.stringify(response.blogInfoReturn2);
+					$("#overayDivB").append(blogInfo2.substring(1, blogInfo2.length-1));
+				}
+			});
+		}
+		
+		function blogInfoC(item) {
+			var blogItemIngo = encodeURI(item);
+			var blogInfo2;
+			$.ajax({
+				method: "post"
+				,url: "map/blogInfo"
+				,dataType: "json"
+				,data:{"blogItem":blogItemIngo}
+				,success: function(response) {
+					
+					blogInfo2 = JSON.stringify(response.blogInfoReturn2);
+					$("#overayDivC").append(blogInfo2.substring(1, blogInfo2.length-1));
+				}
+			});
 		}
 		
 		//경유지 레이어 추가 - 김승훈
@@ -327,14 +409,15 @@
 			var clickCheckS = 1;//Click 반복시 이벤트 분기를 위한 변수
 			var popupS;
 			marker.events.register("click", marker, onOverMarkerS);
-			
+			var item;
 			function onOverMarkerS(evt){
-				
 				if(clickCheckS===1){
+				item = ybArray3[0].item[0].title;
+				blogInfoStart(item);						//블로그 정보를 가져오기 위한 키워드와 인덱스 호출
 				popupS = new Tmap.Popup("p1",
 										lonlatS,
-				                        new Tmap.Size(620, 500),
-				                        "<div class='col-xl-9 col-xl-pull-3'> <section class='search-result-item'> <a class='image-link' href='#'> <img class='image' src='demo/img/pictures/1.jpg'> </a> <div class='search-result-item-body'> <div class='row'> <div class='col-md-9'> <h5 class='search-result-item-heading'> <a href='#'>Next generation admin template</a> </h5> <p class='info'> New York, NY 20188 </p> <textarea rows='4' cols='50' > Not just usual Metro. But something bigger. Not just usual widgets, but real widgets. Not just yet another admin template, but next generation admin template. </textarea> </div> </div> </div> </section> <section class='search-result-item'> <a class='image-link' href='#'> <img class='image' src='demo/img/pictures/5.jpg'> </a> <div class='search-result-item-body'> <div class='row'> <div class='col-md-9'> <h5 class='search-result-item-heading'> <a href='#'>Try. Posted by Okendoken</a> <span class='label label-pill label-danger fw-normal pull-xs-right'>Best Deal!</span> </h5> <p class='info'> Los Angeles, NY 20188 </p> <textarea rows='4' cols='50' > You will never know exactly how something will go until you try it. You can think three hundred times and still have no precise result. </textarea> </div> </div> </div> </section> <section class='search-result-item'> <a class='image-link' href='#'> <img class='image' src='demo/img/pictures/13.jpg'> </a> <div class='search-result-item-body'> <div class='row'> <div class='col-md-9'> <h5 class='search-result-item-heading'> <a href='#'>Vitaut the Great</a> </h5> <p class='info'> New York, NY 20188 </p><textarea rows='4' cols='50' >The Great Prince of the Grand Duchy of Lithuania he had stopped the invasion to Europe of Timur (Tamerlan) from Asia heading a big Army of Belarusians, Lithuanians. </textarea> </div> </div> </div> </section> </div>",
+				                        new Tmap.Size(690, 362),
+				                        '<div class="col-xl-9 col-xl-pull-3" id="overayDivStart"></div>',
 				                        true
 										); 
 				map.addPopup(popupS);
@@ -342,8 +425,8 @@
 				} else {
 					popupS.hide();
 				}
-				
 				clickCheckS = clickCheckS * (-1);
+				
 			}//end function
 			
 			
@@ -366,16 +449,15 @@
 			var clickCheckE = 1;//Click 반복시 이벤트 분기를 위한 변수
 			var popupE;
 			marker.events.register("click", marker, onOverMarkerE);
-			
-			
-			
 			function onOverMarkerE(evt){
 				
 				if(clickCheckE===1){
+				item = ybArray3[itemCount-1].item[0].title;
+				blogInfoEnd(item);
 				popupE = new Tmap.Popup("p1",
 										lonlatE,
-				                        new Tmap.Size(620, 500),
-				                        "<div class='col-xl-9 col-xl-pull-3'> <section class='search-result-item'> <a class='image-link' href='#'> <img class='image' src='demo/img/pictures/1.jpg'> </a> <div class='search-result-item-body'> <div class='row'> <div class='col-md-9'> <h5 class='search-result-item-heading'> <a href='#'>Next generation admin template</a> </h5> <p class='info'> New York, NY 20188 </p> <textarea rows='4' cols='50' > Not just usual Metro. But something bigger. Not just usual widgets, but real widgets. Not just yet another admin template, but next generation admin template. </textarea> </div> </div> </div> </section> <section class='search-result-item'> <a class='image-link' href='#'> <img class='image' src='demo/img/pictures/5.jpg'> </a> <div class='search-result-item-body'> <div class='row'> <div class='col-md-9'> <h5 class='search-result-item-heading'> <a href='#'>Try. Posted by Okendoken</a> <span class='label label-pill label-danger fw-normal pull-xs-right'>Best Deal!</span> </h5> <p class='info'> Los Angeles, NY 20188 </p> <textarea rows='4' cols='50' > You will never know exactly how something will go until you try it. You can think three hundred times and still have no precise result. </textarea> </div> </div> </div> </section> <section class='search-result-item'> <a class='image-link' href='#'> <img class='image' src='demo/img/pictures/13.jpg'> </a> <div class='search-result-item-body'> <div class='row'> <div class='col-md-9'> <h5 class='search-result-item-heading'> <a href='#'>Vitaut the Great</a> </h5> <p class='info'> New York, NY 20188 </p><textarea rows='4' cols='50' >The Great Prince of the Grand Duchy of Lithuania he had stopped the invasion to Europe of Timur (Tamerlan) from Asia heading a big Army of Belarusians, Lithuanians. </textarea> </div> </div> </div> </section> </div>",
+										new Tmap.Size(720, 362),
+				                        '<div class="col-xl-9 col-xl-pull-3" id="overayDivEnd"></div>',
 				                        true
 				                        ); 
 				map.addPopup(popupE);
@@ -414,10 +496,12 @@
 				function onOverMarkerA(evt){
 					
 					if(clickCheckA===1){
+					item = ybArray3[1].item[0].title;
+					blogInfoA(item);					//블로그 정보를 가져오기 위한 키워드와 인덱스 호출
 					popupA = new Tmap.Popup("p1",
 											lonlatA,
-					                        new Tmap.Size(620, 500),
-					                        "<div class='col-xl-9 col-xl-pull-3'> <section class='search-result-item'> <a class='image-link' href='#'> <img class='image' src='demo/img/pictures/1.jpg'> </a> <div class='search-result-item-body'> <div class='row'> <div class='col-md-9'> <h5 class='search-result-item-heading'> <a href='#'>Next generation admin template</a> </h5> <p class='info'> New York, NY 20188 </p> <textarea rows='4' cols='50' > Not just usual Metro. But something bigger. Not just usual widgets, but real widgets. Not just yet another admin template, but next generation admin template. </textarea> </div> </div> </div> </section> <section class='search-result-item'> <a class='image-link' href='#'> <img class='image' src='demo/img/pictures/5.jpg'> </a> <div class='search-result-item-body'> <div class='row'> <div class='col-md-9'> <h5 class='search-result-item-heading'> <a href='#'>Try. Posted by Okendoken</a> <span class='label label-pill label-danger fw-normal pull-xs-right'>Best Deal!</span> </h5> <p class='info'> Los Angeles, NY 20188 </p> <textarea rows='4' cols='50' > You will never know exactly how something will go until you try it. You can think three hundred times and still have no precise result. </textarea> </div> </div> </div> </section> <section class='search-result-item'> <a class='image-link' href='#'> <img class='image' src='demo/img/pictures/13.jpg'> </a> <div class='search-result-item-body'> <div class='row'> <div class='col-md-9'> <h5 class='search-result-item-heading'> <a href='#'>Vitaut the Great</a> </h5> <p class='info'> New York, NY 20188 </p><textarea rows='4' cols='50' >The Great Prince of the Grand Duchy of Lithuania he had stopped the invasion to Europe of Timur (Tamerlan) from Asia heading a big Army of Belarusians, Lithuanians. </textarea> </div> </div> </div> </section> </div>",
+											new Tmap.Size(720, 362),
+					                        '<div class="col-xl-9 col-xl-pull-3" id="overayDivA"></div>',
 					                        true
 											); 
 					map.addPopup(popupA);
@@ -452,10 +536,12 @@
 				function onOverMarkerB(evt){
 					
 					if(clickCheckB===1){
+					item = ybArray3[2].item[0].title;
+					blogInfoB(item);					//블로그 정보를 가져오기 위한 키워드와 인덱스 호출
 					popupB = new Tmap.Popup("p1",
 											lonlatB,
-					                        new Tmap.Size(620, 500),
-					                        "<div class='col-xl-9 col-xl-pull-3'> <section class='search-result-item'> <a class='image-link' href='#'> <img class='image' src='demo/img/pictures/1.jpg'> </a> <div class='search-result-item-body'> <div class='row'> <div class='col-md-9'> <h5 class='search-result-item-heading'> <a href='#'>Next generation admin template</a> </h5> <p class='info'> New York, NY 20188 </p> <textarea rows='4' cols='50' > Not just usual Metro. But something bigger. Not just usual widgets, but real widgets. Not just yet another admin template, but next generation admin template. </textarea> </div> </div> </div> </section> <section class='search-result-item'> <a class='image-link' href='#'> <img class='image' src='demo/img/pictures/5.jpg'> </a> <div class='search-result-item-body'> <div class='row'> <div class='col-md-9'> <h5 class='search-result-item-heading'> <a href='#'>Try. Posted by Okendoken</a> <span class='label label-pill label-danger fw-normal pull-xs-right'>Best Deal!</span> </h5> <p class='info'> Los Angeles, NY 20188 </p> <textarea rows='4' cols='50' > You will never know exactly how something will go until you try it. You can think three hundred times and still have no precise result. </textarea> </div> </div> </div> </section> <section class='search-result-item'> <a class='image-link' href='#'> <img class='image' src='demo/img/pictures/13.jpg'> </a> <div class='search-result-item-body'> <div class='row'> <div class='col-md-9'> <h5 class='search-result-item-heading'> <a href='#'>Vitaut the Great</a> </h5> <p class='info'> New York, NY 20188 </p><textarea rows='4' cols='50' >The Great Prince of the Grand Duchy of Lithuania he had stopped the invasion to Europe of Timur (Tamerlan) from Asia heading a big Army of Belarusians, Lithuanians. </textarea> </div> </div> </div> </section> </div>",
+											new Tmap.Size(720, 362),
+					                        '<div class="col-xl-9 col-xl-pull-3" id="overayDivB"></div>',
 					                        true
 					                        ); 
 					map.addPopup(popupB);
@@ -491,10 +577,12 @@
 				function onOverMarkerC(evt){
 					
 					if(clickCheckC===1){
+					item = ybArray3[3].item[0].title;
+					blogInfoC(item);					//블로그 정보를 가져오기 위한 키워드와 인덱스 호출
 					popupC = new Tmap.Popup("p1",
 											lonlatC,
-					                        new Tmap.Size(620, 500),
-					                        "<div class='col-xl-9 col-xl-pull-3'> <section class='search-result-item'> <a class='image-link' href='#'> <img class='image' src='demo/img/pictures/1.jpg'> </a> <div class='search-result-item-body'> <div class='row'> <div class='col-md-9'> <h5 class='search-result-item-heading'> <a href='#'>Next generation admin template</a> </h5> <p class='info'> New York, NY 20188 </p> <textarea rows='4' cols='50' > Not just usual Metro. But something bigger. Not just usual widgets, but real widgets. Not just yet another admin template, but next generation admin template. </textarea> </div> </div> </div> </section> <section class='search-result-item'> <a class='image-link' href='#'> <img class='image' src='demo/img/pictures/5.jpg'> </a> <div class='search-result-item-body'> <div class='row'> <div class='col-md-9'> <h5 class='search-result-item-heading'> <a href='#'>Try. Posted by Okendoken</a> <span class='label label-pill label-danger fw-normal pull-xs-right'>Best Deal!</span> </h5> <p class='info'> Los Angeles, NY 20188 </p> <textarea rows='4' cols='50' > You will never know exactly how something will go until you try it. You can think three hundred times and still have no precise result. </textarea> </div> </div> </div> </section> <section class='search-result-item'> <a class='image-link' href='#'> <img class='image' src='demo/img/pictures/13.jpg'> </a> <div class='search-result-item-body'> <div class='row'> <div class='col-md-9'> <h5 class='search-result-item-heading'> <a href='#'>Vitaut the Great</a> </h5> <p class='info'> New York, NY 20188 </p><textarea rows='4' cols='50' >The Great Prince of the Grand Duchy of Lithuania he had stopped the invasion to Europe of Timur (Tamerlan) from Asia heading a big Army of Belarusians, Lithuanians. </textarea> </div> </div> </div> </section> </div>",
+											new Tmap.Size(720, 362),
+					                        '<div class="col-xl-9 col-xl-pull-3" id="overayDivC"></div>',
 					                        true
 					                        ); 
 					map.addPopup(popupC);
@@ -578,9 +666,6 @@
 			$('#above_foot').toggle(showOrHide);
 			if(showOrHide==true){$('#above_foot').show();}
 			else{$('#above_foot').hide();}
-			var item = ybArray3[0].item[0].title;
-			blogInfo(item);
-			//ybArray3.length = 0;
 			$('#route_desp').text('');
 			$('#route_desp').append("<p>"+ route_A  +"</p>");
 		});
@@ -628,27 +713,6 @@
 			$('#above_foot').toggle();
 		});//slide
 		
-		var blogDataReturn;
-		
-		//장민식 블로그 정보를 얻어오기 위한 펑션
-		function blogInfo(item) {
-			var blogItemIngo = encodeURI(item);
-			$.ajax({
-				method: "post"
-				,url: "map/blogInfo"
-				,dataType: "json"
-				,data:{"blogItem":blogItemIngo}
-				,success: function(response) {
-					
-					var blogInfo1 = JSON.parse(response.blogInfoReturn);
-					var blogInfo2 = JSON.parse(response.blogInfoReturn2);
-					alert(JSON.stringify(blogInfo1.item[0].author));
-					alert(JSON.stringify(blogInfo2.item[0].image));
-					
-					$('#blogSearchTitle').text("  ");
-				}
-			});
-		}
 		
 		/* 장민식 *//* 아이템 검색 필드 (추가) */
 		var count = 0; /* 아이템 필드 최대 5개 추가를 위한 count 변수 */
