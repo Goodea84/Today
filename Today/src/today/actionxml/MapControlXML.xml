@@ -20,5 +20,9 @@
 			<result type="json"></result>
 		</action>
 		
+		<action name="blogInfo" class="action.MapControlAction" method="blogInfoGet">
+			<result type="json"></result>
+		</action>
+		
     </package>
 </struts>
