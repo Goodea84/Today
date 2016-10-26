@@ -535,7 +535,7 @@
 				 
 				var size = new Tmap.Size(24,38);
 				var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
-				var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_b.png', size, offset); 
+				var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_3.png', size, offset); 
 				     
 				var marker = new Tmap.Marker(lonlatB, icon);
 				markerLayer.addMarker(marker);
