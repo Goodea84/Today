@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
@@ -5,12 +6,12 @@
 <html>
 <head>
     <title>Sing - Gallery</title>
-    <link href="css/application.min.css" rel="stylesheet">
+    <link href="../css/application.min.css" rel="stylesheet">
     <!-- as of IE9 cannot parse css files with more that 4K classes separating in two files -->
     <!--[if IE 9]>
         <link href="css/application-ie9-part2.css" rel="stylesheet">
     <![endif]-->
-    <link rel="shortcut icon" href="img/favicon.png">
+    <link rel="shortcut icon" href="../img/favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -34,14 +35,14 @@
     <!-- need this .js class to initiate slimscroll -->
     <div class="js-sidebar-content">
         <header class="logo hidden-xs">
-            <a href="index">sing</a>
+            <a href="../index.html">sing</a>
         </header>
         <!-- seems like lots of recent admin template have this feature of user info in the sidebar.
              looks good, so adding it and enhancing with notifications -->
         <div class="sidebar-status visible-xs">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <span class="thumb-sm avatar pull-right">
-                    <img class="img-circle" src="demo/img/people/a5.jpg" alt="...">
+                    <img class="img-circle" src="../demo/img/people/a5.jpg" alt="...">
                 </span>
                 <!-- .circle is a pretty cool way to add a bit of beauty to raw data.
                      should be used with bg-* and text-* classes for colors -->
@@ -55,25 +56,210 @@
             <!-- #notifications-dropdown-menu goes here when screen collapsed to xs or sm -->
         </div>
         <!-- main notification links are placed inside of .sidebar-nav -->
-        <br/>
-                <h5 class="sidebar-nav-title">Hello <strong><s:property value="#session.loginName" /></strong> <a class="action-link" href="#"><i class="fa fa-map-marker"></i></a></h5>
         <ul class="sidebar-nav">
             <li>
-                <a href="index">
-                    <span class="icon"><i class="glyphicon glyphicon-map-marker"></i></span>
-                    Maps
+                <!-- an example of nested submenu. basic bootstrap collapse component -->
+                <a class="collapsed" href="#sidebar-dashboard" data-toggle="collapse" data-parent="#sidebar">
+                    <span class="icon">
+                        <i class="fa fa-desktop"></i>
+                    </span>
+                    Dashboard
+                    <i class="toggle fa fa-angle-down"></i>
+                </a>
+                <ul id="sidebar-dashboard" class="collapse">
+                    <li><a href="../index.html">Dashboard</a></li>
+                    <li><a href="../widgets.html">Widgets</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="inbox.html">
+                    <span class="icon">
+                        <i class="fa fa-envelope"></i>
+                    </span>
+                    Email
+                    <span class="label label-danger">
+                        9
+                    </span>
                 </a>
             </li>
-            <li class="active">
-                <a href="page_moveTo_gallery">
-                    <span class="icon"><i class="glyphicon glyphicon-inbox"></i></span>
-                    My Card
+            <li>
+                <a href="charts.html">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-stats"></i>
+                    </span>
+                    Charts
                 </a>
-           	</li>
-         </ul>
+            </li>
+            <li>
+                <a href="profile.html">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-user"></i>
+                    </span>
+                    Profile
+                    <sup class="text-warning fw-semi-bold">
+                        new
+                    </sup>
+                </a>
+            </li>
+        </ul>
+        <!-- every .sidebar-nav may have a title -->
+        <h5 class="sidebar-nav-title">Template <a class="action-link" href="#"><i class="glyphicon glyphicon-refresh"></i></a></h5>
+        <ul class="sidebar-nav">
+            <li>
+                <!-- an example of nested submenu. basic bootstrap collapse component -->
+                <a class="collapsed" href="#sidebar-forms" data-toggle="collapse" data-parent="#sidebar">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-align-right"></i>
+                    </span>
+                    Forms
+                    <i class="toggle fa fa-angle-down"></i>
+                </a>
+                <ul id="sidebar-forms" class="collapse">
+                    <li><a href="form_elements.html">Form Elements</a></li>
+                    <li><a href="form_validation.html">Form Validation</a></li>
+                    <li><a href="form_wizard.html">Form Wizard</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="collapsed" href="#sidebar-ui" data-toggle="collapse" data-parent="#sidebar">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-tree-conifer"></i>
+                    </span>
+                    UI Elements
+                    <i class="toggle fa fa-angle-down"></i>
+                </a>
+                <ul id="sidebar-ui" class="collapse">
+                    <li><a href="ui_components.html">Components</a></li>
+                    <li><a href="ui_notifications.html">Notifications</a></li>
+                    <li><a href="ui_icons.html">Icons</a></li>
+                    <li><a href="ui_buttons.html">Buttons</a></li>
+                    <li><a href="ui_tabs_accordion.html">Tabs & Accordion</a></li>
+                    <li><a href="ui_list_groups.html">List Groups</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="grid.html">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-th"></i>
+                    </span>
+                    Grid
+                </a>
+            </li>
+            <li>
+                <a class="collapsed" href="#sidebar-maps" data-toggle="collapse" data-parent="#sidebar">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-map-marker"></i>
+                    </span>
+                    Maps
+                    <i class="toggle fa fa-angle-down"></i>
+                </a>
+                <ul id="sidebar-maps" class="collapse">
+                    <!-- data-no-pjax turns off pjax loading for this link. Use in case of complicated js loading on the
+                         target page -->
+                    <li><a href="maps_google.html" data-no-pjax>Google Maps</a></li>
+                    <li><a href="maps_vector.html">Vector Maps</a></li>
+                </ul>
+            </li>
+            <li>
+                <!-- an example of nested submenu. basic bootstrap collapse component -->
+                <a class="collapsed" href="#sidebar-tables" data-toggle="collapse" data-parent="#sidebar">
+                    <span class="icon">
+                        <i class="fa fa-table"></i>
+                    </span>
+                    Tables
+                    <i class="toggle fa fa-angle-down"></i>
+                </a>
+                <ul id="sidebar-tables" class="collapse">
+                    <li><a href="tables_basic.html">Tables Basic</a></li>
+                    <li><a href="tables_dynamic.html">Tables Dynamic</a></li>
+                </ul>
+            </li>
+            <li class="active">
+                <a href="#sidebar-extra" data-toggle="collapse" data-parent="#sidebar">
+                    <span class="icon">
+                        <i class="fa fa-leaf"></i>
+                    </span>
+                    Extra
+                    <i class="toggle fa fa-angle-down"></i>
+                </a>
+                <ul id="sidebar-extra" class="collapse in">
+                    <li><a href="calendar.html">Calendar</a></li>
+                    <li><a href="invoice.html">Invoice</a></li>
+                    <li><a href="login.html" target="_blank" data-no-pjax>Login Page</a></li>
+                    <li><a href="error.html" target="_blank" data-no-pjax>Error Page</a></li>
+                    <li class="active"><a href="gallery.html">Gallery</a></li>
+                    <li><a href="search.html">Search Results</a></li>
+                    <li><a href="time_line.html" data-no-pjax>Time Line</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="collapsed" href="#sidebar-levels" data-toggle="collapse" data-parent="#sidebar">
+                    <span class="icon">
+                        <i class="fa fa-folder-open"></i>
+                    </span>
+                    Menu Levels
+                    <i class="toggle fa fa-angle-down"></i>
+                </a>
+                <ul id="sidebar-levels" class="collapse">
+                    <li><a href="#">Level 1</a></li>
+                    <li>
+                        <a class="collapsed" href="#sidebar-sub-levels" data-toggle="collapse" data-parent="#sidebar-levels">
+                            Level 2
+                            <i class="toggle fa fa-angle-down"></i>
+                        </a>
+                        <ul id="sidebar-sub-levels" class="collapse">
+                            <li><a href="#">Level 3</a></li>
+                            <li><a href="#">Level 3</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <h5 class="sidebar-nav-title">Labels <a class="action-link" href="#"><i class="glyphicon glyphicon-plus"></i></a></h5>
+        <!-- some styled links in sidebar. ready to use as links to email folders, projects, groups, etc -->
+        <ul class="sidebar-labels">
+            <li>
+                <a href="#">
+                    <!-- yep, .circle again -->
+                    <i class="fa fa-circle text-warning mr-xs"></i>
+                    <span class="label-name">My Recent</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-circle text-gray mr-xs"></i>
+                    <span class="label-name">Starred</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-circle text-danger mr-xs"></i>
+                    <span class="label-name">Background</span>
+                </a>
+            </li>
+        </ul>
+        <h5 class="sidebar-nav-title">Projects</h5>
+        <!-- A place for sidebar notifications & alerts -->
+        <div class="sidebar-alerts">
+            <div class="alert fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+                <span class="text-white fw-semi-bold">Sales Report</span> <br>
+                <div class="progress progress-xs mt-xs mb-0">
+                    <div class="progress-bar progress-bar-gray-light" style="width: 16%"></div>
+                </div>
+                <small>Calculating x-axis bias... 65%</small>
+            </div>
+            <div class="alert fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+                <span class="text-white fw-semi-bold">Personal Responsibility</span> <br>
+                <div class="progress progress-xs mt-xs mb-0">
+                    <div class="progress-bar progress-bar-danger" style="width: 23%"></div>
+                </div>
+                <small>Provide required notes</small>
+            </div>
+        </div>
     </div>
 </nav>
-
 <!-- This is the white navigation bar seen on the top. A bit enhanced BS navbar. See .page-controls in _base.scss. -->
 <nav class="page-controls navbar navbar-default">
     <div class="container-fluid">
@@ -91,8 +277,8 @@
                         <i class="fa fa-bars fa-lg hidden-xs"></i>
                     </a>
                 </li>
-				<!-- 왼쪽 상단 리프레시 / 취소 -->
-                <li class="ml-sm mr-n-xs hidden-xs"><a href="page_moveTo_gallery"><i class="fa fa-refresh fa-lg"></i></a></li>
+                <li class="ml-sm mr-n-xs hidden-xs"><a href="#"><i class="fa fa-refresh fa-lg"></i></a></li>
+                <li class="ml-n-xs hidden-xs"><a href="#"><i class="fa fa-times fa-lg"></i></a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right visible-xs">
                 <li>
@@ -103,7 +289,7 @@
                 </li>
             </ul>
             <!-- xs & sm screen logo -->
-            <a class="navbar-brand visible-xs" href="index">
+            <a class="navbar-brand visible-xs" href="index.html">
                 <i class="fa fa-circle text-gray mr-n-sm"></i>
                 <i class="fa fa-circle text-warning"></i>
                 &nbsp;
@@ -117,19 +303,18 @@
         <!-- this part is hidden for xs screens -->
         <div class="collapse navbar-collapse">
             <!-- search form! link it to your search server -->
-            <div class="navbar-form navbar-left">
+            <form class="navbar-form navbar-left" role="search">
                 <div class="form-group">
                     <div class="input-group input-group-no-border">
                         <span class="input-group-addon">
-                            <i class="fa fa-map-marker"></i>
+                            <i class="fa fa-search"></i>
                         </span>
-						<!-- 지역(local) 검색 input tag -->
-                        <input class="form-control" type="text" id="searchLocal" name="searchLocal" placeholder="카드 검색">
+                        <input class="form-control" type="text" placeholder="Search Dashboard">
                     </div>
                 </div>
-            </div>
+            </form>
             <ul class="nav navbar-nav navbar-right">
-            <s:if test="#session.loginId != null">
+           <s:if test="#session.loginId != null">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle dropdown-toggle-notifications" id="notifications-dropdown-toggle" data-toggle="dropdown">
                         <span class="thumb-sm avatar pull-left">
@@ -343,12 +528,12 @@
                      <!-- <i class="fa fa-circle text-success pull-right"></i> -->
                      <!-- <i class="fa fa-circle text-success pull-right"></i> -->
                     <span class="thumb-sm pull-left mr">
-                        <img id="friendimg" class="img-circle" src="<s:property value='cust_image' />" alt="..." > <!-- 사진 -->
+                        <img id="friendimg" class="img-circle" src="../<s:property value='cust_image' />" alt="..." > <!-- 사진 -->
                     </span>
                     <h5 class="message-sender"><s:property value="name" /></h5> <!-- 이름 -->
                    <!--  <p class="message-preview">Hey! What's up? So many times since we</p>  --><!--  프리뷰 -->
                 </div>
-                         </s:iterator>
+              </s:iterator>
                
             </div>
                     </div>
@@ -356,7 +541,6 @@
     </div>
 </div>
 </s:if>
-
 
 <div class="content-wrap">
     <!-- main page content. the place to put widgets in. usually consists of .row > .col-md-* > .widget.  -->
@@ -381,12 +565,13 @@
             </div>
         </div>
         
-        <!-- 카드시작 card start : 전혜선 -->
+        <!-- 카드시작 card start -->
         <div class="row gallery" id="grid">
+        
         <s:iterator value="clist"> 
             <div class="col-sm-6 col-md-3 gallery-item" data-groups='["nature"]' data-title="Mountains"><!--분류,이름(아마 순서정렬)  -->
                 <div class="thumbnail">
-                    <a href="../demo/img/pictures/13.jpg"><img src="demo/img/pictures/1.jpg" alt="..."></a><!-- 클릭하면나오는이미지,이미지 -->
+                    <a href="../demo/img/pictures/13.jpg"><img src="../demo/img/pictures/1.jpg" alt="..."></a><!-- 클릭하면나오는이미지,이미지 -->
                     <div class="caption">
                         <h5 class="mt-0 mb-xs"><s:property value="loca_name" /></h5><!-- 이름 -->
                         <ul class="post-links">
@@ -398,7 +583,152 @@
                 </div>
             </div>
             </s:iterator>
-
+            
+<%--             <div class="col-sm-6 col-md-3 gallery-item" data-groups='["people"]' data-title="Empire State Pigeon">
+                <div class="thumbnail">
+                    <a href="../demo/img/pictures/2.jpg"><img src="../demo/img/pictures/2.jpg" alt="..."></a>
+                    <div class="caption">
+                        <h5 class="mt-0 mb-xs">Empire State Pigeon</h5>
+                        <ul class="post-links">
+                            <li><a href="#">1 hour</a></li>
+                            <li><a href="#"><span class="text-danger"><i class="fa fa-heart"></i> Like</span></a></li>
+                            <li><a href="#">Details</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3 gallery-item" data-groups='["nature"]' data-title="Big Lake">
+                <div class="thumbnail">
+                    <a href="../demo/img/pictures/3.jpg"><img src="../demo/img/pictures/3.jpg" alt="..."></a>
+                    <div class="caption">
+                        <h5 class="mt-0 mb-xs">Big Lake</h5>
+                        <ul class="post-links">
+                            <li><a href="#">2 mins</a></li>
+                            <li><a href="#"><span class="text-danger"><i class="fa fa-heart"></i> Like</span></a></li>
+                            <li><a href="#">Details</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3 gallery-item" data-groups='["nature"]' data-title="Forest">
+                <div class="thumbnail">
+                    <a href="../demo/img/pictures/4.jpg"><img src="../demo/img/pictures/4.jpg" alt="..."></a>
+                    <div class="caption">
+                        <h5 class="mt-0 mb-xs">Forest</h5>
+                        <ul class="post-links">
+                            <li><a href="#">2 mins</a></li>
+                            <li><a href="#"><span class="text-danger"><i class="fa fa-heart"></i> Like</span></a></li>
+                            <li><a href="#">Details</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3 gallery-item" data-groups='["people"]' data-title="Smile">
+                <div class="thumbnail">
+                    <a href="../demo/img/pictures/5.jpg"><img src="../demo/img/pictures/5.jpg" alt="..."></a>
+                    <div class="caption">
+                        <h5 class="mt-0 mb-xs">Smile</h5>
+                        <ul class="post-links">
+                            <li><a href="#">2 mins</a></li>
+                            <li><a href="#"><span class="text-danger"><i class="fa fa-heart-o"></i> Like</span></a></li>
+                            <li><a href="#">Details</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3 gallery-item" data-groups='["people"]' data-title="Smile">
+                <div class="thumbnail">
+                    <a href="../demo/img/pictures/6.jpg"><img src="../demo/img/pictures/6.jpg" alt="..."></a>
+                    <div class="caption">
+                        <h5 class="mt-0 mb-xs">Smile</h5>
+                        <ul class="post-links">
+                            <li><a href="#">1 hour</a></li>
+                            <li><a href="#"><span class="text-danger"><i class="fa fa-heart"></i> Like</span></a></li>
+                            <li><a href="#">Details</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3 gallery-item" data-groups='["nature"]' data-title="Fog">
+                <div class="thumbnail">
+                    <a href="../demo/img/pictures/8.jpg"><img src="../demo/img/pictures/8.jpg" alt="..."></a>
+                    <div class="caption">
+                        <h5 class="mt-0 mb-xs">Fog</h5>
+                        <ul class="post-links">
+                            <li><a href="#">2 mins</a></li>
+                            <li><a href="#"><span class="text-danger"><i class="fa fa-heart"></i> Like</span></a></li>
+                            <li><a href="#">Details</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3 gallery-item" data-groups='["people"]' data-title="Beach">
+                <div class="thumbnail">
+                    <a href="../demo/img/pictures/9.jpg"><img src="../demo/img/pictures/9.jpg" alt="..."></a>
+                    <div class="caption">
+                        <h5 class="mt-0 mb-xs">Beach</h5>
+                        <ul class="post-links">
+                            <li><a href="#">2 mins</a></li>
+                            <li><a href="#"><span class="text-danger"><i class="fa fa-heart"></i> Like</span></a></li>
+                            <li><a href="#">Details</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3 gallery-item" data-groups='["people"]' data-title="Pause">
+                <div class="thumbnail">
+                    <a href="../demo/img/pictures/10.jpg"><img src="../demo/img/pictures/10.jpg" alt="..."></a>
+                    <div class="caption">
+                        <h5 class="mt-0 mb-xs">Pause</h5>
+                        <ul class="post-links">
+                            <li><a href="#">3 hour</a></li>
+                            <li><a href="#"><span class="text-danger"><i class="fa fa-heart"></i> Like</span></a></li>
+                            <li><a href="#">Details</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3 gallery-item" data-groups='["space"]' data-title="Space">
+                <div class="thumbnail">
+                    <a href="../demo/img/pictures/11.jpg"><img src="../demo/img/pictures/11.jpg" alt="..."></a>
+                    <div class="caption">
+                        <h5 class="mt-0 mb-xs">Space</h5>
+                        <ul class="post-links">
+                            <li><a href="#">3 hour</a></li>
+                            <li><a href="#"><span class="text-danger"><i class="fa fa-heart-o"></i> Like</span></a></li>
+                            <li><a href="#">Details</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3 gallery-item" data-groups='["space"]' data-title="Shuttle">
+                <div class="thumbnail">
+                    <a href="../demo/img/pictures/13.jpg"><img src="../demo/img/pictures/13.jpg" alt="..."></a>
+                    <div class="caption">
+                        <h5 class="mt-0 mb-xs">Shuttle</h5>
+                        <ul class="post-links">
+                            <li><a href="#">35 mins</a></li>
+                            <li><a href="#"><span class="text-danger"><i class="fa fa-heart"></i> Like</span></a></li>
+                            <li><a href="#">Details</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3 gallery-item" data-groups='["space"]' data-title="Sky">
+                <div class="thumbnail">
+                    <a href="../demo/img/pictures/14.jpg"><img src="../demo/img/pictures/14.jpg" alt="..."></a>
+                    <div class="caption">
+                        <h5 class="mt-0 mb-xs">Sky</h5>
+                        <ul class="post-links">
+                            <li><a href="#">2 mins</a></li>
+                            <li><a href="#"><span class="text-danger"><i class="fa fa-heart-o"></i> Like</span></a></li>
+                            <li><a href="#">Details</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div> --%>
+            
+            
             <div class="col-sm-6 col-md-3 js-shuffle-sizer"></div>
         </div>
     </main>
@@ -409,27 +739,27 @@
 </div>
 
 <!-- common libraries. required for every page-->
-<script src="vendor/jquery/dist/jquery.min.js"></script>
-<script src="vendor/jquery-pjax/jquery.pjax.js"></script>
-<script src="vendor/bootstrap-sass/assets/javascripts/bootstrap/transition.js"></script>
-<script src="vendor/bootstrap-sass/assets/javascripts/bootstrap/collapse.js"></script>
-<script src="vendor/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js"></script>
-<script src="vendor/bootstrap-sass/assets/javascripts/bootstrap/button.js"></script>
-<script src="vendor/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js"></script>
-<script src="vendor/bootstrap-sass/assets/javascripts/bootstrap/alert.js"></script>
-<script src="vendor/slimScroll/jquery.slimscroll.min.js"></script>
-<script src="vendor/widgster/widgster.js"></script>
-<script src="vendor/pace.js/pace.js" data-pace-options='{ "target": ".content-wrap", "ghostTime": 1000 }'></script>
-<script src="vendor/jquery-touchswipe/jquery.touchSwipe.js"></script>
+<script src="../vendor/jquery/dist/jquery.min.js"></script>
+<script src="../vendor/jquery-pjax/jquery.pjax.js"></script>
+<script src="../vendor/bootstrap-sass/assets/javascripts/bootstrap/transition.js"></script>
+<script src="../vendor/bootstrap-sass/assets/javascripts/bootstrap/collapse.js"></script>
+<script src="../vendor/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js"></script>
+<script src="../vendor/bootstrap-sass/assets/javascripts/bootstrap/button.js"></script>
+<script src="../vendor/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js"></script>
+<script src="../vendor/bootstrap-sass/assets/javascripts/bootstrap/alert.js"></script>
+<script src="../vendor/slimScroll/jquery.slimscroll.min.js"></script>
+<script src="../vendor/widgster/widgster.js"></script>
+<script src="../vendor/pace.js/pace.js" data-pace-options='{ "target": ".content-wrap", "ghostTime": 1000 }'></script>
+<script src=../"vendor/jquery-touchswipe/jquery.touchSwipe.js"></script>
 
 <!-- common app js -->
-<script src="js/settings.js"></script>
-<script src="js/app.js"></script>
+<script src="../js/settings.js"></script>
+<script src="../js/app.js"></script>
 
 <!-- page specific libs -->
-<script src="vendor/shufflejs/dist/jquery.shuffle.modernizr.min.js"></script>
-<script src="vendor/magnific-popup/dist/jquery.magnific-popup.min.js"></script>
+<script src="../vendor/shufflejs/dist/jquery.shuffle.modernizr.min.js"></script>
+<script src="../vendor/magnific-popup/dist/jquery.magnific-popup.min.js"></script>
 <!-- page specific js -->
-<script src="js/gallery.js"></script>
+<script src="../js/gallery.js"></script>
 </body>
 </html>

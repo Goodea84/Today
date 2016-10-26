@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CardMapper">
+
+
+<!-- 카드생성 -->
+<insert id="insertcard" parameterType="Card">
+insert into card values(CARD_SEQ.nextval, #{loca_name}, #{item1}, #{item2}, #{item3}, #{item4}, #{item5}, sysdate, #{recommend})
+<selectKey keyProperty="card_id" resultType="int" order="AFTER">
+SELECT card_seq.currval FROM dual
+</selectKey>
+</insert>
+
+<!-- 카드리스트생성 -->
+<insert id="insertcardlist" parameterType="CardList">
+insert into cardlist values(CARDLIST_SEQ.nextval, #{cust_id}, #{card_id})
+</insert>
+
+<!-- 카드아이디리스트 조회-->
+<select id="cardidlist" parameterType="int" resultType="int">
+select card_id from cardlist where cust_id=#{custid}
+</select>
+
+<!-- 카드리스트 만들기 위해 카드 객체 넘겨줌 -->
+<select id="cardlist" parameterType="int" resultType="Card">
+select * from card where card_id=#{cardid}
+</select>
+
+</mapper>
