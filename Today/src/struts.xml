@@ -9,9 +9,20 @@
 
     <package name="default" namespace="/" extends="struts-default, json-default">
 	    
+	    
+	    <!-- 유병훈 ; 로그인 인터셉터 -->
+		<interceptors>
+			<interceptor name="loginInterceptor" class="today.interceptor.LoginInterceptor"/>
+			<interceptor-stack name="loginStack">
+				<interceptor-ref name="defaultStack"/>
+				<interceptor-ref name="loginInterceptor"/>
+			</interceptor-stack>
+		</interceptors>
+		
+		
 		<default-action-ref name="index"/>
 		
-		<action name="index">
+		<action name="index" class="action.CustomerAction" method="execute">
        		<result>/index.jsp</result>
 		</action>
 		
@@ -19,7 +30,16 @@
 		<!-- 로그인 -->
 		<action name="login" class="action.CustomerAction" method="login">
 			<result name="success">/index.jsp</result>
-			<result name="input" type="redirect">/index.jsp</result>
+			<result name="input">/index.jsp</result>
+		</action>
+		
+		<!-- 카드보기 클릭 시, 페이지 이동 -->
+		<action name="page_moveTo_gallery" class="action.CustomerAction" method="execute">
+		
+		<!-- 인터셉터 사용 -->
+		<interceptor-ref name="loginStack"/>
+			<result type="redirect" name="login">login.action</result>
+			<result>/myCard.jsp</result>
 		</action>
 		
 		
