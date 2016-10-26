@@ -82,7 +82,7 @@
 		    //searchRoute();
 		    
 		}
-	};
+	};//initMap
 	
 	
 	
@@ -120,7 +120,8 @@
 	var url02;
 	var local;
 	
-	function yb_test(ybArray2){
+	function yb_test(ybArray2, a, b, c, d, e){
+		
 		var max = ybArray2.length;
 		var i = 0;
 		$.each(ybArray2, function(index, value){
@@ -130,7 +131,19 @@
 			var pr_4326 = new Tmap.Projection("EPSG:4326");
 			//pr_3857 인스탄스 생성.
 			var pr_3857 = new Tmap.Projection("EPSG:3857");
-			var x = get3857LonLat(value.item[0].longitude, value.item[0].latitude);
+			if(i===0&&a!=null){
+				var x = get3857LonLat(value.item[a].longitude, value.item[a].latitude);
+			}else if(i===1&&b!=null){
+				var x = get3857LonLat(value.item[b].longitude, value.item[b].latitude);
+			}else if(i===2&&c!=null){
+				var x = get3857LonLat(value.item[c].longitude, value.item[c].latitude);
+			}else if(i===3&&d!=null){
+				var x = get3857LonLat(value.item[d].longitude, value.item[d].latitude);
+			}else if(i===4&&e!=null){
+				var x = get3857LonLat(value.item[e].longitude, value.item[e].latitude);
+			}else{
+				var x = get3857LonLat(value.item[0].longitude, value.item[0].latitude);
+			}
 			ybArray.push(x);
 			i++;
 			//WGS84GEO -> EPSG:3857 좌표형식 변환
@@ -607,6 +620,28 @@
 			$('#route_desp').text('');
 			$('#route_desp').append("<p>"+ route_D  +"</p>");
 		});
+		
+		//20161024 김승훈
+		$('testRight').on('click', function(){
+			
+			map.destroy();
+			initTmap();
+			
+			
+		});
+		
+		$('testLeft').on('click', function(){
+			
+			map.destroy();
+			initTmap();
+			
+		});
+		
+		//
+		
+		
+		
+		
 		//
 	  	//유병훈 above_foot div태그 열었다 닫았다 하는 부분 & 클릭 부분 이미지 & 이미지 변경 처리
 		var za = 1;
@@ -680,6 +715,173 @@
  		initTmap();
  	});
     
+  //1024추가 김승훈
+ 	//선택된 마커
+ 	var markerSelectA = true;
+ 	var markerSelectB = false;
+ 	var markerSelectC = false;
+ 	var markerSelectD = false;
+ 	var markerSelectE = false;
+ 	
+ 	var a=0;
+ 	var b=0;
+ 	var c=0;
+ 	var d=0;
+ 	var e=0;
+ 	//a,b,c,d,e는 아이템 인덱스를 나타내는 변수이다.
+ 	//a,b,c,d,e는 전역변수로 선언되어야하며 search버튼 누를시에는 0으로 초기화 해야 한다. 
+ 	//왼쪽을 눌렀을때의 이벤트 함수
+ 	$('#left').on('click', function(){
+ 		
+ 		alert('left');
+ 		
+ 		if(markerSelectA == true){
+ 			if(a==0){
+ 				a=2;
+ 			}else if(a==1){
+ 				a=0;
+ 			}else if(a==2){
+ 				a=1;
+ 			}
+ 		}else if(markerSelectB == true){
+ 			if(b==0){
+ 				b=2;
+ 			}else if(b==1){
+ 				b=0;
+ 			}else if(b==2){
+ 				b=1;
+ 			}
+ 		}else if(markerSelectC == true){
+ 			if(c==0){
+ 				c=2;
+ 			}else if(c==1){
+ 				c=0;
+ 			}else if(c==2){
+ 				c=1;
+ 			}
+ 		}else if(markerSelectD == true){
+ 			if(d==0){
+ 				d=2;
+ 			}else if(d==1){
+ 				d=0;
+ 			}else if(d==2){
+ 				d=1;
+ 			}
+ 		}else if(markerSelectE == true){
+ 			if(e==0){
+ 				e=2;
+ 			}else if(e==1){
+ 				e=0;
+ 			}else if(e==2){
+ 				e=1;
+ 			}
+ 		}
+ 		var item = [];
+		$(".itemField").each(function(idx){
+	        var item0 = $(".itemField:eq(" + idx + ")").val();
+			item.push(encodeURI(item0));
+			
+	     });//each
+	     
+	     alert(a);
+	     alert(b);
+	      
+        $.ajax({
+        	method: "post"
+        	, url: "map/sendItem"
+        	, dataType: "json"
+        	, data: {"itemList":item}
+        	, success: function(response) {
+				var recommendedItem = response.recommendedItem;
+				$(recommendedItem).each(function(index, value) {
+					var jsonValue = JSON.parse(value);
+					//alert(JSON.stringify(jsonValue));
+					//alert(jsonValue.item[index].title);
+					ybArray2.push(jsonValue);//사용자가 입력한 키워드들이 담김
+				});
+			    yb_test(ybArray2, a, b, c, d, e);//크롤링 해서 추천하는 장소 위도, 경도 담는 function으로 이동
+			}
+        });//ajax
+ 	});
+ 	//오른쪽을 눌렀을때의 이벤트 함수
+	$('#right').on('click', function(){
+		
+		alert('right');
+		
+		if(markerSelectA == true){
+ 			if(a==0){
+ 				a=1;
+ 			}else if(a==1){
+ 				a=2;
+ 			}else if(a==2){
+ 				a=0;
+ 			}
+ 		}else if(markerSelectB == true){
+ 			if(b==0){
+ 				b=1;
+ 			}else if(b==1){
+ 				b=2;
+ 			}else if(b==2){
+ 				b=0;
+ 			}
+ 		}else if(markerSelectC == true){
+ 			if(c==0){
+ 				c=1;
+ 			}else if(c==1){
+ 				c=2;
+ 			}else if(c==2){
+ 				c=0;
+ 			}
+ 		}else if(markerSelectD == true){
+ 			if(d==0){
+ 				d=1;
+ 			}else if(d==1){
+ 				d=2;
+ 			}else if(d==2){
+ 				d=0;
+ 			}
+ 		}else if(markerSelectE == true){
+ 			if(e==0){
+ 				e=1;
+ 			}else if(e==1){
+ 				e=2;
+ 			}else if(e==2){
+ 				e=0;
+ 			}
+ 		}
+		
+		var item = [];
+		$(".itemField").each(function(idx){
+	        var item0 = $(".itemField:eq(" + idx + ")").val();
+			item.push(encodeURI(item0));
+			
+	     });//each
+	     
+	     alert(a);
+	     alert(b);
+	      
+        $.ajax({
+        	method: "post"
+        	, url: "map/sendItem"
+        	, dataType: "json"
+        	, data: {"itemList":item}
+        	, success: function(response) {
+				var recommendedItem = response.recommendedItem;
+				$(recommendedItem).each(function(index, value) {
+					var jsonValue = JSON.parse(value);
+					//alert(JSON.stringify(jsonValue));
+					//alert(jsonValue.item[index].title);
+					ybArray2.push(jsonValue);//사용자가 입력한 키워드들이 담김
+				});
+			    yb_test(ybArray2, a, b, c, d, e);//크롤링 해서 추천하는 장소 위도, 경도 담는 function으로 이동
+			}
+        });//ajax
+ 	});
+ 	
+ 	
+ 	
+	//1024추가 김승훈 end
+    
  	
 
 	});/* document.ready function end */
@@ -704,10 +906,11 @@
      		form.submit();
      	}/* login end - jhs  */
      	
+     	
+     	
 		
 		
 	</script>
-	<!-- 김승훈 edit end -->
 	
 </head>
 
@@ -872,6 +1075,11 @@
                         </span>
 						<!-- 지역(local) 검색 input tag -->
                         <input class="form-control" type="text" id="searchLocal" name="searchLocal" placeholder="지역을 검색해주세요">
+                        
+                        	<!-- 김승훈테스트버튼 -->
+                        	<input type="button" id="left" value="left" >
+                        	<input type="button" id="right" value="right">
+                        
                     </div>
                 </div>
             </div>
