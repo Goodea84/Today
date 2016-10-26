@@ -412,13 +412,8 @@
 			var lonlatS = new Tmap.LonLat(ybArray[0].lon, ybArray[0].lat);
 			 
 			var size = new Tmap.Size(24,38);
-<<<<<<< HEAD
 			var offset = new Tmap.Pixel((-size.w/2),(-size.h/2));
 			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_s.png', size, offset); 
-=======
-			var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
-			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_a.png', size, offset); 
->>>>>>> branch 'master' of https://github.com/Goodea84/Today.git
 			     
 			var marker = new Tmap.Marker(lonlatS, icon);
 			
@@ -428,15 +423,10 @@
 			var clickCheckS = 0;//Click 반복시 이벤트 분기를 위한 변수
 			var popupS;
 			marker.events.register("click", marker, onOverMarkerS);
-			
+			var item;
 			function onOverMarkerS(evt){
-<<<<<<< HEAD
 				if(clickCheckS===0){
 				item = ybArray3[0].item[0].title;
-=======
-				if(clickCheckS===1){
-				var item = ybArray3[0].item[0].title;
->>>>>>> branch 'master' of https://github.com/Goodea84/Today.git
 				blogInfoStart(item);						//블로그 정보를 가져오기 위한 키워드와 인덱스 호출
 				popupS = new Tmap.Popup("p1",
 										lonlatS,
@@ -475,13 +465,8 @@
 			marker.events.register("click", marker, onOverMarkerE);
 			function onOverMarkerE(evt){
 				
-<<<<<<< HEAD
 				if(clickCheckE===0){
 				item = ybArray3[itemCount-1].item[0].title;
-=======
-				if(clickCheckE===1){
-				var item = ybArray3[itemCount-1].item[0].title;
->>>>>>> branch 'master' of https://github.com/Goodea84/Today.git
 				blogInfoEnd(item);
 				popupE = new Tmap.Popup("p1",
 										lonlatE,
@@ -524,13 +509,8 @@
 				
 				function onOverMarkerA(evt){
 					
-<<<<<<< HEAD
 					if(clickCheckA===0){
 					item = ybArray3[1].item[0].title;
-=======
-					if(clickCheckA===1){
-					var item = ybArray3[1].item[0].title;
->>>>>>> branch 'master' of https://github.com/Goodea84/Today.git
 					blogInfoA(item);					//블로그 정보를 가져오기 위한 키워드와 인덱스 호출
 					popupA = new Tmap.Popup("p1",
 											lonlatA,
@@ -568,13 +548,8 @@
 				
 				function onOverMarkerB(evt){
 					
-<<<<<<< HEAD
 					if(clickCheckB===0){
 					item = ybArray3[2].item[0].title;
-=======
-					if(clickCheckB===1){
-					var item = ybArray3[2].item[0].title;
->>>>>>> branch 'master' of https://github.com/Goodea84/Today.git
 					blogInfoB(item);					//블로그 정보를 가져오기 위한 키워드와 인덱스 호출
 					popupB = new Tmap.Popup("p1",
 											lonlatB,
@@ -613,13 +588,8 @@
 				
 				function onOverMarkerC(evt){
 					
-<<<<<<< HEAD
 					if(clickCheckC===0){
 					item = ybArray3[3].item[0].title;
-=======
-					if(clickCheckC===1){
-					var item = ybArray3[3].item[0].title;
->>>>>>> branch 'master' of https://github.com/Goodea84/Today.git
 					blogInfoC(item);					//블로그 정보를 가져오기 위한 키워드와 인덱스 호출
 					popupC = new Tmap.Popup("p1",
 											lonlatC,
