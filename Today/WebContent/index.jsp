@@ -1012,7 +1012,7 @@
     <div class="js-sidebar-content">
     
         <header class="logo hidden-xs">
-            <a href="index">sing</a>
+            <a href="page_make_gallery">sing</a>
         </header>
         
         <!-- seems like lots of recent admin template have this feature of user info in the sidebar.
