@@ -109,7 +109,7 @@ public class MapControlAction extends ActionSupport implements SessionAware{
 	public String blogInfoGet() throws Exception{
 		urlStr = "";
 		urlStr += "https://apis.daum.net/search/blog";
-		urlStr += "?apikey=8b061e21394885aaa3c204bedd0f494e";
+		urlStr += "?apikey=d0224817161ef3c311a65c73ea03f837";
 		urlStr += "&q=" + blogItem;
 		urlStr += "&output=json";
 		
@@ -140,7 +140,7 @@ public class MapControlAction extends ActionSupport implements SessionAware{
 		blogInfoReturn2 = "";
 		urlStr = "";
 		urlStr += "https://apis.daum.net/search/image";
-		urlStr += "?apikey=8b061e21394885aaa3c204bedd0f494e";
+		urlStr += "?apikey=d0224817161ef3c311a65c73ea03f837";
 		urlStr += "&q=" + session.get("local") + "%20" + blogItem;
 		urlStr += "&output=json";
 		

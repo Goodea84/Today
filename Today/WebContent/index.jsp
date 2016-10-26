@@ -412,19 +412,19 @@
 			 
 			var size = new Tmap.Size(24,38);
 			var offset = new Tmap.Pixel((-size.w/2),(-size.h/2));
-			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_a.png', size, offset); 
+			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_s.png', size, offset); 
 			     
 			var marker = new Tmap.Marker(lonlatS, icon);
 			
 			markerLayer.addMarker(marker);
 			
 			//popup 생성 S(출발점) Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
-			var clickCheckS = 1;//Click 반복시 이벤트 분기를 위한 변수
+			var clickCheckS = 0;//Click 반복시 이벤트 분기를 위한 변수
 			var popupS;
 			marker.events.register("click", marker, onOverMarkerS);
 			var item;
 			function onOverMarkerS(evt){
-				if(clickCheckS===1){
+				if(clickCheckS===0){
 				item = ybArray3[0].item[0].title;
 				blogInfoStart(item);						//블로그 정보를 가져오기 위한 키워드와 인덱스 호출
 				popupS = new Tmap.Popup("p1",
@@ -435,10 +435,10 @@
 										); 
 				map.addPopup(popupS);
 				popupS.show();
-				} else {
-					popupS.hide();
+				clickCheckS=1;
+				}else{
+					popupS.show();
 				}
-				clickCheckS = clickCheckS * (-1);
 				
 			}//end function
 			
@@ -452,19 +452,19 @@
 			 
 			var size = new Tmap.Size(24,38);
 			var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
-			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_a.png', size, offset); 
+			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_f.png', size, offset); 
 			     
 			var marker = new Tmap.Marker(lonlatE, icon);
 			
 			markerLayer.addMarker(marker);
 			
 			//popup 생성 E(도착점) Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
-			var clickCheckE = 1;//Click 반복시 이벤트 분기를 위한 변수
+			var clickCheckE = 0;//Click 반복시 이벤트 분기를 위한 변수
 			var popupE;
 			marker.events.register("click", marker, onOverMarkerE);
 			function onOverMarkerE(evt){
 				
-				if(clickCheckE===1){
+				if(clickCheckE===0){
 				item = ybArray3[itemCount-1].item[0].title;
 				blogInfoEnd(item);
 				popupE = new Tmap.Popup("p1",
@@ -475,11 +475,11 @@
 				                        ); 
 				map.addPopup(popupE);
 				popupE.show();
-				} else {
-					popupE.hide();
+				clickCheckE=1;
+				}else{
+					popupE.show();
 				}
 				
-				clickCheckE = clickCheckE * (-1);
 			}//end function
 			
 			
@@ -495,20 +495,20 @@
 				 
 				var size = new Tmap.Size(24,38);
 				var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
-				var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_a.png', size, offset); 
+				var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_2.png', size, offset); 
 				     
 				var marker = new Tmap.Marker(lonlatA, icon);
 				
 				markerLayer.addMarker(marker);
 				
 				//popup 생성 A Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
-				var clickCheckA = 1;//Click 반복시 이벤트 분기를 위한 변수
+				var clickCheckA = 0;//Click 반복시 이벤트 분기를 위한 변수
 				var popupA;
 				marker.events.register("click", marker, onOverMarkerA);
 				
 				function onOverMarkerA(evt){
 					
-					if(clickCheckA===1){
+					if(clickCheckA===0){
 					item = ybArray3[1].item[0].title;
 					blogInfoA(item);					//블로그 정보를 가져오기 위한 키워드와 인덱스 호출
 					popupA = new Tmap.Popup("p1",
@@ -519,11 +519,10 @@
 											); 
 					map.addPopup(popupA);
 					popupA.show();
-					} else {
-						popupA.hide();
+					clickCheckA=1;
+					}else{
+						popupA.show();
 					}
-					
-					clickCheckA = clickCheckA * (-1);
 				}//end function
 			}//end if
 			//경로지가 2, 3개일 때
@@ -536,19 +535,19 @@
 				 
 				var size = new Tmap.Size(24,38);
 				var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
-				var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_b.png', size, offset); 
+				var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_3.png', size, offset); 
 				     
 				var marker = new Tmap.Marker(lonlatB, icon);
 				markerLayer.addMarker(marker);
 				
 				//popup 생성 B Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
-				var clickCheckB = 1;//Click 반복시 이벤트 분기를 위한 변수
+				var clickCheckB = 0;//Click 반복시 이벤트 분기를 위한 변수
 				var popupB;
 				marker.events.register("click", marker, onOverMarkerB);
 				
 				function onOverMarkerB(evt){
 					
-					if(clickCheckB===1){
+					if(clickCheckB===0){
 					item = ybArray3[2].item[0].title;
 					blogInfoB(item);					//블로그 정보를 가져오기 위한 키워드와 인덱스 호출
 					popupB = new Tmap.Popup("p1",
@@ -559,11 +558,10 @@
 					                        ); 
 					map.addPopup(popupB);
 					popupB.show();
-					} else {
-						popupB.hide();
+					clickCheckB=1;
+					}else{
+						popupB.show();
 					}
-					
-					clickCheckB = clickCheckB * (-1);
 				}//end function
 			}//end if
 			
@@ -577,19 +575,19 @@
 				 
 				var size = new Tmap.Size(24,38);
 				var offset = new Tmap.Pixel(-(size.w/2), -(size.h/2));
-				var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_c.png', size, offset); 
+				var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_4.png', size, offset); 
 				     
 				var marker = new Tmap.Marker(lonlatC, icon);
 				markerLayer.addMarker(marker);
 				 
 				//popup 생성 C Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
-				var clickCheckC = 1;//Click 반복시 이벤트 분기를 위한 변수
+				var clickCheckC = 0;//Click 반복시 이벤트 분기를 위한 변수
 				var popupC;
 				marker.events.register("click", marker, onOverMarkerC);
 				
 				function onOverMarkerC(evt){
 					
-					if(clickCheckC===1){
+					if(clickCheckC===0){
 					item = ybArray3[3].item[0].title;
 					blogInfoC(item);					//블로그 정보를 가져오기 위한 키워드와 인덱스 호출
 					popupC = new Tmap.Popup("p1",
@@ -600,11 +598,10 @@
 					                        ); 
 					map.addPopup(popupC);
 					popupC.show();
-					} else {
-						popupC.hide();
+					clickCheckC=1;
+					}else{
+						popupC.show();
 					}
-					
-					clickCheckC = clickCheckC * (-1);
 				}//end function
 			}//end if
 		}
@@ -1162,9 +1159,9 @@
 						<!-- 지역(local) 검색 input tag -->
                         <input class="form-control" type="text" id="searchLocal" name="searchLocal" placeholder="지역을 검색해주세요">
                         
-                        	<!-- 김승훈테스트버튼 -->
+                        	<!--  김승훈테스트버튼 
                         	<input type="button" id="left" value="left" >
-                        	<input type="button" id="right" value="right">
+                        	<input type="button" id="right" value="right"> -->
                         
                     </div>
                 </div>
