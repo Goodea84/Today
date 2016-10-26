@@ -82,7 +82,7 @@
 		    //searchRoute();
 		    
 		}
-	};
+	};//initMap
 	
 	
 	
@@ -125,7 +125,8 @@
 	var url02;
 	var local;
 	
-	function yb_test(ybArray2){
+	function yb_test(ybArray2, a, b, c, d, e){
+		
 		var max = ybArray2.length;
 		var i = 0;
 		$.each(ybArray2, function(index, value){
@@ -135,7 +136,19 @@
 			var pr_4326 = new Tmap.Projection("EPSG:4326");
 			//pr_3857 인스탄스 생성.
 			var pr_3857 = new Tmap.Projection("EPSG:3857");
-			var x = get3857LonLat(value.item[0].longitude, value.item[0].latitude);
+			if(i===0&&a!=null){
+				var x = get3857LonLat(value.item[a].longitude, value.item[a].latitude);
+			}else if(i===1&&b!=null){
+				var x = get3857LonLat(value.item[b].longitude, value.item[b].latitude);
+			}else if(i===2&&c!=null){
+				var x = get3857LonLat(value.item[c].longitude, value.item[c].latitude);
+			}else if(i===3&&d!=null){
+				var x = get3857LonLat(value.item[d].longitude, value.item[d].latitude);
+			}else if(i===4&&e!=null){
+				var x = get3857LonLat(value.item[e].longitude, value.item[e].latitude);
+			}else{
+				var x = get3857LonLat(value.item[0].longitude, value.item[0].latitude);
+			}
 			ybArray.push(x);
 			i++;
 			//WGS84GEO -> EPSG:3857 좌표형식 변환
@@ -399,19 +412,19 @@
 			 
 			var size = new Tmap.Size(24,38);
 			var offset = new Tmap.Pixel((-size.w/2),(-size.h/2));
-			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_a.png', size, offset); 
+			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_s.png', size, offset); 
 			     
 			var marker = new Tmap.Marker(lonlatS, icon);
 			
 			markerLayer.addMarker(marker);
 			
 			//popup 생성 S(출발점) Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
-			var clickCheckS = 1;//Click 반복시 이벤트 분기를 위한 변수
+			var clickCheckS = 0;//Click 반복시 이벤트 분기를 위한 변수
 			var popupS;
 			marker.events.register("click", marker, onOverMarkerS);
 			var item;
 			function onOverMarkerS(evt){
-				if(clickCheckS===1){
+				if(clickCheckS===0){
 				item = ybArray3[0].item[0].title;
 				blogInfoStart(item);						//블로그 정보를 가져오기 위한 키워드와 인덱스 호출
 				popupS = new Tmap.Popup("p1",
@@ -422,10 +435,10 @@
 										); 
 				map.addPopup(popupS);
 				popupS.show();
-				} else {
-					popupS.hide();
+				clickCheckS=1;
+				}else{
+					popupS.show();
 				}
-				clickCheckS = clickCheckS * (-1);
 				
 			}//end function
 			
@@ -439,34 +452,34 @@
 			 
 			var size = new Tmap.Size(24,38);
 			var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
-			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_a.png', size, offset); 
+			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_f.png', size, offset); 
 			     
 			var marker = new Tmap.Marker(lonlatE, icon);
 			
 			markerLayer.addMarker(marker);
 			
 			//popup 생성 E(도착점) Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
-			var clickCheckE = 1;//Click 반복시 이벤트 분기를 위한 변수
+			var clickCheckE = 0;//Click 반복시 이벤트 분기를 위한 변수
 			var popupE;
 			marker.events.register("click", marker, onOverMarkerE);
 			function onOverMarkerE(evt){
 				
-				if(clickCheckE===1){
+				if(clickCheckE===0){
 				item = ybArray3[itemCount-1].item[0].title;
 				blogInfoEnd(item);
 				popupE = new Tmap.Popup("p1",
 										lonlatE,
-										new Tmap.Size(720, 362),
+				                        new Tmap.Size(720, 362),
 				                        '<div class="col-xl-9 col-xl-pull-3" id="overayDivEnd"></div>',
 				                        true
 				                        ); 
 				map.addPopup(popupE);
 				popupE.show();
-				} else {
-					popupE.hide();
+				clickCheckE=1;
+				}else{
+					popupE.show();
 				}
 				
-				clickCheckE = clickCheckE * (-1);
 			}//end function
 			
 			
@@ -482,35 +495,34 @@
 				 
 				var size = new Tmap.Size(24,38);
 				var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
-				var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_a.png', size, offset); 
+				var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_2.png', size, offset); 
 				     
 				var marker = new Tmap.Marker(lonlatA, icon);
 				
 				markerLayer.addMarker(marker);
 				
 				//popup 생성 A Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
-				var clickCheckA = 1;//Click 반복시 이벤트 분기를 위한 변수
+				var clickCheckA = 0;//Click 반복시 이벤트 분기를 위한 변수
 				var popupA;
 				marker.events.register("click", marker, onOverMarkerA);
 				
 				function onOverMarkerA(evt){
 					
-					if(clickCheckA===1){
+					if(clickCheckA===0){
 					item = ybArray3[1].item[0].title;
 					blogInfoA(item);					//블로그 정보를 가져오기 위한 키워드와 인덱스 호출
 					popupA = new Tmap.Popup("p1",
 											lonlatA,
-											new Tmap.Size(720, 362),
+					                        new Tmap.Size(720, 362),
 					                        '<div class="col-xl-9 col-xl-pull-3" id="overayDivA"></div>',
 					                        true
 											); 
 					map.addPopup(popupA);
 					popupA.show();
-					} else {
-						popupA.hide();
+					clickCheckA=1;
+					}else{
+						popupA.show();
 					}
-					
-					clickCheckA = clickCheckA * (-1);
 				}//end function
 			}//end if
 			//경로지가 2, 3개일 때
@@ -529,28 +541,27 @@
 				markerLayer.addMarker(marker);
 				
 				//popup 생성 B Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
-				var clickCheckB = 1;//Click 반복시 이벤트 분기를 위한 변수
+				var clickCheckB = 0;//Click 반복시 이벤트 분기를 위한 변수
 				var popupB;
 				marker.events.register("click", marker, onOverMarkerB);
 				
 				function onOverMarkerB(evt){
 					
-					if(clickCheckB===1){
+					if(clickCheckB===0){
 					item = ybArray3[2].item[0].title;
 					blogInfoB(item);					//블로그 정보를 가져오기 위한 키워드와 인덱스 호출
 					popupB = new Tmap.Popup("p1",
 											lonlatB,
-											new Tmap.Size(720, 362),
+					                        new Tmap.Size(720, 362),
 					                        '<div class="col-xl-9 col-xl-pull-3" id="overayDivB"></div>',
 					                        true
 					                        ); 
 					map.addPopup(popupB);
 					popupB.show();
-					} else {
-						popupB.hide();
+					clickCheckB=1;
+					}else{
+						popupB.show();
 					}
-					
-					clickCheckB = clickCheckB * (-1);
 				}//end function
 			}//end if
 			
@@ -564,34 +575,33 @@
 				 
 				var size = new Tmap.Size(24,38);
 				var offset = new Tmap.Pixel(-(size.w/2), -(size.h/2));
-				var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_c.png', size, offset); 
+				var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_4.png', size, offset); 
 				     
 				var marker = new Tmap.Marker(lonlatC, icon);
 				markerLayer.addMarker(marker);
 				 
 				//popup 생성 C Maker Click시 이벤트 발생시에 보이기 안보이기 반복 		
-				var clickCheckC = 1;//Click 반복시 이벤트 분기를 위한 변수
+				var clickCheckC = 0;//Click 반복시 이벤트 분기를 위한 변수
 				var popupC;
 				marker.events.register("click", marker, onOverMarkerC);
 				
 				function onOverMarkerC(evt){
 					
-					if(clickCheckC===1){
+					if(clickCheckC===0){
 					item = ybArray3[3].item[0].title;
 					blogInfoC(item);					//블로그 정보를 가져오기 위한 키워드와 인덱스 호출
 					popupC = new Tmap.Popup("p1",
 											lonlatC,
-											new Tmap.Size(720, 362),
+					                        new Tmap.Size(720, 362),
 					                        '<div class="col-xl-9 col-xl-pull-3" id="overayDivC"></div>',
 					                        true
 					                        ); 
 					map.addPopup(popupC);
 					popupC.show();
-					} else {
-						popupC.hide();
+					clickCheckC=1;
+					}else{
+						popupC.show();
 					}
-					
-					clickCheckC = clickCheckC * (-1);
 				}//end function
 			}//end if
 		}
@@ -697,6 +707,28 @@
 			$('#route_desp').text('');
 			$('#route_desp').append("<p>"+ route_D  +"</p>");
 		});
+		
+		//20161024 김승훈
+		$('testRight').on('click', function(){
+			
+			map.destroy();
+			initTmap();
+			
+			
+		});
+		
+		$('testLeft').on('click', function(){
+			
+			map.destroy();
+			initTmap();
+			
+		});
+		
+		//
+		
+		
+		
+		
 		//
 	  	//유병훈 above_foot div태그 열었다 닫았다 하는 부분 & 클릭 부분 이미지 & 이미지 변경 처리
 		var za = 1;
@@ -766,6 +798,173 @@
  		initTmap();
  	});
     
+  //1024추가 김승훈
+ 	//선택된 마커
+ 	var markerSelectA = true;
+ 	var markerSelectB = false;
+ 	var markerSelectC = false;
+ 	var markerSelectD = false;
+ 	var markerSelectE = false;
+ 	
+ 	var a=0;
+ 	var b=0;
+ 	var c=0;
+ 	var d=0;
+ 	var e=0;
+ 	//a,b,c,d,e는 아이템 인덱스를 나타내는 변수이다.
+ 	//a,b,c,d,e는 전역변수로 선언되어야하며 search버튼 누를시에는 0으로 초기화 해야 한다. 
+ 	//왼쪽을 눌렀을때의 이벤트 함수
+ 	$('#left').on('click', function(){
+ 		
+ 		alert('left');
+ 		
+ 		if(markerSelectA == true){
+ 			if(a==0){
+ 				a=2;
+ 			}else if(a==1){
+ 				a=0;
+ 			}else if(a==2){
+ 				a=1;
+ 			}
+ 		}else if(markerSelectB == true){
+ 			if(b==0){
+ 				b=2;
+ 			}else if(b==1){
+ 				b=0;
+ 			}else if(b==2){
+ 				b=1;
+ 			}
+ 		}else if(markerSelectC == true){
+ 			if(c==0){
+ 				c=2;
+ 			}else if(c==1){
+ 				c=0;
+ 			}else if(c==2){
+ 				c=1;
+ 			}
+ 		}else if(markerSelectD == true){
+ 			if(d==0){
+ 				d=2;
+ 			}else if(d==1){
+ 				d=0;
+ 			}else if(d==2){
+ 				d=1;
+ 			}
+ 		}else if(markerSelectE == true){
+ 			if(e==0){
+ 				e=2;
+ 			}else if(e==1){
+ 				e=0;
+ 			}else if(e==2){
+ 				e=1;
+ 			}
+ 		}
+ 		var item = [];
+		$(".itemField").each(function(idx){
+	        var item0 = $(".itemField:eq(" + idx + ")").val();
+			item.push(encodeURI(item0));
+			
+	     });//each
+	     
+	     alert(a);
+	     alert(b);
+	      
+        $.ajax({
+        	method: "post"
+        	, url: "map/sendItem"
+        	, dataType: "json"
+        	, data: {"itemList":item}
+        	, success: function(response) {
+				var recommendedItem = response.recommendedItem;
+				$(recommendedItem).each(function(index, value) {
+					var jsonValue = JSON.parse(value);
+					//alert(JSON.stringify(jsonValue));
+					//alert(jsonValue.item[index].title);
+					ybArray2.push(jsonValue);//사용자가 입력한 키워드들이 담김
+				});
+			    yb_test(ybArray2, a, b, c, d, e);//크롤링 해서 추천하는 장소 위도, 경도 담는 function으로 이동
+			}
+        });//ajax
+ 	});
+ 	//오른쪽을 눌렀을때의 이벤트 함수
+	$('#right').on('click', function(){
+		
+		alert('right');
+		
+		if(markerSelectA == true){
+ 			if(a==0){
+ 				a=1;
+ 			}else if(a==1){
+ 				a=2;
+ 			}else if(a==2){
+ 				a=0;
+ 			}
+ 		}else if(markerSelectB == true){
+ 			if(b==0){
+ 				b=1;
+ 			}else if(b==1){
+ 				b=2;
+ 			}else if(b==2){
+ 				b=0;
+ 			}
+ 		}else if(markerSelectC == true){
+ 			if(c==0){
+ 				c=1;
+ 			}else if(c==1){
+ 				c=2;
+ 			}else if(c==2){
+ 				c=0;
+ 			}
+ 		}else if(markerSelectD == true){
+ 			if(d==0){
+ 				d=1;
+ 			}else if(d==1){
+ 				d=2;
+ 			}else if(d==2){
+ 				d=0;
+ 			}
+ 		}else if(markerSelectE == true){
+ 			if(e==0){
+ 				e=1;
+ 			}else if(e==1){
+ 				e=2;
+ 			}else if(e==2){
+ 				e=0;
+ 			}
+ 		}
+		
+		var item = [];
+		$(".itemField").each(function(idx){
+	        var item0 = $(".itemField:eq(" + idx + ")").val();
+			item.push(encodeURI(item0));
+			
+	     });//each
+	     
+	     alert(a);
+	     alert(b);
+	      
+        $.ajax({
+        	method: "post"
+        	, url: "map/sendItem"
+        	, dataType: "json"
+        	, data: {"itemList":item}
+        	, success: function(response) {
+				var recommendedItem = response.recommendedItem;
+				$(recommendedItem).each(function(index, value) {
+					var jsonValue = JSON.parse(value);
+					//alert(JSON.stringify(jsonValue));
+					//alert(jsonValue.item[index].title);
+					ybArray2.push(jsonValue);//사용자가 입력한 키워드들이 담김
+				});
+			    yb_test(ybArray2, a, b, c, d, e);//크롤링 해서 추천하는 장소 위도, 경도 담는 function으로 이동
+			}
+        });//ajax
+ 	});
+ 	
+ 	
+ 	
+	//1024추가 김승훈 end
+    
  	
 
 	});/* document.ready function end */
@@ -791,10 +990,11 @@
      		form.submit();
      	}/* login end - jhs  */
      	
+     	
+     	
 		
 		
 	</script>
-	<!-- 김승훈 edit end -->
 	
 </head>
 
@@ -963,6 +1163,11 @@
                         </span>
 						<!-- 지역(local) 검색 input tag -->
                         <input class="form-control" type="text" id="searchLocal" name="searchLocal" placeholder="지역을 검색해주세요">
+                        
+                        	<!--  김승훈테스트버튼 
+                        	<input type="button" id="left" value="left" >
+                        	<input type="button" id="right" value="right"> -->
+                        
                     </div>
                 </div>
             </div>
@@ -1124,7 +1329,7 @@
                     
                     <ul class="dropdown-menu" >
  						
-                        <li id="loginTag"><a class="dropdown-item trigger" href="#"><i class="fa fa-sign-out"></i> &nbsp; Log in</a></li>
+                        <li><a class="dropdown-item trigger" href="#"><i class="fa fa-sign-out"></i> &nbsp; Log in</a></li>
                         
                     </ul>
                     </s:if>
