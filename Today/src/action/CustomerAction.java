@@ -19,6 +19,7 @@ public class CustomerAction extends ActionSupport implements SessionAware{
 	ArrayList<Integer> list;
 	ArrayList<Customer> flist;
 	String content;
+	int loginFail;//인터셉터 걸렸을 때, jsp페이지에서 보이기 위한 key값
 	
 	Map<String, Object> session;
 	
@@ -33,9 +34,11 @@ public class CustomerAction extends ActionSupport implements SessionAware{
 		
 		//ID가 없거나 비밀번호가 다르면 로그인 실패
 		if (customer == null) {
+			loginFail = 1;//비로그인 상태일 때, key값 주기
 			return INPUT;
 		}
 		if (!password.equals(customer.getPassword())) {
+			
 			return INPUT;
 		}
 		
@@ -68,11 +71,6 @@ public class CustomerAction extends ActionSupport implements SessionAware{
 		return SUCCESS;
 	}
 	
-	
-	public String execute(){
-		System.out.println("테스트===============================================");
-		return SUCCESS;
-	}
 	
 /*	*//**
 	 * 친구목록
@@ -143,6 +141,14 @@ public class CustomerAction extends ActionSupport implements SessionAware{
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public int getLoginFail() {
+		return loginFail;
+	}
+
+	public void setLoginFail(int loginFail) {
+		this.loginFail = loginFail;
 	}
 	
 	

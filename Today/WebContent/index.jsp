@@ -41,7 +41,6 @@
 	initTmap();
 	$('#foot').css('display', 'none');//최초에 하단 바 안보이도록(유병훈)
 	$('#above_foot').css('display', 'none');
-	$('#loginTag')[0].click();
 		
 	//초기화 함수
 	function initTmap(lat, lng){
@@ -980,6 +979,7 @@
      		var form = document.getElementById('loginform');
      		var email = document.getElementById('email');
      		var password = document.getElementById('password');
+ 
      		
      		if (email.value == '') {
      			alert('ID를 입력하세요.');
@@ -1002,6 +1002,8 @@
 </head>
 
 <body>
+
+
 <!--
   Main sidebar seen on the left. may be static or collapsing depending on selected state.
 
@@ -1013,7 +1015,7 @@
     <div class="js-sidebar-content">
     
         <header class="logo hidden-xs">
-            <a href="index">sing</a>
+            <a href="page_make_gallery">sing</a>
         </header>
         
         <!-- seems like lots of recent admin template have this feature of user info in the sidebar.
@@ -1044,11 +1046,13 @@
         <ul class="sidebar-nav">
         
              <li class="active">
-				<a href="index">
+				<a href="index" data-no-pjax>
                     <span class="icon"><i class="glyphicon glyphicon-map-marker"></i></span>
                     Maps
                 </a>
-                <a href="page_moveTo_gallery">
+             </li>
+             <li>
+                <a href="page_moveTo_gallery" data-no-pjax>
                     <span class="icon"><i class="glyphicon glyphicon-inbox"></i></span>
                     My Card
                 </a>
@@ -1129,7 +1133,7 @@
                     </a>
                 </li>
 				<!-- 왼쪽 상단 리프레시 / 취소 -->
-                <li class="ml-sm mr-n-xs hidden-xs"><a href="index.jsp"><i class="fa fa-refresh fa-lg"></i></a></li>
+                <li class="ml-sm mr-n-xs hidden-xs"><a href="index"><i class="fa fa-refresh fa-lg"></i></a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right visible-xs">
                 <li>
@@ -1326,9 +1330,9 @@
                     </a>
                     <s:if test="#session.loginId == null">
                     
-                    <ul class="dropdown-menu">
- 
-                        <li><a id="loginTag" class="dropdown-item trigger" href="#"><i class="fa fa-sign-out"></i> &nbsp; Log in</a></li>
+                    <ul class="dropdown-menu" >
+ 						
+                        <li><a class="dropdown-item trigger" href="#"><i class="fa fa-sign-out"></i> &nbsp; Log in</a></li>
                         
                     </ul>
                     </s:if>
@@ -1506,7 +1510,7 @@
                         <h3>Login to your Sing App</h3>
                     </header>
                     <div class="widget-body">
-                        <form class="login-form mt-lg" id="loginform" action="login.action" method="post">
+                        <form class="login-form mt-lg" id="loginform" action="login" method="post">
                             <div class="form-group">
                                 <input type="text" class="form-control" id="email" name="email" placeholder="Username">
                             </div>
@@ -1535,6 +1539,13 @@
                 </section>
 	</div><!-- loginform end jhs -->
 
+<!-- 유병훈, 인터셉터 했을 때 StackValue에 int(key값) 넣어서 걸렸을 때 로그인창 출력  -->
+<s:if test="loginFail==1">
+	<script>
+		$('#popup_layer, #overlay_t').show(); 
+	</script>
+	
+</s:if>
 
 <!-- The Loader. Is shown when pjax happens -->
 <div class="loader-wrap hiding hide">
