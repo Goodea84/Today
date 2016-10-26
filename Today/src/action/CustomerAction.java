@@ -18,6 +18,7 @@ public class CustomerAction extends ActionSupport implements SessionAware{
 	String password;
 	ArrayList<Integer> list;
 	ArrayList<Customer> flist;
+	String content;
 	
 	Map<String, Object> session;
 	
@@ -134,6 +135,14 @@ public class CustomerAction extends ActionSupport implements SessionAware{
 
 	public void setFlist(ArrayList<Customer> flist) {
 		this.flist = flist;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
 	}
 	
 	
