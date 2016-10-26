@@ -92,7 +92,10 @@
 	var itemCount = 0;
 	/* 장민식 *//* 아이템 검색 데이터 호출*/
 	$('#searchRoad').click(function() {
+	ybArray.length = 0;
+    ybArray2.length = 0;
 	ybArray3.length = 0;
+	
 	var item = [];
 		$(".itemField").each(function(idx){
 	        var item0 = $(".itemField:eq(" + idx + ")").val();
@@ -276,8 +279,7 @@
 	    //경로 상세 정보 추출
 	    routeDetail(ybArray, length);
 	    
-		ybArray.length = 0;
-	    ybArray2.length = 0;
+		
 
 		}//searchRoute end
 		
@@ -673,7 +675,8 @@
 		//예; 경로1에서 경로2를 바로 클릭할 경우, div가 내려가버림.
 		//		그래서 경로 버튼에서 서로를 클릭할 때는 div안에 내용만 바뀌게 함.
 		//		완전히 끄려면 오른쪽 하단의 이미지를 클릭하여야 함.
-		$('#foot').on('click', '#pass_1', function(){
+		
+		/* $('#foot').on('click', '#pass_1', function(){
 			$('#above_foot').toggle(showOrHide);
 			if(showOrHide==true){$('#above_foot').show();}
 			else{$('#above_foot').hide();}
@@ -707,7 +710,7 @@
 			else{$('#above_foot').hide();}
 			$('#route_desp').text('');
 			$('#route_desp').append("<p>"+ route_D  +"</p>");
-		});
+		}); */
 		
 		//20161024 김승훈
 		$('testRight').on('click', function(){
@@ -1421,8 +1424,9 @@
     	<input type="button" value="화살표" id="slide"/>
     </div> -->
      <!-- 김승훈_edit -->
-	<div id="foot">
-      	<%-- <span>이동 시간</span><input type="text" id="totalTime">&nbsp;&nbsp;<span>이동 거리</span><input type="text" id="totalDistance">&nbsp; --%>
+	<%-- <div id="foot">
+      	<span>이동 시간</span><input type="text" id="totalTime">&nbsp;&nbsp;<span>이동 거리</span><input type="text" id="totalDistance">&nbsp;
+		
 		<span class="glyphicon glyphicon-resize-full" id="slide_extend"></span>
 		<!-- 장민식 --><!-- 경로 아이콘 --> 
 		<span id="pass_1">
@@ -1489,7 +1493,7 @@
                 </section>
 			</div>
 		</section>
-    </div>
+    </div> --%>
     <!-- 유병훈 end -->
     
 </div>

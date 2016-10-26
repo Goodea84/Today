@@ -53,6 +53,7 @@ public class MapControlAction extends ActionSupport implements SessionAware{
 				urlStr += "&sort=0"; //0정확도 / 1인기순 / 2거리순
 				urlStr += "&count=3";
 				
+				
 				System.setProperty("jsse.enableSNIExtension", "false") ;
 				URL url = new URL(urlStr);
 				InputStreamReader isr = new InputStreamReader(url.openConnection().getInputStream(), "utf-8");
@@ -65,11 +66,12 @@ public class MapControlAction extends ActionSupport implements SessionAware{
 				
 				for (int i = 0; i < bodyArray.size(); i++) {
 					JSONObject data = (JSONObject) bodyArray.get(i);
-					System.out.println("[" + count + "번 아이템] : " + data.get("title").toString());
+					System.out.print(" | [" + count + "-" + i + "번 아이템]:" + data.get("title").toString());
 					if (i == 0) {
 						tempLocation = "&location=" + data.get("latitude") + "," +data.get("longitude");
-					}
-				}
+					}//if end
+				}//for end
+				System.out.println();
 				count++;
 			} else {
 				
@@ -79,7 +81,7 @@ public class MapControlAction extends ActionSupport implements SessionAware{
 				urlStr += "&sort=0"; //0정확도 / 1인기순 / 2거리순
 				urlStr += "&count=3";
 				urlStr += tempLocation;
-				urlStr += "&radius=3000";
+				urlStr += "&radius=2000";
 				
 				System.setProperty("jsse.enableSNIExtension", "false") ;
 				URL url = new URL(urlStr);
@@ -93,11 +95,12 @@ public class MapControlAction extends ActionSupport implements SessionAware{
 				
 				for (int i = 0; i < bodyArray.size(); i++) {
 					JSONObject data = (JSONObject) bodyArray.get(i);
-					System.out.println("[" + count + "번 아이템] : " + data.get("title").toString());
+					System.out.print(" | [" + count + "-" + i + "번 아이템]:" + data.get("title").toString());
 					if (i == 0) {
 						tempLocation = "&location=" + data.get("latitude") + "," +data.get("longitude");
 					}//if end
 				}//for end
+				System.out.println();
 				count++;
 			}//else end
 		}//for end
@@ -110,8 +113,9 @@ public class MapControlAction extends ActionSupport implements SessionAware{
 		urlStr = "";
 		urlStr += "https://apis.daum.net/search/blog";
 		urlStr += "?apikey=d0224817161ef3c311a65c73ea03f837";
-		urlStr += "&q=" + blogItem;
+		urlStr += "&q=" + session.get("local") + "%20" + blogItem;
 		urlStr += "&output=json";
+		urlStr += "&sort=accu";
 		
 		System.setProperty("jsse.enableSNIExtension", "false") ;
 		URL url = new URL(urlStr);
@@ -133,8 +137,8 @@ public class MapControlAction extends ActionSupport implements SessionAware{
 			blogDescription.add(((String) val.get("title")).replace("&lt;b&gt;", "").replace("&lt;/b&gt;", ""));	//<b></b>테그 제거
 			blogURL.add((String) val.get("link"));
 			
-			System.out.println((String) val.get("author") + "   " + (String) val.get("pubDate") + "   " + ((String) val.get("title")).replace("&lt;b&gt;", "").replace("&lt;/b&gt;", ""));
-			System.out.println((String) val.get("link"));
+			//System.out.println((String) val.get("author") + "   " + (String) val.get("pubDate") + "   " + ((String) val.get("title")).replace("&lt;b&gt;", "").replace("&lt;/b&gt;", ""));
+			//System.out.println((String) val.get("link"));
 		}
 		// 블로그 정보 크롤링&파싱 end
 		
@@ -146,6 +150,7 @@ public class MapControlAction extends ActionSupport implements SessionAware{
 		urlStr += "?apikey=d0224817161ef3c311a65c73ea03f837";
 		urlStr += "&q=" + session.get("local") + "%20" + blogItem;
 		urlStr += "&output=json";
+		urlStr += "&result=3";
 		
 		System.setProperty("jsse.enableSNIExtension", "false") ;
 		url = new URL(urlStr);
@@ -156,16 +161,23 @@ public class MapControlAction extends ActionSupport implements SessionAware{
 		
 		ArrayList<String> blogThumbnail = new ArrayList<>();	//블로그 글 요약
 		
+		//System.out.println(item.toJSONString());
+		
 		for (int i = 0; i < item.size(); i++) {
 			JSONObject val = (JSONObject) item.get(i);
 			blogThumbnail.add((String) val.get("thumbnail"));
-			if (i == 2) {
-				break;
+		}
+		//System.out.println(blogThumbnail.size());
+
+		if (item.size() < 3) {
+			for (int i = 0; i <= 3 - item.size(); i++) {
+				blogThumbnail.add("image/noImage.png");
 			}
 		}
-		if (blogThumbnail.size() == 2) {
-			blogThumbnail.add("image/noImage.png");
-		}
+		
+		/*for (int i = 0; i < blogThumbnail.size(); i++) {
+			System.out.println(blogThumbnail.get(i));
+		}*/
 		
 		blogInfoReturn2 = "<div class='col-md-12'><section class='widget' id='overayInDiv'><header>"
 							+ "<h4>BLOG Search <span class='fw-semi-bold'>Result</span></h4></header>"
