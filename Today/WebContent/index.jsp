@@ -41,6 +41,7 @@
 	initTmap();
 	$('#foot').css('display', 'none');//최초에 하단 바 안보이도록(유병훈)
 	$('#above_foot').css('display', 'none');
+	$('#loginTag')[0].click();
 		
 	//초기화 함수
 	function initTmap(lat, lng){
@@ -1119,7 +1120,7 @@
                     
                     <ul class="dropdown-menu">
  
-                        <li><a class="dropdown-item trigger" href="#"><i class="fa fa-sign-out"></i> &nbsp; Log in</a></li>
+                        <li><a id="loginTag" class="dropdown-item trigger" href="#"><i class="fa fa-sign-out"></i> &nbsp; Log in</a></li>
                         
                     </ul>
                     </s:if>
@@ -1189,6 +1190,7 @@
     </div>
 </div>
 </s:if>
+
 
 <div class="content-wrap">
     <!-- main page content. the place to put widgets in. usually consists of .row > .col-md-* > .widget.  -->
