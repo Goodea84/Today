@@ -47,6 +47,13 @@
 			<result>/myCard.jsp</result>
 		</action>
 		
+		<!-- 카드이미지 클릭 시, 해당 카드의 타임라인 이동 -->
+		<action name="page_moveTo_timeline" class="action.CardAction" method="movetimeline">
+			<result>/time_line.jsp</result>
+		</action>
+		
+		
+		
     </package>
 	
 	<include file="today/actionxml/MapControlXML.xml"/>

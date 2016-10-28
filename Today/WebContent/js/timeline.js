@@ -1,5 +1,5 @@
 $(function(){
-    function initGmap(){
+    /*function initGmap(){
         var map = new GMaps({
             el: '#gmap',
             lat: -37.813179,
@@ -20,7 +20,7 @@ $(function(){
                 title: 'Here we are'
             });
         }, 3000);
-    }
+    }*/
 
     function pageLoad(){
         initGmap();

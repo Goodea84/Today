@@ -8,7 +8,8 @@
 		<typeAlias type="today.vo.Customer" alias="Customer" />
 		<typeAlias type="today.vo.FriendList" alias="FriendList" />
 		<typeAlias type="today.vo.Card" alias="Card" />
-		<typeAlias type="today.vo.CardList" alias="CardList" />		
+		<typeAlias type="today.vo.CardList" alias="CardList" />
+		<typeAlias type="today.vo.Item" alias="Item" />			
 		
 	</typeAliases>
 	
