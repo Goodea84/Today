@@ -9,7 +9,7 @@
 		<typeAlias type="today.vo.FriendList" alias="FriendList" />
 		<typeAlias type="today.vo.Card" alias="Card" />
 		<typeAlias type="today.vo.CardList" alias="CardList" />		
-		
+		<typeAlias type="today.vo.Image" alias="Image"/>
 	</typeAliases>
 	
 	<!-- DB접속 정보 셋팅 -->
@@ -28,7 +28,8 @@
 	<!-- SQL문 정의한 파일 포함 -->
 	<mappers>
 		<mapper resource="today/mapper/CustomerMapper.xml" />
-		<mapper resource="today/mapper/CardMapper.xml" />		
+		<mapper resource="today/mapper/CardMapper.xml" />	
+		<mapper resource="today/mapper/FileMapper.xml" />	
 	</mappers>
 	
 </configuration>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="FileMapper">
+
+	<insert id="insert" parameterType="Image">
+		INSERT INTO image VALUES(image_seq.nextval, #{cust_id}, #{item_id}, #{photo})
+	</insert>
+
+	<select id="printAll" resultType="Image">
+		SELECT * FROM image
+	</select>
+
+</mapper>

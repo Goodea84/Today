@@ -22,6 +22,8 @@
          https://code.google.com/p/chromium/issues/detail?id=332189
          */
     </script>
+   	<script src="script/jquery-3.1.0.min.js" type="text/javascript"></script> 
+	<script src="script/jquery-ui.min.js" type="text/javascript"></script> 
 </head>
 <body>
 <!--
