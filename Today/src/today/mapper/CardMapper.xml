@@ -6,7 +6,11 @@
 
 <!-- 카드생성 -->
 <insert id="insertcard" parameterType="Card">
-insert into card values(CARD_SEQ.nextval, #{loca_name}, #{item1}, #{item2}, #{item3}, #{item4}, #{item5}, sysdate, #{recommend})
+insert into card(card_id,loca_name,item1,item2<if test="item3 != 0">,item3</if><if test="item4 != 0">,item4</if><if test="item5 != 0">,item5</if>
+,card_date,recommend) 
+values(CARD_SEQ.nextval, #{loca_name}, #{item1}, #{item2} 
+<if test="item3 != 0">, #{item3}</if> <if test="item4 != 0">, #{item4} </if><if test="item5 != 0">, #{item5}</if>
+, sysdate, #{recommend})
 <selectKey keyProperty="card_id" resultType="int" order="AFTER">
 SELECT card_seq.currval FROM dual
 </selectKey>
@@ -26,5 +30,11 @@ select card_id from cardlist where cust_id=#{custid}
 <select id="cardlist" parameterType="int" resultType="Card">
 select * from card where card_id=#{cardid}
 </select>
+
+<!-- 카드리스트 만들기 위해 카드 객체 넘겨줌 -->
+<select id="selectItem" parameterType="int" resultType="Item">
+select * from item where item_id=#{itemid}
+</select>
+
 
 </mapper>

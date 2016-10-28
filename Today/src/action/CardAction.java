@@ -16,9 +16,11 @@ import today.dao.CustomerDAO;
 import today.vo.Card;
 import today.vo.CardList;
 import today.vo.Customer;
+import today.vo.Item;
 
 public class CardAction extends ActionSupport implements SessionAware{
 	
+	Map<String, Object> session;
 	private CardDAO dao = new CardDAO();
 	private CustomerDAO cust_dao = new CustomerDAO();
 	private Card card;
@@ -27,8 +29,10 @@ public class CardAction extends ActionSupport implements SessionAware{
 	private ArrayList<Integer> list;
 	private ArrayList<Customer> flist;
 	private ArrayList<Integer> cardidlist;
+	private ArrayList<Item> itemlist;
 	private ArrayList<Card> clist;
-	Map<String, Object> session;
+	private int card_id;
+	
 	
 	
 	public String movecard(){
@@ -68,10 +72,10 @@ public class CardAction extends ActionSupport implements SessionAware{
 		card = new Card();
 		card.setLoca_name("홍대");
 		card.setItem1(1);
-		card.setItem2(1);
-		card.setItem3(1);
-		card.setItem4(1);
-		card.setItem5(1);
+		card.setItem2(2);
+		card.setItem3(3);
+		card.setItem4(4);
+		card.setItem5(5);
 		card.setDate("1");
 		dao.insertcard(card);
 		
@@ -106,6 +110,52 @@ public class CardAction extends ActionSupport implements SessionAware{
 		return SUCCESS;
 	}
 	
+	
+	
+	/*
+	 * 타임라인 이동
+	 * 친구리스트, 카드에 대한 아이템 갯수 당 한 노드 표현해주기.
+	 **/
+	public String movetimeline(){
+		System.out.println("<ACTION> movetimeline");
+		//friendlist
+		customer = cust_dao.selectCustomer((String) session.get("loginId"));
+		list = cust_dao.friendList(customer.getCust_id());
+
+		flist = new ArrayList<>();
+		
+		for (int i = 0; i < list.size(); i++) {
+			fcustomer = cust_dao.selectCustomer2(list.get(i));
+			flist.add(fcustomer);
+		}
+
+		//카드 아이디 이용하여 전체 카드 객체 받아오기
+		card = dao.cardlist(card_id);
+
+		//카드객체의 아이템1-5 arraylist 담기
+		
+		itemlist = new ArrayList<>();
+		//item id 이용해서 item객체 받아오기.
+		if(card.getItem1()!=0){
+			itemlist.add(dao.selectItem(card.getItem1()));
+		}
+		if(card.getItem2()!=0){
+			itemlist.add(dao.selectItem(card.getItem2()));
+		}		
+		if(card.getItem3()!=0){
+			itemlist.add(dao.selectItem(card.getItem3()));
+		}		
+		if(card.getItem4()!=0){
+			itemlist.add(dao.selectItem(card.getItem4()));
+		}		
+		if(card.getItem5()!=0){
+			itemlist.add(dao.selectItem(card.getItem5()));
+		}
+		
+
+		
+		return SUCCESS;
+	}
 	
 	
 	@Override
@@ -180,6 +230,23 @@ public class CardAction extends ActionSupport implements SessionAware{
 	public void setClist(ArrayList<Card> clist) {
 		this.clist = clist;
 	}
+
+	public int getCard_id() {
+		return card_id;
+	}
+
+	public void setCard_id(int card_id) {
+		this.card_id = card_id;
+	}
+
+	public ArrayList<Item> getItemlist() {
+		return itemlist;
+	}
+
+	public void setItemlist(ArrayList<Item> itemlist) {
+		this.itemlist = itemlist;
+	}
+	
 	
 	
 }

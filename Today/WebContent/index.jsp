@@ -28,6 +28,9 @@
 	<script src="script/jquery-3.1.0.min.js" type="text/javascript"></script> 
 	<script src="script/jquery-ui.min.js" type="text/javascript"></script> 
     
+	<!-- 다음 로드뷰 API 추가 -->
+    <script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=d0224817161ef3c311a65c73ea03f837"></script>
+    
 	<!-- TMap API 스크립트 추가 -->
 	<script src="https://apis.skplanetx.com/tmap/js?version=1&format=javascript&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f"></script>
 	
@@ -84,14 +87,20 @@
 		}
 	};//initMap
 	
-	
-	
 	var ybArray2 = [];//민식이 형이 input text로 받은 아이템들 담는 배열
 	var ybArray3 = [];//블로그 정보를 보내기 위한 변수
 	var itemCount = 0;
+	var itemRecommendCount = 0;
+	
 	/* 장민식 *//* 아이템 검색 데이터 호출*/
 	$('#searchRoad').click(function() {
+	ybArray.length = 0;
+    ybArray2.length = 0;
 	ybArray3.length = 0;
+	itemRecommendCount = 0;
+	spotNum = 0;
+	$('#above_foot').css('display', 'none');
+	
 	var item = [];
 		$(".itemField").each(function(idx){
 	        var item0 = $(".itemField:eq(" + idx + ")").val();
@@ -173,6 +182,7 @@
 		$('#pass_2').css('display', 'none');
 		$('#pass_3').css('display', 'none');
 		$('#pass_4').css('display', 'none');
+		$('#pass_5').css('display', 'none');
 		/* 최초 경로 버튼 감추기 */
 
 		var length = ybArray.length;
@@ -182,14 +192,21 @@
 		var endY = ybArray[length-1].lat;
 		
 		$('#foot').css('display', '');//유병훈 하단 BAR 보이게
+		
+		//장민식 하단 아이템 노드를 순서대로/갯수에 따른 포지션/갯수에 따른 색상 css 변경
 		$.each(ybArray, function(index, val){
 		/* 경로 버튼 해당 하는 만큼 보이기 */
-			if(index!=0){
-				$('#pass_'+index).css('display', '');
-			}//if
+			$('#pass_'+(index+1)).css('display', '');
+			if (index == 0) {
+				$('#pass_1').addClass('pass_1');
+			} else {
+				$('#pass_' +(index+1)).addClass('pass_'+(index+1));
+				$('#pass_' +(index+1)).css('background-color', '#919191');
+				$('#pass_' +(index+1)).css('border-color', '#b5b5b5');
+			} 
 		});//each
-	    
-		  
+		$('#pass_' + ybArray.length).css('background-color', '#dd5826');
+		$('#pass_' + ybArray.length).css('border-color', '#e27045');
 		  
 		 var routeFormat = new Tmap.Format.KML({extractStyles:true, extractAttributes:true});
 
@@ -255,8 +272,8 @@
 		    $.getJSON(urlStr, function(data){
 			   	$.each(data, function(key, value){
 		   			if(key==="features"){
-		   				$('#totalTime').val(Math.round(value[0].properties.totalTime/60) + "분");
-		   				$('#totalDistance').val(value[0].properties.totalDistance + "M");
+		   				$('#totalTime').text(Math.round(value[0].properties.totalTime/60) + " minute");
+		   				$('#totalDistance').text(value[0].properties.totalDistance + " meter");
 
 		   				/* //경로 디테일 안내 정보
 		   				alert(value.length);
@@ -275,8 +292,7 @@
 	    //경로 상세 정보 추출
 	    routeDetail(ybArray, length);
 	    
-		ybArray.length = 0;
-	    ybArray2.length = 0;
+		
 
 		}//searchRoute end
 		
@@ -289,6 +305,7 @@
 			
 		/* 장민식 *//* Locale(지역)검색 function */
 		$("#searchLocal").on("keypress", function() {
+			$('#above_foot').css('display', 'none');
 			if ( event.which == 13 ) {
 				var local0 = $("#searchLocal").val();
 				var local = encodeURI(local0);
@@ -672,40 +689,52 @@
 		//예; 경로1에서 경로2를 바로 클릭할 경우, div가 내려가버림.
 		//		그래서 경로 버튼에서 서로를 클릭할 때는 div안에 내용만 바뀌게 함.
 		//		완전히 끄려면 오른쪽 하단의 이미지를 클릭하여야 함.
-		$('#foot').on('click', '#pass_1', function(){
+		
+		$('#foot').on('click', '#pass_'+1, function(){
 			$('#above_foot').toggle(showOrHide);
-			if(showOrHide==true){$('#above_foot').show();}
-			else{$('#above_foot').hide();}
-			$('#route_desp').text('');
-			$('#route_desp').append("<p>"+ route_A  +"</p>");
+			if(showOrHide==true){
+				$('#above_foot').show();
+				//alert(JSON.stringify(ybArray2[0].item[0].longitude)  + "     " +  JSON.stringify(ybArray2[0].item[0].latitude));
+				spotNum = 0;
+				loadRoadView(ybArray2[0].item[0].id, ybArray2[0].item[0].latitude, ybArray2[0].item[0].longitude);
+				loadRoadDetail(0);
+			} else {$('#above_foot').hide();}
 		});
 		$('#foot').on('click', '#pass_2', function(){
 			$('#above_foot').toggle(showOrHide);
-			if(showOrHide==true){$('#above_foot').show();}
-			else{$('#above_foot').hide();}
-			$('#route_desp').text('');
-			$('#route_desp').append("<p>"+ route_B  +"</p>");
+			if(showOrHide==true){
+				$('#above_foot').show();
+				spotNum = 1;
+				loadRoadView(ybArray2[1].item[0].id, ybArray2[1].item[0].latitude, ybArray2[1].item[0].longitude);
+				loadRoadDetail(1);
+				} else {$('#above_foot').hide();}
 		});
 		$('#foot').on('click', '#pass_3', function(){
 			$('#above_foot').toggle(showOrHide);
-			if(showOrHide==true){$('#above_foot').show();}
-			else{$('#above_foot').hide();}
-			$('#route_desp').text('');
-			$('#route_desp').append("<p>"+ route_C  +"</p>");
+			if(showOrHide==true){
+				$('#above_foot').show();
+				spotNum = 2;
+				loadRoadView(ybArray2[2].item[0].id, ybArray2[2].item[0].latitude, ybArray2[2].item[0].longitude);
+				loadRoadDetail(2);
+			} else {$('#above_foot').hide();}
 		});
 		$('#foot').on('click', '#pass_4', function(){
 			$('#above_foot').toggle(showOrHide);
-			if(showOrHide==true){$('#above_foot').show();}
-			else{$('#above_foot').hide();}
-			$('#route_desp').text('');
-			$('#route_desp').append("<p>"+ route_D  +"</p>");
+			if(showOrHide==true){
+				$('#above_foot').show();
+				spotNum = 3;
+				loadRoadView(ybArray2[3].item[0].id, ybArray2[3].item[0].latitude, ybArray2[3].item[0].longitude);
+				loadRoadDetail(3);
+			} else {$('#above_foot').hide();}
 		});
 		$('#foot').on('click', '#pass_5', function(){
 			$('#above_foot').toggle(showOrHide);
-			if(showOrHide==true){$('#above_foot').show();}
-			else{$('#above_foot').hide();}
-			$('#route_desp').text('');
-			$('#route_desp').append("<p>"+ route_D  +"</p>");
+			if(showOrHide==true){
+				$('#above_foot').show();
+				spotNum = 4;
+				loadRoadView(ybArray2[4].item[0].id, ybArray2[4].item[0].latitude, ybArray2[4].item[0].longitude);
+				loadRoadDetail(4);
+			} else {$('#above_foot').hide();}
 		});
 		
 		//20161024 김승훈
@@ -724,13 +753,7 @@
 			
 		});
 		
-		//
-		
-		
-		
-		
-		//
-	  	//유병훈 above_foot div태그 열었다 닫았다 하는 부분 & 클릭 부분 이미지 & 이미지 변경 처리
+	  	/* //유병훈 above_foot div태그 열었다 닫았다 하는 부분 & 클릭 부분 이미지 & 이미지 변경 처리
 		var za = 1;
 		$('#slide_extend').on('click', function(){
 			if(za===1){
@@ -743,7 +766,7 @@
 				za = 1;
 			}
 			$('#above_foot').toggle();
-		});//slide
+		});//slide */
 		
 		
 		/* 장민식 *//* 아이템 검색 필드 (추가) */
@@ -859,6 +882,8 @@
  				e=1;
  			}
  		}
+ 		
+ 		
  		var item = [];
 		$(".itemField").each(function(idx){
 	        var item0 = $(".itemField:eq(" + idx + ")").val();
@@ -960,11 +985,64 @@
 			}
         });//ajax
  	});
- 	
- 	
- 	
 	//1024추가 김승훈 end
-    
+	
+	/* 장민식 */ /* 로드뷰 추가 펑션 */
+	function loadRoadView(id, x, y) {
+		var roadviewContainer = document.getElementById('SpotInfo01'); //로드뷰를 표시할 div
+		var roadview = new daum.maps.Roadview(roadviewContainer); //로드뷰 객체
+		var roadviewClient = new daum.maps.RoadviewClient(); //좌표로부터 로드뷰 파노ID를 가져올 로드뷰 helper객체
+
+		var position = new daum.maps.LatLng(x, y);
+		var panoId = id;
+
+		// 특정 위치의 좌표와 가까운 로드뷰의 panoId를 추출하여 로드뷰를 띄운다.
+		roadviewClient.getNearestPanoId(position, 50, function(panoId) {
+		    roadview.setPanoId(panoId, position); //panoId와 중심좌표를 통해 로드뷰 실행
+		});
+	}
+	
+	/* 장민식 */ /* 점포 정보 호출 펑션 */
+	function loadRoadDetail(num) {
+		$('#detailFieldTitle').text(ybArray2[num].item[itemRecommendCount].title);
+		$('#detailFieldCategory').text(ybArray2[num].item[itemRecommendCount].category);
+		$('#detailFieldAddress').text(ybArray2[num].item[itemRecommendCount].address);
+		var imageUrl = ybArray2[num].item[itemRecommendCount].imageUrl;
+		if (imageUrl !== "") {
+			$('#detailFieldImage').attr('src', ybArray2[num].item[itemRecommendCount].imageUrl);
+		} else {
+			$('#detailFieldImage').attr('src', 'image/noImageLg.jpg');
+		}
+		$('#detailFieldPhone').text(ybArray2[num].item[itemRecommendCount].phone);
+		$('#detailFieldMoreInfo').attr('href', ybArray2[num].item[itemRecommendCount].placeUrl);
+	}
+	
+	//다른 추천 버튼
+	$('#recommendBtnLeft').click(function() {
+		if (itemRecommendCount === 0) {
+			itemRecommendCount = 3;
+		}
+		--itemRecommendCount;	//카운트 차감
+		//점포 세부정보 다시 호출
+		loadRoadDetail(spotNum);
+		//로드뷰 정보 다시호출
+		loadRoadView(ybArray2[spotNum].item[itemRecommendCount].id
+				, ybArray2[spotNum].item[itemRecommendCount].latitude
+				, ybArray2[spotNum].item[itemRecommendCount].longitude);
+	});
+	
+	$('#recommendBtnRight').click(function() {
+		if (itemRecommendCount === 2) {
+			itemRecommendCount = -1;
+		}
+		++itemRecommendCount;	//카운트 증감
+		//점포 세부정보 다시 호출
+		loadRoadDetail(spotNum);
+		//로드뷰 정보 다시호출
+		loadRoadView(ybArray2[spotNum].item[itemRecommendCount].id
+				, ybArray2[spotNum].item[itemRecommendCount].latitude
+				, ybArray2[spotNum].item[itemRecommendCount].longitude);
+	});
  	
 
 	});/* document.ready function end */
@@ -989,11 +1067,6 @@
      		
      		form.submit();
      	}/* login end - jhs  */
-     	
-     	
-     	
-		
-		
 	</script>
 	
 </head>
@@ -1425,76 +1498,99 @@
     	<input type="button" value="화살표" id="slide"/>
     </div> -->
      <!-- 김승훈_edit -->
-	<div id="foot">
-      	<%-- <span>이동 시간</span><input type="text" id="totalTime">&nbsp;&nbsp;<span>이동 거리</span><input type="text" id="totalDistance">&nbsp; --%>
-		<span class="glyphicon glyphicon-resize-full" id="slide_extend"></span>
+	<div id="foot" style="display: none">
 		<!-- 장민식 --><!-- 경로 아이콘 --> 
-		<span id="pass_1">
+		<span id="pass_1" style="display: none">
 			<i class="glyphicon glyphicon-map-marker"></i>
 		</span>
-		<span id="pass_2">
+		<span id="pass_2" style="display: none">
 			<i class="glyphicon glyphicon-map-marker"></i>
 		</span>
-		<span id="pass_3">
+		<span id="pass_3" style="display: none">
 			<i class="glyphicon glyphicon-map-marker"></i>
 		</span>
-		<span id="pass_4">
+		<span id="pass_4" style="display: none">
 			<i class="glyphicon glyphicon-map-marker"></i>
 		</span>
-		<span id="pass_5">
+		<span id="pass_5" style="display: none">
 			<i class="glyphicon glyphicon-map-marker"></i>
 		</span>
-      	
+		
+		<%-- <span id="footExpend">
+			<i class="fa fa-reorder fa-lg"></i>
+		</span> --%>
+		
+		<!-- 토탈 시간, 토탈거리 -->
+		<p class='no-margin' id="totalTimeField">
+			<small><span class='fw-semi-bold'>Total Time : </span>
+			<span class='text-semi-muted' id="totalTime"></span></small>
+		</p>
+		<p class='no-margin'>
+			<small><span class='fw-semi-bold'>Total Distance : </span>
+			<span class='text-semi-muted' id="totalDistance"></span></small>
+		</p>
     </div>
     <!-- 김승훈 edit end -->
+    
     <!-- 유병훈  세부경로가 입력되는 div태그	-->
-    <div id="above_foot">
+    <div id="above_foot" style="display: none">
+    	<!-- 장민식 --> <!-- 로드뷰와 점포 정보를 나타내는 구역 -->
 		<section class="widget" id="default-widget">
 			<header>
-			    <h5>search<span class="fw-semi-bold" id="blogSearchTitle"></span></h5>
+			    <span class="fw-semi-bold" id="blogSearchTitle"> &nbsp;&nbsp;Check Your RoadView</span>
 			    <div class="widget-controls">
-			        <a data-widgster="load" title="Reload" href="#"><i class="fa fa-refresh"></i></a>
-			        <a data-widgster="expand" title="Expand" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a>
-			        <a data-widgster="collapse" title="Collapse" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a>
-			        <a data-widgster="fullscreen" title="Full Screen" href="#"><i class="glyphicon glyphicon-fullscreen"></i></a>
-			        <a data-widgster="restore" title="Restore" href="#"><i class="glyphicon glyphicon-resize-small"></i></a>
+			        <a data-widgster="remove" title="remove" onclick="closeAboveFoot();"><i class="glyphicon glyphicon-remove"></i></a>
 			    </div>
 			</header>
-			<div class="widget-body" id="contentsField">
-			    <section class="search-result-item">
-                    <a class="image-link" href="#">
-                        <img class="image" src="demo/img/pictures/1.jpg">
-                    </a>
-                    <div class="search-result-item-body">
-                        <div class="row">
-                            <div class="col-sm-9">
-                                <h4 class="search-result-item-heading">
-                                    <a href="#">Next generation admin template</a>
-                                </h4>
-                                <p class="info">
-                                    New York, NY 20188
-                                </p>
-                                <p class="description">
-                                    Not just usual Metro. But something bigger. Not just usual widgets, but real
-                                    widgets. Not just yet another admin template, but next generation admin template.
-                                </p>
-                            </div>
-                            <div class="col-sm-3 text-align-center">
-                                <p class="value3 mt-sm">
-                                    $9, 700
-                                </p>
-                                <p class="fs-mini text-muted">
-                                    PER WEEK
-                                </p>
-                                <a class="btn btn-primary btn-info btn-sm" href="#">Learn More</a>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-			</div>
+					<div class="widget-body" id="contentsField">
+						<span id="SpotInfo01"></span>	<!-- 로드뷰 span -->
+						<span id="SpotInfo02">			<!-- 점포 정보 span -->
+						    <section class="search-result-item">
+			                    <a class="image-link" href="#">
+			                        <img class="image" id="detailFieldImage" src="image/noImageLg.jpg" height="150px" width="200px">
+			                    </a>
+			                    <div class="search-result-item-body">
+			                        <div class="row">
+			                            <div class="col-sm-9">
+			                                <h4 class="search-result-item-heading" id="detailFieldTitle"></h4>
+			                                <small><p class="fw-semi-bold" id="detailFieldCategory"></p></small>
+			                                <br>
+			                                <small><span class='fw-semi-bold' style="color:#e27045;">Address &nbsp;</span>
+			                                <span class='fw-semi-bold' id="detailFieldAddress"></span></small><br>
+			                                <small><span class='fw-semi-bold' style="color:#e27045;">Tel &nbsp;</span>
+			                                <span class='fw-semi-bold' id="detailFieldPhone"></span></small>
+			                                
+			                            </div>
+			                            <div class="col-lg-4"  id="detailFieldBtnSet">
+			                                <p class="value3 mt-sm"> </p><p class="value3 mt-sm"> </p>
+				                            <button class="btn btn-inverse width-50 btn-sm" role="button" id="recommendBtnLeft">
+				                            <i class="fa fa-arrow-left text-warning"></i></button>
+				                            
+				                            <button class="btn btn-inverse width-50 btn-sm" role="button" id="recommendBtnRight">
+				                            <i class="fa fa-arrow-right text-warning"></i></button>
+				                            
+			                                <p class="value3 mt-sm"> </p>
+			                                <a class="btn btn-primary btn-info btn-sm" id="detailFieldMoreInfo" href="" target='_blank' >&nbsp; Get More Info&nbsp;</a>
+			                            </div>
+			                        </div>
+			                    </div>
+								<p>
+									<button type="button" id="makeCardBtn" class="btn btn-warning btn-block">Make Your Cards &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-inbox"></i></button>
+								</p>
+			                </section>
+						</span>
+					</div>
 		</section>
     </div>
     <!-- 유병훈 end -->
+    
+	<!-- 장민식  above_foot open_close -->
+    <script type="text/javascript">
+		function closeAboveFoot() {
+			$("#above_foot").css('display', 'none');
+		}
+    </script>
+    
     
 </div>
 

@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 
 import today.vo.Card;
 import today.vo.CardList;
+import today.vo.Item;
 
 public class CardDAO {
 	private SqlSessionFactory factory = MybatisConfig.getSqlSessionFactory();
@@ -64,7 +65,7 @@ public class CardDAO {
 	
 	/**
 	 * 카드리스트생성
-	 * @param custid, cardid
+	 * @param cardlist
 	 */
 	public void insertcardlist(CardList cardlist) {
 		
@@ -110,6 +111,30 @@ public class CardDAO {
 		return result;
 	}
 	
-
+	/**
+	 * 아이템 검색
+	 * @param itemid : 아이템 아이디
+	 * @return result : 검색한 아이템 객체
+	 */
+	public Item selectItem(int itemid) {
+		
+		System.out.println("<DAO> selectItem");
+		Item  result = null;
+		SqlSession ss = null;
+		
+		try {
+			ss = factory.openSession();
+			result = ss.selectOne("CardMapper.selectItem",itemid);
+			ss.commit();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			if (ss != null) ss.close();
+		}
+		
+		return result;
+	}
 	
 }

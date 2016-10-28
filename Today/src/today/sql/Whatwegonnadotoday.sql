@@ -225,6 +225,9 @@ CREATE SEQUENCE ITEM_SEQ;
 CREATE SEQUENCE IMAGE_SEQ;
 CREATE SEQUENCE REPLY_SEQ;
 
+select * from CUSTOMER;
+select * from CardList;
+select * from CARD;
 
 --INCERT CUSTOMER
 insert into CUSTOMER values(cust_seq.nextval,'aaa@aaa.aaa','jhs','aaa','서울시','01011111111','friendimg/one.jpg');
@@ -233,14 +236,14 @@ insert into CUSTOMER values(cust_seq.nextval,'ccc@ccc.ccc','ccc','ccc','경기�
 insert into CUSTOMER values(cust_seq.nextval,'ddd@ddd.ddd','ddd','ddd','경기도','01044444444','friendimg/four.jpg');
 insert into CUSTOMER values(cust_seq.nextval,'eee@eee.eee','eee','eee','경기도','01055555555','friendimg/five.jpg');
 
-insert into FriendList values(friend_seq.nextval,1,2);
-insert into FriendList values(friend_seq.nextval,2,1);
-insert into FriendList values(friend_seq.nextval,1,3);
-insert into FriendList values(friend_seq.nextval,3,1);
-insert into FriendList values(friend_seq.nextval,1,4);
-insert into FriendList values(friend_seq.nextval,4,1);
-insert into FriendList values(friend_seq.nextval,1,5);
-insert into FriendList values(friend_seq.nextval,5,1);
+insert into FriendList values(friend_seq.nextval,2,3);
+insert into FriendList values(friend_seq.nextval,3,2);
+insert into FriendList values(friend_seq.nextval,2,4);
+insert into FriendList values(friend_seq.nextval,4,2);
+insert into FriendList values(friend_seq.nextval,2,5);
+insert into FriendList values(friend_seq.nextval,5,2);
+insert into FriendList values(friend_seq.nextval,2,6);
+insert into FriendList values(friend_seq.nextval,6,2);
 
 insert into ITEM values(item_seq.nextval,'일겹살',1.0,1.0,'www.naver.com','010222','image.jpg');
 insert into ITEM values(item_seq.nextval,'이겹살',2.0,2.0,'www.naver.com','010222','image.jpg');

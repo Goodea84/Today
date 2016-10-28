@@ -4385,7 +4385,7 @@ a.badge:hover, a.badge:focus {
   -webkit-transition: border 0.2s ease-in-out;
   -o-transition: border 0.2s ease-in-out;
   transition: border 0.2s ease-in-out; }
-  .thumbnail > img,
+   .thumbnail > img,
   .thumbnail a > img {
     display: block;
     max-width: 100%;
