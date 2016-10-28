@@ -52,7 +52,10 @@
 			<result>/time_line.jsp</result>
 		</action>
 		
-		
+		<!-- 카드만들기, 페이지 이동 -->
+		<action name="cardAdd" class="action.CardAction" method="cardAdd">
+			<result type="json"></result>
+		</action>
 		
     </package>
 	
