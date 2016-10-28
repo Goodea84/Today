@@ -171,7 +171,35 @@ Copyright (c) 2015 Daniel Eden
 	#overayInDiv{
 		margin-bottom: 0px;
 	}
+	/* 오버레이 CSS end */
+	
+	/* 장민식 */ /* 하단 Foot 내부 CSS */ 
+	#totalTimeField{
+		margin-top: 7px;
+	}
+	
+	#footExpend{
+		position:absolute; left:98%; cursor:pointer;
+		padding-top: 16px;
+	}
+	
+	#SpotInfo01{	/* 로드뷰 섹션 */
+		position:absolute; left:1.5%; width: 58%; height: 225px;
+	}
 
+	#SpotInfo02{	/* 점포 정보 섹션 */
+		position:absolute; left:60%; width: 38.5%; height: 225px;
+	}
+	
+	#makeCardBtn{
+		position:absolute; top: 80%; left: 2%;
+	}
+	
+	#detailFieldBtnSet{
+		position:absolute; top: 16%; left: 77%;
+	}
+	
+	
 	
 	
 	/* .timeline .event-icon.event-icon-warning{background-color:#f0b518;border-color:#f2c03a}
