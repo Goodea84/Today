@@ -16,12 +16,48 @@
     <meta name="author" content="">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <script>
-        /* yeah we need this empty stylesheet here. It's cool chrome & chromium fix
-         chrome fix https://code.google.com/p/chromium/issues/detail?id=167083
-         https://code.google.com/p/chromium/issues/detail?id=332189
-         */
-    </script>
+    
+    <script src="script/jquery-3.1.0.min.js" type="text/javascript"></script> 
+	<script src="script/jquery-ui.min.js" type="text/javascript"></script>
+	<script>
+	
+		$(document).ready(function() {
+			
+			
+			var card_id;
+	
+			$('#Shares').click(function() {
+				$('#popup_layer, #overlay_t').show();
+				card_id = $('.card_id').val();
+				//$('#popup_layer').css("top", Math.max(0, $(window).scrollTop() + 100) + "px"); 
+				// $('#popup_layer').css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + $(window).scrollTop()) + "px"); 
+			});
+			$('#overlay_t, .close').click(function(e) {
+				e.preventDefault();
+				$('#popup_layer, #overlay_t').hide();
+			});
+			
+			$('#sendCard').click(function(){
+				
+		        $("input:checkbox[name='friend_check']:checked").each(function(index, item){
+		        	//customer_id 확인
+		        	alert(item.value);
+		        	$.ajax({
+		        	method: "post"
+		        	, url: "cardAdd"
+		        	, dataType: "json"
+		        	, data: {"card.card_id":card_id, "customer.cust_id":item.value}
+		        	, success: function(response) {
+						alert("success");
+					}
+		        });
+		        });
+		        	
+		       // }
+			});
+	
+		});
+	</script>
    	<script src="script/jquery-3.1.0.min.js" type="text/javascript"></script> 
 	<script src="script/jquery-ui.min.js" type="text/javascript"></script> 
 </head>
@@ -363,60 +399,10 @@
 <div class="content-wrap">
     <!-- main page content. the place to put widgets in. usually consists of .row > .col-md-* > .widget.  -->
     <main id="content" class="content" role="main">
-        <h1 class="page-title">User - <span class="fw-semi-bold">Profile</span></h1>
-<!-- 프로필 : 전혜선 (수정할 수 있음)-->        
-            <div class="row" >
-            <div class="col-md-6">
-                <section class="widget">
-                    <div class="widget-body">
-                        <div class="widget-top-overflow text-white">
-                            <div class="height-250 overflow-hidden">
-                                <img class="img-responsive" src="demo/img/pictures/19.jpg">
-                            </div>
-                            <div class="btn-toolbar">
-                                <a href="#" class="btn btn-outline btn-sm pull-right">
-                                    <i class="fa fa-twitter mr-xs"></i>
-                                    Follow
-                                </a>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-5 text-center">
-                                <div class="post-user post-user-profile">
-                                    <span class="thumb-xlg">
-                                        <img class="img-circle" src="demo/img/people/a5.jpg" alt="...">
-                                    </span>
-                                    <h4 class="fw-normal">Adam <span class="fw-semi-bold">Johns</span></h4>
-                                    <p>UI/UX designer</p>
-
-                                </div>
-                            </div>
-                            <div class="col-sm-7">
-                                <div class="stats-row stats-row-profile mt text-right">
-                                    <div class="stat-item">
-                                        <p class="value">251</p>
-                                        <h5 class="name">Posts</h5>
-                                    </div>
-                                    <div class="stat-item">
-                                        <p class="value">9.38%</p>
-                                        <h5 class="name">Conversion</h5>
-                                    </div>
-                                    <div class="stat-item">
-                                        <p class="value">842</p>
-                                        <h5 class="name">Followers</h5>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    
-                </section>
-            
-            
-            </div>
-        </div><!-- 프로필 : 전혜선 (수정할 수 있음) end-->
-          
+        <ol class="breadcrumb">
+            <li>YOU ARE HERE</li>
+            <li class="active">Gallery</li>
+        </ol>
         <h1 class="page-title">Media - <span class="fw-semi-bold">Images</span></h1>
         <div class="clearfix mb-lg">
             <div class="btn-group m-b-20 js-filter-options">
@@ -438,27 +424,64 @@
         <s:iterator value="clist"> 
             <div class="col-sm-6 col-md-3 gallery-item" data-groups='["nature"]' data-title="Mountains"><!--분류,이름(아마 순서정렬)  -->
                 <div class="thumbnail">
-                <div id="aaa">
-                    <a  href="page_moveTo_timeline?card_id=<s:property value='card_id' />" ><img src="demo/img/pictures/1.jpg" alt="..."></a><!-- 클릭하면나오는이미지,이미지 -->
-                    
+                    <a href="../demo/img/pictures/13.jpg"><img src="demo/img/pictures/1.jpg" alt="..."></a><!-- 클릭하면나오는이미지,이미지 -->
                     <div class="caption">
                         <h5 class="mt-0 mb-xs"><s:property value="loca_name" /></h5><!-- 이름 -->
+                        <input type="hidden" class="card_id" value="<s:property value="card_id" />"> 
                         <ul class="post-links">
                             <li><a href="#"><s:property value="date" /></a></li><!-- 날짜 -->
                             <li><a href="#"><span class="text-danger"><i class="fa fa-heart-o"></i> Like</span></a></li> <!-- 옆에 추천수도 입력 -->
                             <li><a href="#">Details</a></li> <!-- 코스명보여줄까 없앨까 -->
+                            <li><a href="#" id="Shares">Shares</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
-            </div>
             </s:iterator>
 
             <div class="col-sm-6 col-md-3 js-shuffle-sizer"></div>
-        </div> <!-- 카드 끝 : 전혜선 -->
+        </div>
     </main>
 </div>
-<!-- The Loader. Is shown when pjax happens -->
+	<div id="overlay_t"></div>
+	<div id="popup_layer">
+		<section class="widget widget-login animated fadeInUp test">
+			<header>
+				<h3>My Friends List</h3>
+			</header>
+			<div class="widget-body">
+				<h5 class="sidebar-nav-title">FriendList</h5>
+
+				<div class="list-group chat-sidebar-user-group">
+					<s:iterator value="flist">
+
+						<div class="list-group-item">
+							<!-- <a href="#"><i id="eee"	class="glyphicon glyphicon-envelope pull-right"></i></a> --> 
+							<a href="#"><i class="glyphicon glyphicon-info-sign pull-right"></i></a>
+							<!-- <i class="fa fa-circle text-success pull-right"></i> -->
+							<!-- <i class="fa fa-circle text-success pull-right"></i> -->
+							<span class="thumb-sm pull-left mr"> 
+							<img id="friendimg" class="img-circle" src="<s:property value='cust_image' />"alt="..."> <!-- 사진 -->
+							</span>
+							<h5 class="message-sender">
+								<s:property value="name" />
+							</h5>
+							<input type="checkbox" name="friend_check" class="friend_check" value="<s:property value='cust_id' />">
+							<!-- 이름 -->
+							<!--  <p class="message-preview">Hey! What's up? So many times since we</p>  -->
+							<!--  프리뷰 -->
+						</div>
+					</s:iterator>
+					<input type="button" value="공유" id="sendCard">
+
+				</div>
+			</div>
+		</section>
+	</div>
+	<!-- loginform end jhs -->
+
+
+	<!-- The Loader. Is shown when pjax happens -->
 <div class="loader-wrap hiding hide">
     <i class="fa fa-circle-o-notch fa-spin-fast"></i>
 </div>

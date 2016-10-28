@@ -157,6 +157,17 @@ public class CardAction extends ActionSupport implements SessionAware{
 		return SUCCESS;
 	}
 	
+	public String cardAdd() throws Exception{
+		
+		System.out.println(customer.getCust_id());
+		System.out.println(card.getCard_id());
+		
+		CardList sendcard = new CardList(0, customer.getCust_id(), card.getCard_id());
+		dao.insertcardlist(sendcard);
+		
+		return SUCCESS;
+	}
+	
 	
 	@Override
 	public void setSession(Map<String, Object> session) {
