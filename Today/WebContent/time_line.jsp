@@ -26,6 +26,8 @@
 	<script src="script/jquery-ui.min.js" type="text/javascript"></script> 
 	<script src="https://rawgit.com/fyneworks/multifile/2.1.0-preview/jquery.MultiFile.js" type="text/javascript"></script>
 	<script src="script/jquery.form.min.js" type="text/javascript"></script>
+	
+	<!-- 유병훈 페이지 열릴 때마다 사진 가져오는 script -->
 	<script>
 		$(function(){
 			$.ajax({
@@ -42,6 +44,8 @@
 			});//ajax
 		});//onload
 	</script>
+	<!-- 유병훈 페이지 열릴 때마다 사진 가져오는 script 끝 -->
+	
 </head>
 <body>
 <!--
@@ -50,6 +54,8 @@
     * Collapsing - navigation automatically collapse when mouse leaves it and expand when enters.
     * Static - stays always open.
 -->
+
+<!-- 사이드바 -->
 <nav id="sidebar" class="sidebar" role="navigation">
     <!-- need this .js class to initiate slimscroll -->
     <div class="js-sidebar-content">
@@ -91,6 +97,9 @@
        </ul>
     </div>
 </nav>
+<!-- 사이드바 끝 -->
+
+<!-- 상단 바 -->
 <!-- This is the white navigation bar seen on the top. A bit enhanced BS navbar. See .page-controls in _base.scss. -->
 <nav class="page-controls navbar navbar-default">
     <div class="container-fluid">
@@ -291,36 +300,31 @@
                         </section>
                     </div>
                 </li>
-                
                 </s:if>
+
+
                 <li class="dropdown">
-                
-                
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-cog fa-lg"></i>
                     </a>
                     <s:if test="#session.loginId == null">
-                    
-                    <ul class="dropdown-menu">
- 
-                        <li><a class="dropdown-item trigger" href="#"><i class="fa fa-sign-out"></i> &nbsp; Log in</a></li>
-                        
-                    </ul>
+	                    <ul class="dropdown-menu">
+	                        <li><a class="dropdown-item trigger" href="#"><i class="fa fa-sign-out"></i> &nbsp; Log in</a></li>
+	                    </ul>
                     </s:if>
-                    
-                    
-
                     <s:else>
-                                        <ul class="dropdown-menu">
-                        <li><a href="#"><i class="glyphicon glyphicon-user"></i> &nbsp; My Account</a></li>
-                        <li class="divider"></li>
-						<!-- 알림 숫자 개수 나타내는 방법 badge bg-danger animated bounceIn -->
-                        <!-- <li><a href="#">Inbox &nbsp;&nbsp;<span class="badge bg-danger animated bounceIn">9</span></a></li> -->
-                        <li><a href="customer/logout.action"><i class="fa fa-sign-out"></i> &nbsp; Log Out</a></li>
-                    </ul>
-                  </s:else> <!-- login menu end jhs -->
+	                   	<ul class="dropdown-menu">
+	                        <li><a href="#"><i class="glyphicon glyphicon-user"></i> &nbsp; My Account</a></li>
+	                        <li class="divider"></li>
+							<!-- 알림 숫자 개수 나타내는 방법 badge bg-danger animated bounceIn -->
+	                        <!-- <li><a href="#">Inbox &nbsp;&nbsp;<span class="badge bg-danger animated bounceIn">9</span></a></li> -->
+	                        <li><a href="customer/logout.action"><i class="fa fa-sign-out"></i> &nbsp; Log Out</a></li>
+	                    </ul>
+                  	</s:else> <!-- login menu end jhs -->
                   
-                  
+ <!-- 상단 바 끝 -->
+ 
+ <!-- 오른쪽 바 -->                 
                 </li>
                 <s:if test="#session.loginId != null"><!-- 로그인 돼있을 때 -->
                 <li>
@@ -350,31 +354,28 @@
         
         <div class="chat-sidebar-contacts chat-sidebar-panel open">
             <h5 class="sidebar-nav-title">FriendList</h5>
-            
             <div class="list-group chat-sidebar-user-group">
-            <s:iterator value="flist"> 
-            
-               <div class="list-group-item">
-                <a href="#"><i id="eee" class="glyphicon glyphicon-envelope pull-right" ></i></a>
-                <a href="#"><i class="glyphicon glyphicon-info-sign pull-right" ></i></a>
-                     <!-- <i class="fa fa-circle text-success pull-right"></i> -->
-                     <!-- <i class="fa fa-circle text-success pull-right"></i> -->
-                    <span class="thumb-sm pull-left mr">
-                        <img id="friendimg" class="img-circle" src="<s:property value='cust_image' />" alt="..." > <!-- 사진 -->
-                    </span>
-                    <h5 class="message-sender"><s:property value="name" /></h5> <!-- 이름 -->
-                   <!--  <p class="message-preview">Hey! What's up? So many times since we</p>  --><!--  프리뷰 -->
-                </div>
-                         </s:iterator>
-               
+	            <s:iterator value="flist"> 
+	               <div class="list-group-item">
+	                <a href="#"><i id="eee" class="glyphicon glyphicon-envelope pull-right" ></i></a>
+	                <a href="#"><i class="glyphicon glyphicon-info-sign pull-right" ></i></a>
+	                     <!-- <i class="fa fa-circle text-success pull-right"></i> -->
+	                     <!-- <i class="fa fa-circle text-success pull-right"></i> -->
+	                    <span class="thumb-sm pull-left mr">
+	                        <img id="friendimg" class="img-circle" src="<s:property value='cust_image' />" alt="..." > <!-- 사진 -->
+	                    </span>
+	                    <h5 class="message-sender"><s:property value="name" /></h5> <!-- 이름 -->
+	                   <!--  <p class="message-preview">Hey! What's up? So many times since we</p>  --><!--  프리뷰 -->
+	                </div>
+	            </s:iterator>
             </div>
-                    </div>
-        
+       	</div>
     </div>
 </div>
 </s:if>
+<!-- 오른쪽 바 끝 -->    
 
-
+<!-- 메인 내용 -->
 <div class="content-wrap">
     <!-- main page content. the place to put widgets in. usually consists of .row > .col-md-* > .widget.  -->
     <main id="content" class="content" role="main">
@@ -385,182 +386,199 @@
         <h1 class="page-title">Events - <span class="fw-semi-bold">Feed</span></h1>
         <ul class="timeline">
         
-        
-        <s:iterator value="itemlist" status="cust_stat"> 
-        <s:if test="# cust_stat.odd == true"><!-- 홀수면 -->
-            <li class="on-left"><!-- 아이템노드+사진+댓글 --> <!-- 여기서 왼쪽 오른쪽...... -->
-                <time class="event-time" datetime="2014-05-19 03:04"><!-- 노드부분 -->
-                    <%-- <span class="date">yesterday</span> --%>
-                    <span class="time"><s:property value="item_name"/></span>
-                    <%-- <span class="time"><s:property value="item_name"/><span class="fw-semi-bold">am</span></span> --%>
-                </time>
+	        <s:iterator value="itemlist" status="cust_stat"> 
+	        	<!-- 홀수면 if문 분기처리 -->
+		        <s:if test="# cust_stat.odd == true">
+		            <li class="on-left"><!-- 아이템노드+사진+댓글 --> <!-- 여기서 왼쪽 오른쪽...... -->
+		                <time class="event-time" datetime="2014-05-19 03:04"><!-- 노드부분 -->
+		                    <%-- <span class="date">yesterday</span> --%>
+		                    <span class="time"><s:property value="item_name"/></span><!-- 일겹살 뜨는 부분 -->
+		                    <%-- <span class="time"><s:property value="item_name"/><span class="fw-semi-bold">am</span></span> --%>
+		                </time>
+			            
+		            	<span class="event-icon event-icon-danger"><!-- 아이콘 (아이템) -->
+		                    <i class="glyphicon glyphicon-cutlery"></i>
+		                </span>
+		                
+		                <section class="event"><!-- 사진 담길 곳....... -->
+		                    <span class="thumb-sm avatar pull-left mr-sm">
+		                        <img class="img-circle" src="demo/img/people/a2.jpg" alt="...">
+		                    </span>
+		                    <h4 class="event-heading"><a href="#">Jessica Nilson</a> <small>@jess</small></h4>
+		                    <p class="fs-sm text-muted">10:12 am - Publicly near Minsk</p>
+		                    
+		                    <div class="event-map" id="test12">	
+		                    	<!-- 사진 업로드 하면 담기는 div 태그 -->
+		                    </div>
+
+		                    <footer><!-- 사진 담기는 부분 아래부터 댓글 쓰는 부분까지 -->
+			                        <div class="clearfix">
+			                            <ul class="post-links mt-sm pull-left">
+			                                <li><a href="#">1 hour</a></li>
+			                                <li><a href="#"><span class="text-danger"><i class="fa fa-heart-o"></i> Like</span></a></li>
+			                                <li><a href="#">Comment</a></li>
+			                            </ul>
+			                            <ul class="post-links mt-sm pull-right">
+		                            		<li><a id="photo_upload" href="#"><span class="text-danger"><i class="fa fa-file-photo-o"></i> Photo</span></a><!-- 사진 업로드 버튼 -->
+		                            	</ul>
+		                          	</div> 
+		                          	
+									<%-- 좋아요 누른 사람들 뜨는 부분 일단 주석 처리 
+										<!-- 좋아요 누른 사람들 시작 -->
+			                            <span class="thumb thumb-sm pull-right">
+			                                <a href="#">
+			                                    <img class="img-circle" src="demo/img/people/a1.jpg">
+			                                </a>
+			                            </span>
+			                            <span class="thumb thumb-sm pull-right">
+			                                <a href="#"><img class="img-circle" src="demo/img/people/a5.jpg"></a>
+			                            </span>
+			                            <span class="thumb thumb-sm pull-right">
+			                                <a href="#"><img class="img-circle" src="demo/img/people/a3.jpg"></a>
+			                            </span>
+			                            <!-- 좋아요 누른 사람들 끝 --> --%>
+		                        
+		                        <!-- 댓글 부분 시작 -->
+		                        <ul class="post-comments mt-sm">
+		                            <li>
+		                            	<!-- 댓글 작성자 사진 -->
+		                                <span class="thumb-xs avatar pull-left mr-sm">
+		                                    <img class="img-circle" src="demo/img/people/a1.jpg" alt="...">
+		                                </span>
+		                                <!-- 댓글 내용 -->
+		                                <div class="comment-body">
+		                                    <h6 class="author fw-semi-bold">Ignacio Abad <small>6 mins ago</small></h6>
+		                                    <p>True. Heard absolutely the same.</p>
+		                                </div>
+		                            </li>
+		                            <li>
+		                            	<!-- 댓글 작성란의 쓰는이의 사진 -->
+		                                <span class="thumb-xs avatar pull-left mr-sm">
+		                                    <img class="img-circle" src="img/avatar.png" alt="...">
+		                                </span>
+		                                <!-- 댓글 입력란 -->
+		                                <div class="comment-body">
+		                                    <input class="form-control input-sm" type="text" placeholder="Write your comment...">
+		                                </div>
+		                            </li>
+		                        </ul>
+		                        <!-- 댓글 부분 끝 -->
+		                    </footer>
+		                </section>
+		            </li>
+		            </s:if>
 	            
-            	<span class="event-icon event-icon-danger"><!-- 아이콘 (아이템) -->
-                    <i class="glyphicon glyphicon-cutlery"></i>
-                </span>
-                <section class="event">
-                    <span class="thumb-sm avatar pull-left mr-sm">
-                        <img class="img-circle" src="demo/img/people/a2.jpg" alt="...">
-                    </span>
-                    <h4 class="event-heading"><a href="#">Jessica Nilson</a> <small>@jess</small></h4>
-                    <p class="fs-sm text-muted">10:12 am - Publicly near Minsk</p>
-                    <div class="event-map" id="test12">
-                    
-                <!-- 유병훈 사진 올리기 실험 중  -->
-                     </div>
-           
-                
-                
-   	<div id="overlay_photo"></div> 
-	<div id="popup_layer_photo">
-                <section class="widget widget-login animated fadeInUp">
-                    <header>
-                        <h3>Photo Upload</h3>
-                    </header>
-                    <div class="widget-body">
-                          <form id="uploadPic" action="userImage" method="post" theme="simple" enctype="multipart/form-data">           
-							<br/><br/>
-	                    	<input type="file" id="upload" name="userImage" multiple class="multi with-preview" maxlength="2" accept="gif|jpg|png"/>
-		                	<input type="submit" value="등록"/>
-	                    </form>
-                    </div>
-                </section>
-	</div>
-	
-
-               	<!-- 유병훈 사진 올리기 실험 중  -->
-                   
-                   
-                   
-               /* <section class="event"><!-- 사진 담길 곳....... -->
-                    <h4 class="event-heading"><a href="#">Jessica Smith</a> <small>@jess</small></h4>
-                    <p class="fs-sm text-muted">February 22, 2014 at 01:59 PM</p>
-                    <p class="fs-mini">
-                        Check out this awesome photo I made in Italy last summer. Seems it was lost somewhere deep inside
-                        my brand new HDD 40TB. Thanks god I found it!
-                    </p>
-                    <div class="event-image"><!-- 사진 -->
-                        <a href="demo/img/pictures/8.jpg">
-                            <img src="demo/img/pictures/8.jpg">
-                        </a>
-                    </div> */
-                    <footer>
-                      
-                           
-                       
-                        <ul class="post-comments">
-                        <div class="clearfix">
-                            <ul class="post-links mt-sm pull-left">
-                                <li><a href="#">1 hour</a></li>
-                                <li><a href="#"><span class="text-danger"><i class="fa fa-heart-o"></i> Like</span></a></li>
-                                <li><a href="#">Comment</a></li>
-                                <li><a id="photo_upload" href="#"><span class="text-danger"><i class="fa fa-file-photo-o"></i> Photo</span></a>
-                            </ul>
-
-                            <span class="thumb thumb-sm pull-right">
-                                <a href="#">
-                                    <img class="img-circle" src="demo/img/people/a1.jpg">
-                                </a>
-                            </span>
-                            <span class="thumb thumb-sm pull-right">
-                                <a href="#"><img class="img-circle" src="demo/img/people/a5.jpg"></a>
-                            </span>
-                            <span class="thumb thumb-sm pull-right">
-                                <a href="#"><img class="img-circle" src="demo/img/people/a3.jpg"></a>
-                            </span>
-                        </div>
-                        <ul class="post-comments mt-sm">
-                            <li>
-                                <span class="thumb-xs avatar pull-left mr-sm">
-                                    <img class="img-circle" src="demo/img/people/a1.jpg" alt="...">
-                                </span>
-                                <div class="comment-body">
-                                    <h6 class="author fw-semi-bold">Ignacio Abad <small>6 mins ago</small></h6>
-                                    <p>True. Heard absolutely the same.</p>
-                                </div>
-                            </li>
-                            <li>
-                                <span class="thumb-xs avatar pull-left mr-sm">
-                                    <img class="img-circle" src="img/avatar.png" alt="...">
-                                </span>
-                                <div class="comment-body">
-                                    <input class="form-control input-sm" type="text" placeholder="Write your comment...">
-                                </div>
-                            </li>
-                        </ul>
-                    </footer>
-                </section>
-            </li>
-            </s:if>
-            <s:else>
-            <li class="on-right">
-                <time class="event-time" datetime="2014-05-19 03:04">
-                    <%-- <span class="date">yesterday</span> --%>
-                    <span class="time"><s:property value="item_name"/></span>
-                </time>
-                <span class="event-icon event-icon-danger">
-                    <i class="glyphicon glyphicon-cutlery"></i>
-                </span>
-                <section class="event">
-                    <h4 class="event-heading"><a href="#">Jessica Smith</a> <small>@jess</small></h4>
-                    <p class="fs-sm text-muted">February 22, 2014 at 01:59 PM</p>
-                    <p class="fs-mini">
-                        Check out this awesome photo I made in Italy last summer. Seems it was lost somewhere deep inside
-                        my brand new HDD 40TB. Thanks god I found it!
-                    </p>
-                    <div class="event-image">
-                        <a href="demo/img/pictures/8.jpg">
-                            <img src="demo/img/pictures/8.jpg">
-                        </a>
-                    </div>
-                    <footer>
-                        <div class="clearfix">
-                            <ul class="post-links mt-sm pull-left">
-                                <li><a href="#">1 hour</a></li>
-                                <li><a href="#"><span class="text-danger"><i class="fa fa-heart-o"></i> Like</span></a></li>
-                                <li><a href="#">Comment</a></li>
-                            </ul>
-
-                            <span class="thumb thumb-sm pull-right">
-                                <a href="#">
-                                    <img class="img-circle" src="demo/img/people/a1.jpg">
-                                </a>
-                            </span>
-                            <span class="thumb thumb-sm pull-right">
-                                <a href="#"><img class="img-circle" src="demo/img/people/a5.jpg"></a>
-                            </span>
-                            <span class="thumb thumb-sm pull-right">
-                                <a href="#"><img class="img-circle" src="demo/img/people/a3.jpg"></a>
-                            </span>
-                        </div>
-                        <ul class="post-comments mt-sm">
-                            <li>
-                                <span class="thumb-xs avatar pull-left mr-sm">
-                                    <img class="img-circle" src="demo/img/people/a1.jpg" alt="...">
-                                </span>
-                                <div class="comment-body">
-                                    <h6 class="author fw-semi-bold">Ignacio Abad <small>6 mins ago</small></h6>
-                                    <p>Hey, have you heard anything about that?</p>
-                                </div>
-                            </li>
-                            <li>
-                                <span class="thumb-xs avatar pull-left mr-sm">
-                                    <img class="img-circle" src="img/avatar.png" alt="...">
-                                </span>
-                                <div class="comment-body">
-                                    <input class="form-control input-sm" type="text" placeholder="Write your comment...">
-                                </div>
-                            </li>
-                        </ul>
-                    </footer>
-                </section>
-            </li>
-            </s:else>
+	            	<!-- 오른쪽(짝수면)으로 나뉘는 부분 시작 -->
+		            <s:else>
+		            <li class="on-right">
+		                <time class="event-time" datetime="2014-05-19 03:04"><!-- 노드부분 -->
+		                    <%-- <span class="date">yesterday</span> --%>
+		                    <span class="time"><s:property value="item_name"/></span><!-- 일겹살 뜨는 부분 -->
+		                </time>
+		                
+		                <span class="event-icon event-icon-danger"><!-- 아이콘 (아이템) -->
+		                    <i class="glyphicon glyphicon-cutlery"></i>
+		                </span>
+		                
+		                <section class="event"><!-- 사진 담길 곳....... -->
+		                	<span class="thumb-sm avatar pull-left mr-sm">
+		                        <img class="img-circle" src="demo/img/people/a2.jpg" alt="...">
+		                    </span>
+		                    <h4 class="event-heading"><a href="#">Jessica Smith</a> <small>@jess</small></h4>
+		                    <p class="fs-sm text-muted">February 22, 2014 at 01:59 PM</p>
+		                   
+		                   <!-- 사진 업로드 하면 바로 담기는 div 태그, 이걸 밑에 div로 옮겨야 할 듯.
+		                    <div class="event-map" id="test12">	
+		                    	사진 업로드 하면 담기는 div 태그
+		                    </div> -->
+		                   
+		                    <!-- 현재 디폴트로 쓰고 있는 사진. 사진이 꽉 차지 않는 건 div보다 img의 width가 작기 때문! -->
+		                    <div class="event-image">
+		                        <a href="demo/img/pictures/8.jpg">
+		                            <img width="850px" src="demo/img/pictures/8.jpg">
+		                        </a>
+		                    </div>
+		                    
+		                    <footer><!-- 사진 담기는 부분 아래부터 댓글 쓰는 부분까지 -->
+		                        <div class="clearfix">
+		                            <ul class="post-links mt-sm pull-left">
+		                                <li><a href="#">1 hour</a></li>
+		                                <li><a href="#"><span class="text-danger"><i class="fa fa-heart-o"></i> Like</span></a></li>
+		                                <li><a href="#">Comment</a></li>
+		                            </ul>
+		                            <ul class="post-links mt-sm pull-right">
+		                            	<li><a id="photo_upload" href="#"><span class="text-danger"><i class="fa fa-file-photo-o"></i> Photo</span></a><!-- 사진 업로드 버튼 -->
+		                            </ul>
+									
+						<%-- 	사람들 좋아요 누르는 거 필요없을 거 같아서 일단 주석처리 함	
+									<!-- 좋아요 누른 사람들 시작 -->
+		                            <span class="thumb thumb-sm pull-right">
+		                                <a href="#">
+		                                    <img class="img-circle" src="demo/img/people/a1.jpg">
+		                                </a>
+		                            </span>
+		                            <span class="thumb thumb-sm pull-right">
+		                                <a href="#"><img class="img-circle" src="demo/img/people/a5.jpg"></a>
+		                            </span>
+		                            <span class="thumb thumb-sm pull-right">
+		                                <a href="#"><img class="img-circle" src="demo/img/people/a3.jpg"></a>
+		                            </span>
+		                            <!-- 좋아요 누른 사람들 끝 --> --%>
+		                        </div>
+		                        
+		                        <!-- 댓글 부분 시작 -->
+		                        <ul class="post-comments mt-sm">
+		                            <li>
+		                            	<!-- 댓글 작성자 사진 -->
+		                                <span class="thumb-xs avatar pull-left mr-sm">
+		                                    <img class="img-circle" src="demo/img/people/a1.jpg" alt="...">
+		                                </span>
+		                                <!-- 댓글 내용 -->
+		                                <div class="comment-body">
+		                                    <h6 class="author fw-semi-bold">Ignacio Abad <small>6 mins ago</small></h6>
+		                                    <p>Hey, have you heard anything about that?</p>
+		                                </div>
+		                            </li>
+		                            <li>
+		                            	<!-- 댓글 작성란의 쓰는이의 사진 -->
+		                                <span class="thumb-xs avatar pull-left mr-sm">
+		                                    <img class="img-circle" src="img/avatar.png" alt="...">
+		                                </span>
+		                                <!-- 댓글 입력란 -->
+		                                <div class="comment-body">
+		                                    <input class="form-control input-sm" type="text" placeholder="Write your comment...">
+		                                </div>
+		                            </li>
+		                        </ul>
+		                        <!-- 댓글 부분 끝 -->
+		                    </footer>
+		                </section>
+		            </li>
+		            </s:else>
+		            <!-- 오른쪽으로 나뉘는 부분 끝 -->
             </s:iterator>
-
         </ul>
     </main>
 </div>
+<!-- 메인 내용 끝 -->
+			<!-- 사진 업로드 부분 -->
+			<div id="overlay_photo"></div> 
+			<div id="popup_layer_photo">
+		         <section class="widget widget-login animated fadeInUp">
+		             <header>
+		                 <h3>Photo Upload</h3>
+		             </header>
+		             <div class="widget-body">
+		                   <form id="uploadPic" action="userImage" method="post" theme="simple" enctype="multipart/form-data">           
+						<br/><br/>
+		              	<input type="file" id="upload" name="userImage" multiple class="multi with-preview" maxlength="2" accept="gif|jpg|png"/>
+		           	<input type="submit" value="등록"/>
+		              </form>
+		             </div>
+		         </section>
+			</div>
+
+			<!-- 다른 script와 합치면 ajaxForm 오류가 날 수 있음 -->
     		 <script>
 		 		$('#uploadPic').ajaxForm({
 					//보내기 전 유효성 검사가 필요할 경우
