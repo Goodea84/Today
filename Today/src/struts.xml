@@ -6,7 +6,7 @@
 <struts>
 
     <constant name="struts.devMode" value="true" />
-
+    <constant name="struts.multipart.saveDir" value="C:\[SETUP]\directory" />
     <package name="default" namespace="/" extends="struts-default, json-default">
 	    
 	    
@@ -46,6 +46,23 @@
 		<action name="page_make_gallery" class="action.CardAction" method="makecard">
 			<result>/myCard.jsp</result>
 		</action>
+		
+		<!-- 유병훈 사진업로드 실험중 -->
+		<action name="userImage" class="action.FileUploadAction">
+			<interceptor-ref name="fileUpload">
+				<param name="maximumSize">2097152</param>
+				<param name="allowedTypes">image/png,image/gif,image/jpeg,image/pjpeg</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<result type="json" />
+			<result name="input">/Error.jsp </result>
+		</action>
+		
+		<action name="printImage" class="action.FileUploadAction" method="printAll">
+			<result type="json"/>
+		</action>
+		
+		
 		
 		<!-- 카드이미지 클릭 시, 해당 카드의 타임라인 이동 -->
 		<action name="page_moveTo_timeline" class="action.CardAction" method="movetimeline">

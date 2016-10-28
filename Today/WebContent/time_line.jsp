@@ -22,6 +22,26 @@
          https://code.google.com/p/chromium/issues/detail?id=332189
          */
     </script>
+   	<script src="script/jquery-3.1.0.min.js" type="text/javascript"></script> 
+	<script src="script/jquery-ui.min.js" type="text/javascript"></script> 
+	<script src="https://rawgit.com/fyneworks/multifile/2.1.0-preview/jquery.MultiFile.js" type="text/javascript"></script>
+	<script src="script/jquery.form.min.js" type="text/javascript"></script>
+	<script>
+		$(function(){
+			$.ajax({
+				url: 'printImage',
+				method: 'post',
+				success: function(resp){
+					var list = resp.list_image;
+					$.each(list, function(index, val){
+						$('#test12').append(
+							"<img width='150px' height='150px' src='image/"+list[index].photo+"' alt='...'/>"
+						);//append
+					});//for-each
+				}//success
+			});//ajax
+		});//onload
+	</script>
 </head>
 <body>
 <!--
@@ -56,207 +76,19 @@
         </div>
         <!-- main notification links are placed inside of .sidebar-nav -->
         <ul class="sidebar-nav">
-            <li>
-                <!-- an example of nested submenu. basic bootstrap collapse component -->
-                <a class="collapsed" href="#sidebar-dashboard" data-toggle="collapse" data-parent="#sidebar">
-                    <span class="icon">
-                        <i class="fa fa-desktop"></i>
-                    </span>
-                    Dashboard
-                    <i class="toggle fa fa-angle-down"></i>
-                </a>
-                <ul id="sidebar-dashboard" class="collapse">
-                    <li><a href="index.html">Dashboard</a></li>
-                    <li><a href="widgets.html">Widgets</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="inbox.html">
-                    <span class="icon">
-                        <i class="fa fa-envelope"></i>
-                    </span>
-                    Email
-                    <span class="label label-danger">
-                        9
-                    </span>
-                </a>
-            </li>
-            <li>
-                <a href="charts.html">
-                    <span class="icon">
-                        <i class="glyphicon glyphicon-stats"></i>
-                    </span>
-                    Charts
-                </a>
-            </li>
-            <li>
-                <a href="profile.html">
-                    <span class="icon">
-                        <i class="glyphicon glyphicon-user"></i>
-                    </span>
-                    Profile
-                    <sup class="text-warning fw-semi-bold">
-                        new
-                    </sup>
-                </a>
-            </li>
-        </ul>
-        <!-- every .sidebar-nav may have a title -->
-        <h5 class="sidebar-nav-title">Template <a class="action-link" href="#"><i class="glyphicon glyphicon-refresh"></i></a></h5>
-        <ul class="sidebar-nav">
-            <li>
-                <!-- an example of nested submenu. basic bootstrap collapse component -->
-                <a class="collapsed" href="#sidebar-forms" data-toggle="collapse" data-parent="#sidebar">
-                    <span class="icon">
-                        <i class="glyphicon glyphicon-align-right"></i>
-                    </span>
-                    Forms
-                    <i class="toggle fa fa-angle-down"></i>
-                </a>
-                <ul id="sidebar-forms" class="collapse">
-                    <li><a href="form_elements.html">Form Elements</a></li>
-                    <li><a href="form_validation.html">Form Validation</a></li>
-                    <li><a href="form_wizard.html">Form Wizard</a></li>
-                </ul>
-            </li>
-            <li>
-                <a class="collapsed" href="#sidebar-ui" data-toggle="collapse" data-parent="#sidebar">
-                    <span class="icon">
-                        <i class="glyphicon glyphicon-tree-conifer"></i>
-                    </span>
-                    UI Elements
-                    <i class="toggle fa fa-angle-down"></i>
-                </a>
-                <ul id="sidebar-ui" class="collapse">
-                    <li><a href="ui_components.html">Components</a></li>
-                    <li><a href="ui_notifications.html">Notifications</a></li>
-                    <li><a href="ui_icons.html">Icons</a></li>
-                    <li><a href="ui_buttons.html">Buttons</a></li>
-                    <li><a href="ui_tabs_accordion.html">Tabs & Accordion</a></li>
-                    <li><a href="ui_list_groups.html">List Groups</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="grid.html">
-                    <span class="icon">
-                        <i class="glyphicon glyphicon-th"></i>
-                    </span>
-                    Grid
-                </a>
-            </li>
-            <li>
-                <a class="collapsed" href="#sidebar-maps" data-toggle="collapse" data-parent="#sidebar">
-                    <span class="icon">
-                        <i class="glyphicon glyphicon-map-marker"></i>
-                    </span>
-                    Maps
-                    <i class="toggle fa fa-angle-down"></i>
-                </a>
-                <ul id="sidebar-maps" class="collapse">
-                    <!-- data-no-pjax turns off pjax loading for this link. Use in case of complicated js loading on the
-                         target page -->
-                    <li><a href="maps_google.html" data-no-pjax>Google Maps</a></li>
-                    <li><a href="maps_vector.html">Vector Maps</a></li>
-                </ul>
-            </li>
-            <li>
-                <!-- an example of nested submenu. basic bootstrap collapse component -->
-                <a class="collapsed" href="#sidebar-tables" data-toggle="collapse" data-parent="#sidebar">
-                    <span class="icon">
-                        <i class="fa fa-table"></i>
-                    </span>
-                    Tables
-                    <i class="toggle fa fa-angle-down"></i>
-                </a>
-                <ul id="sidebar-tables" class="collapse">
-                    <li><a href="tables_basic.html">Tables Basic</a></li>
-                    <li><a href="tables_dynamic.html">Tables Dynamic</a></li>
-                </ul>
-            </li>
-            <li class="active">
-                <a href="#sidebar-extra" data-toggle="collapse" data-parent="#sidebar">
-                    <span class="icon">
-                        <i class="fa fa-leaf"></i>
-                    </span>
-                    Extra
-                    <i class="toggle fa fa-angle-down"></i>
-                </a>
-                <ul id="sidebar-extra" class="collapse in">
-                    <li><a href="calendar.html">Calendar</a></li>
-                    <li><a href="invoice.html">Invoice</a></li>
-                    <li><a href="login.html" target="_blank" data-no-pjax>Login Page</a></li>
-                    <li><a href="error.html" target="_blank" data-no-pjax>Error Page</a></li>
-                    <li><a href="gallery.html">Gallery</a></li>
-                    <li><a href="search.html">Search Results</a></li>
-                    <li class="active"><a href="time_line.html" data-no-pjax>Time Line</a></li>
-                </ul>
-            </li>
-            <li>
-                <a class="collapsed" href="#sidebar-levels" data-toggle="collapse" data-parent="#sidebar">
-                    <span class="icon">
-                        <i class="fa fa-folder-open"></i>
-                    </span>
-                    Menu Levels
-                    <i class="toggle fa fa-angle-down"></i>
-                </a>
-                <ul id="sidebar-levels" class="collapse">
-                    <li><a href="#">Level 1</a></li>
-                    <li>
-                        <a class="collapsed" href="#sidebar-sub-levels" data-toggle="collapse" data-parent="#sidebar-levels">
-                            Level 2
-                            <i class="toggle fa fa-angle-down"></i>
-                        </a>
-                        <ul id="sidebar-sub-levels" class="collapse">
-                            <li><a href="#">Level 3</a></li>
-                            <li><a href="#">Level 3</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-        <h5 class="sidebar-nav-title">Labels <a class="action-link" href="#"><i class="glyphicon glyphicon-plus"></i></a></h5>
-        <!-- some styled links in sidebar. ready to use as links to email folders, projects, groups, etc -->
-        <ul class="sidebar-labels">
-            <li>
-                <a href="#">
-                    <!-- yep, .circle again -->
-                    <i class="fa fa-circle text-warning mr-xs"></i>
-                    <span class="label-name">My Recent</span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="fa fa-circle text-gray mr-xs"></i>
-                    <span class="label-name">Starred</span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="fa fa-circle text-danger mr-xs"></i>
-                    <span class="label-name">Background</span>
-                </a>
-            </li>
-        </ul>
-        <h5 class="sidebar-nav-title">Projects</h5>
-        <!-- A place for sidebar notifications & alerts -->
-        <div class="sidebar-alerts">
-            <div class="alert fade in">
-                <a href="#" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
-                <span class="text-white fw-semi-bold">Sales Report</span> <br>
-                <div class="progress progress-xs mt-xs mb-0">
-                    <div class="progress-bar progress-bar-gray-light" style="width: 16%"></div>
-                </div>
-                <small>Calculating x-axis bias... 65%</small>
-            </div>
-            <div class="alert fade in">
-                <a href="#" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
-                <span class="text-white fw-semi-bold">Personal Responsibility</span> <br>
-                <div class="progress progress-xs mt-xs mb-0">
-                    <div class="progress-bar progress-bar-danger" style="width: 23%"></div>
-                </div>
-                <small>Provide required notes</small>
-            </div>
-        </div>
+          <li>
+              <a href="index">
+                  <span class="icon"><i class="glyphicon glyphicon-map-marker"></i></span>
+                  Maps
+              </a>
+          </li>
+          <li class="active">
+              <a href="page_moveTo_gallery">
+                  <span class="icon"><i class="glyphicon glyphicon-inbox"></i></span>
+                  My Card
+              </a>
+         	</li>
+       </ul>
     </div>
 </nav>
 <!-- This is the white navigation bar seen on the top. A bit enhanced BS navbar. See .page-controls in _base.scss. -->
@@ -276,8 +108,8 @@
                         <i class="fa fa-bars fa-lg hidden-xs"></i>
                     </a>
                 </li>
-                <li class="ml-sm mr-n-xs hidden-xs"><a href="#"><i class="fa fa-refresh fa-lg"></i></a></li>
-                <li class="ml-n-xs hidden-xs"><a href="#"><i class="fa fa-times fa-lg"></i></a></li>
+				<!-- 왼쪽 상단 리프레시 / 취소 -->
+                <li class="ml-sm mr-n-xs hidden-xs"><a href="page_moveTo_gallery"><i class="fa fa-refresh fa-lg"></i></a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right visible-xs">
                 <li>
@@ -288,7 +120,7 @@
                 </li>
             </ul>
             <!-- xs & sm screen logo -->
-            <a class="navbar-brand visible-xs" href="index.html">
+            <a class="navbar-brand visible-xs" href="index">
                 <i class="fa fa-circle text-gray mr-n-sm"></i>
                 <i class="fa fa-circle text-warning"></i>
                 &nbsp;
@@ -302,24 +134,26 @@
         <!-- this part is hidden for xs screens -->
         <div class="collapse navbar-collapse">
             <!-- search form! link it to your search server -->
-            <form class="navbar-form navbar-left" role="search">
+            <div class="navbar-form navbar-left">
                 <div class="form-group">
                     <div class="input-group input-group-no-border">
                         <span class="input-group-addon">
-                            <i class="fa fa-search"></i>
+                            <i class="fa fa-map-marker"></i>
                         </span>
-                        <input class="form-control" type="text" placeholder="Search Dashboard">
+						<!-- 지역(local) 검색 input tag -->
+                        <input class="form-control" type="text" id="searchLocal" name="searchLocal" placeholder="카드 검색">
                     </div>
                 </div>
-            </form>
+            </div>
             <ul class="nav navbar-nav navbar-right">
+            <s:if test="#session.loginId != null">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle dropdown-toggle-notifications" id="notifications-dropdown-toggle" data-toggle="dropdown">
                         <span class="thumb-sm avatar pull-left">
-                            <img class="img-circle" src="demo/img/people/a5.jpg" alt="...">
+                        	<!-- 상단 이미지  -->
                         </span>
                         &nbsp;
-                        Philip <strong>Smith</strong>&nbsp;
+						<strong><s:property value="#session.loginName" /></strong>&nbsp;
                         <span class="circle bg-warning fw-bold">
                             13
                         </span>
@@ -332,7 +166,7 @@
                         <section class="panel notifications">
                             <header class="panel-heading">
                                 <div class="text-align-center mb-sm">
-                                    <strong>You have 13 notifications</strong>
+                                    <strong>여기서 카드를 사용할까 도우까...</strong>
                                 </div>
                                 <div class="btn-group btn-group-sm btn-group-justified" id="notifications-toggle" data-toggle="buttons">
                                     <label class="btn btn-default active">
@@ -457,44 +291,53 @@
                         </section>
                     </div>
                 </li>
+                
+                </s:if>
                 <li class="dropdown">
+                
+                
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-cog fa-lg"></i>
                     </a>
+                    <s:if test="#session.loginId == null">
+                    
                     <ul class="dropdown-menu">
+ 
+                        <li><a class="dropdown-item trigger" href="#"><i class="fa fa-sign-out"></i> &nbsp; Log in</a></li>
+                        
+                    </ul>
+                    </s:if>
+                    
+                    
+
+                    <s:else>
+                                        <ul class="dropdown-menu">
                         <li><a href="#"><i class="glyphicon glyphicon-user"></i> &nbsp; My Account</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">Calendar</a></li>
-                        <li><a href="#">Inbox &nbsp;&nbsp;<span class="badge bg-danger animated bounceIn">9</span></a></li>
-                        <li class="divider"></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out"></i> &nbsp; Log Out</a></li>
+						<!-- 알림 숫자 개수 나타내는 방법 badge bg-danger animated bounceIn -->
+                        <!-- <li><a href="#">Inbox &nbsp;&nbsp;<span class="badge bg-danger animated bounceIn">9</span></a></li> -->
+                        <li><a href="customer/logout.action"><i class="fa fa-sign-out"></i> &nbsp; Log Out</a></li>
                     </ul>
+                  </s:else> <!-- login menu end jhs -->
+                  
+                  
                 </li>
+                <s:if test="#session.loginId != null"><!-- 로그인 돼있을 때 -->
                 <li>
                     <a href="#" data-toggle="chat-sidebar">
                         <i class="fa fa-globe fa-lg"></i>
                     </a>
-                    <div id="chat-notification" class="chat-notification hide">
-                        <div class="chat-notification-inner">
-                            <h6 class="title">
-                                <span class="thumb-xs">
-                                    <img src="demo/img/people/a6.jpg" class="img-circle mr-xs pull-left">
-                                </span>
-                                Jess Smith
-                            </h6>
-                            <p class="text">Hey! What's up?</p>
-                        </div>
-                    </div>
                 </li>
+                </s:if>
             </ul>
         </div>
     </div>
 </nav>
-
+<s:if test="#session.loginId != null"><!-- 로그인 돼있을 때 -->
 <div class="chat-sidebar" id="chat">
     <div class="chat-sidebar-content">
         <header class="chat-sidebar-header">
-            <h4 class="chat-sidebar-title">Contacts</h4>
+            <h4 class="chat-sidebar-title">Friend Search</h4>
             <div class="form-group no-margin">
                 <div class="input-group input-group-dark">
                     <input class="form-control fs-mini" id="chat-sidebar-search" type="text" placeholder="Search...">
@@ -504,213 +347,33 @@
                 </div>
             </div>
         </header>
+        
         <div class="chat-sidebar-contacts chat-sidebar-panel open">
-            <h5 class="sidebar-nav-title">Today</h5>
+            <h5 class="sidebar-nav-title">FriendList</h5>
+            
             <div class="list-group chat-sidebar-user-group">
-                <a class="list-group-item" href="#chat-sidebar-user-1">
-                    <i class="fa fa-circle text-success pull-right"></i>
+            <s:iterator value="flist"> 
+            
+               <div class="list-group-item">
+                <a href="#"><i id="eee" class="glyphicon glyphicon-envelope pull-right" ></i></a>
+                <a href="#"><i class="glyphicon glyphicon-info-sign pull-right" ></i></a>
+                     <!-- <i class="fa fa-circle text-success pull-right"></i> -->
+                     <!-- <i class="fa fa-circle text-success pull-right"></i> -->
                     <span class="thumb-sm pull-left mr">
-                        <img class="img-circle" src="demo/img/people/a2.jpg" alt="...">
+                        <img id="friendimg" class="img-circle" src="<s:property value='cust_image' />" alt="..." > <!-- 사진 -->
                     </span>
-                    <h5 class="message-sender">Chris Gray</h5>
-                    <p class="message-preview">Hey! What's up? So many times since we</p>
-                </a>
-                <a class="list-group-item" href="#chat-sidebar-user-2">
-                    <i class="fa fa-circle text-gray-light pull-right"></i>
-                <span class="thumb-sm pull-left mr">
-                    <img class="img-circle" src="img/avatar.png" alt="...">
-                </span>
-                    <h5 class="message-sender">Jamey Brownlow</h5>
-                    <p class="message-preview">Good news coming tonight. Seems they agreed to proceed</p>
-                </a>
-                <a class="list-group-item" href="#chat-sidebar-user-3">
-                    <i class="fa fa-circle text-danger pull-right"></i>
-                <span class="thumb-sm pull-left mr">
-                    <img class="img-circle" src="demo/img/people/a1.jpg" alt="...">
-                </span>
-                    <h5 class="message-sender">Livia Walsh</h5>
-                    <p class="message-preview">Check out my latest email plz!</p>
-                </a>
-                <a class="list-group-item" href="#chat-sidebar-user-4">
-                    <i class="fa fa-circle text-gray-light pull-right"></i>
-                <span class="thumb-sm pull-left mr">
-                    <img class="img-circle" src="img/avatar.png" alt="...">
-                </span>
-                    <h5 class="message-sender">Jaron Fitzroy</h5>
-                    <p class="message-preview">What about summer break?</p>
-                </a>
-                <a class="list-group-item" href="#chat-sidebar-user-5">
-                    <i class="fa fa-circle text-success pull-right"></i>
-                <span class="thumb-sm pull-left mr">
-                    <img class="img-circle" src="demo/img/people/a4.jpg" alt="...">
-                </span>
-                    <h5 class="message-sender">Mike Lewis</h5>
-                    <p class="message-preview">Just ain't sure about the weekend now. 90% I'll make it.</p>
-                </a>
+                    <h5 class="message-sender"><s:property value="name" /></h5> <!-- 이름 -->
+                   <!--  <p class="message-preview">Hey! What's up? So many times since we</p>  --><!--  프리뷰 -->
+                </div>
+                         </s:iterator>
+               
             </div>
-            <h5 class="sidebar-nav-title">Last Week</h5>
-            <div class="list-group chat-sidebar-user-group">
-                <a class="list-group-item" href="#chat-sidebar-user-6">
-                    <i class="fa fa-circle text-gray-light pull-right"></i>
-                <span class="thumb-sm pull-left mr">
-                    <img class="img-circle" src="demo/img/people/a6.jpg" alt="...">
-                </span>
-                    <h5 class="message-sender">Freda Edison</h5>
-                    <p class="message-preview">Hey what's up? Me and Monica going for a lunch somewhere. Wanna join?</p>
-                </a>
-                <a class="list-group-item" href="#chat-sidebar-user-7">
-                    <i class="fa fa-circle text-success pull-right"></i>
-                <span class="thumb-sm pull-left mr">
-                    <img class="img-circle" src="demo/img/people/a5.jpg" alt="...">
-                </span>
-                    <h5 class="message-sender">Livia Walsh</h5>
-                    <p class="message-preview">Check out my latest email plz!</p>
-                </a>
-                <a class="list-group-item" href="#chat-sidebar-user-8">
-                    <i class="fa fa-circle text-warning pull-right"></i>
-                <span class="thumb-sm pull-left mr">
-                    <img class="img-circle" src="demo/img/people/a3.jpg" alt="...">
-                </span>
-                    <h5 class="message-sender">Jaron Fitzroy</h5>
-                    <p class="message-preview">What about summer break?</p>
-                </a>
-                <a class="list-group-item" href="#chat-sidebar-user-9">
-                    <i class="fa fa-circle text-gray-light pull-right"></i>
-                <span class="thumb-sm pull-left mr">
-                    <img class="img-circle" src="img/avatar.png" alt="...">
-                </span>
-                    <h5 class="message-sender">Mike Lewis</h5>
-                    <p class="message-preview">Just ain't sure about the weekend now. 90% I'll make it.</p>
-                </a>
-            </div>
-        </div>
-        <div class="chat-sidebar-chat chat-sidebar-panel" id="chat-sidebar-user-1">
-            <h5 class="title">
-                <a class="js-back" href="#">
-                    <i class="fa fa-angle-left mr-xs"></i>
-                    Chris Gray
-                </a>
-            </h5>
-            <ul class="message-list">
-                <li class="message">
-                    <span class="thumb-sm">
-                        <img class="img-circle" src="demo/img/people/a2.jpg" alt="...">
-                    </span>
-                    <div class="message-body">
-                        Hey! What's up?
                     </div>
-                </li>
-                <li class="message">
-                    <span class="thumb-sm">
-                        <img class="img-circle" src="demo/img/people/a2.jpg" alt="...">
-                    </span>
-                    <div class="message-body">
-                        Are you there?
-                    </div>
-                </li>
-                <li class="message">
-                    <span class="thumb-sm">
-                        <img class="img-circle" src="demo/img/people/a2.jpg" alt="...">
-                    </span>
-                    <div class="message-body">
-                        Let me know when you come back.
-                    </div>
-                </li>
-                <li class="message from-me">
-                    <span class="thumb-sm">
-                        <img class="img-circle" src="img/avatar.png" alt="...">
-                    </span>
-                    <div class="message-body">
-                        I am here!
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div class="chat-sidebar-chat chat-sidebar-panel" id="chat-sidebar-user-2">
-            <h5 class="title">
-                <a class="js-back" href="#">
-                    <i class="fa fa-angle-left mr-xs"></i>
-                    Jamey Brownlow
-                </a>
-            </h5>
-            <ul class="message-list">
-            </ul>
-        </div>
-        <div class="chat-sidebar-chat chat-sidebar-panel" id="chat-sidebar-user-3">
-            <h5 class="title">
-                <a class="js-back" href="#">
-                    <i class="fa fa-angle-left mr-xs"></i>
-                    Livia Walsh
-                </a>
-            </h5>
-            <ul class="message-list">
-            </ul>
-        </div>
-        <div class="chat-sidebar-chat chat-sidebar-panel" id="chat-sidebar-user-4">
-            <h5 class="title">
-                <a class="js-back" href="#">
-                    <i class="fa fa-angle-left mr-xs"></i>
-                    Jaron Fitzroy
-                </a>
-            </h5>
-            <ul class="message-list">
-            </ul>
-        </div>
-        <div class="chat-sidebar-chat chat-sidebar-panel" id="chat-sidebar-user-5">
-            <h5 class="title">
-                <a class="js-back" href="#">
-                    <i class="fa fa-angle-left mr-xs"></i>
-                    Mike Lewis
-                </a>
-            </h5>
-            <ul class="message-list">
-            </ul>
-        </div>
-        <div class="chat-sidebar-chat chat-sidebar-panel" id="chat-sidebar-user-6">
-            <h5 class="title">
-                <a class="js-back" href="#">
-                    <i class="fa fa-angle-left mr-xs"></i>
-                    Freda Edison
-                </a>
-            </h5>
-            <ul class="message-list">
-            </ul>
-        </div>
-        <div class="chat-sidebar-chat chat-sidebar-panel" id="chat-sidebar-user-7">
-            <h5 class="title">
-                <a class="js-back" href="#">
-                    <i class="fa fa-angle-left mr-xs"></i>
-                    Livia Walsh
-                </a>
-            </h5>
-            <ul class="message-list">
-            </ul>
-        </div>
-        <div class="chat-sidebar-chat chat-sidebar-panel" id="chat-sidebar-user-8">
-            <h5 class="title">
-                <a class="js-back" href="#">
-                    <i class="fa fa-angle-left mr-xs"></i>
-                    Jaron Fitzroy
-                </a>
-            </h5>
-            <ul class="message-list">
-            </ul>
-        </div>
-        <div class="chat-sidebar-chat chat-sidebar-panel" id="chat-sidebar-user-9">
-            <h5 class="title">
-                <a class="js-back" href="#">
-                    <i class="fa fa-angle-left mr-xs"></i>
-                    Mike Lewis
-                </a>
-            </h5>
-            <ul class="message-list">
-            </ul>
-        </div>
-        <footer class="chat-sidebar-footer form-group">
-            <input class="form-control input-dark fs-mini" id="chat-sidebar-input" type="text"  placeholder="Type your message">
-        </footer>
+        
     </div>
 </div>
+</s:if>
+
 
 <div class="content-wrap">
     <!-- main page content. the place to put widgets in. usually consists of .row > .col-md-* > .widget.  -->
@@ -721,6 +384,8 @@
         </ol>
         <h1 class="page-title">Events - <span class="fw-semi-bold">Feed</span></h1>
         <ul class="timeline">
+        
+        
         <s:iterator value="itemlist" status="cust_stat"> 
         <s:if test="# cust_stat.odd == true"><!-- 홀수면 -->
             <li class="on-left"><!-- 아이템노드+사진+댓글 --> <!-- 여기서 왼쪽 오른쪽...... -->
@@ -729,10 +394,45 @@
                     <span class="time"><s:property value="item_name"/></span>
                     <%-- <span class="time"><s:property value="item_name"/><span class="fw-semi-bold">am</span></span> --%>
                 </time>
-                <span class="event-icon event-icon-danger"><!-- 아이콘 (아이템) -->
+	            
+            	<span class="event-icon event-icon-danger"><!-- 아이콘 (아이템) -->
                     <i class="glyphicon glyphicon-cutlery"></i>
                 </span>
-                <section class="event"><!-- 사진 담길 곳....... -->
+                <section class="event">
+                    <span class="thumb-sm avatar pull-left mr-sm">
+                        <img class="img-circle" src="demo/img/people/a2.jpg" alt="...">
+                    </span>
+                    <h4 class="event-heading"><a href="#">Jessica Nilson</a> <small>@jess</small></h4>
+                    <p class="fs-sm text-muted">10:12 am - Publicly near Minsk</p>
+                    <div class="event-map" id="test12">
+                    
+                <!-- 유병훈 사진 올리기 실험 중  -->
+                     </div>
+           
+                
+                
+   	<div id="overlay_photo"></div> 
+	<div id="popup_layer_photo">
+                <section class="widget widget-login animated fadeInUp">
+                    <header>
+                        <h3>Photo Upload</h3>
+                    </header>
+                    <div class="widget-body">
+                          <form id="uploadPic" action="userImage" method="post" theme="simple" enctype="multipart/form-data">           
+							<br/><br/>
+	                    	<input type="file" id="upload" name="userImage" multiple class="multi with-preview" maxlength="2" accept="gif|jpg|png"/>
+		                	<input type="submit" value="등록"/>
+	                    </form>
+                    </div>
+                </section>
+	</div>
+	
+
+               	<!-- 유병훈 사진 올리기 실험 중  -->
+                   
+                   
+                   
+               /* <section class="event"><!-- 사진 담길 곳....... -->
                     <h4 class="event-heading"><a href="#">Jessica Smith</a> <small>@jess</small></h4>
                     <p class="fs-sm text-muted">February 22, 2014 at 01:59 PM</p>
                     <p class="fs-mini">
@@ -743,13 +443,18 @@
                         <a href="demo/img/pictures/8.jpg">
                             <img src="demo/img/pictures/8.jpg">
                         </a>
-                    </div>
+                    </div> */
                     <footer>
+                      
+                           
+                       
+                        <ul class="post-comments">
                         <div class="clearfix">
                             <ul class="post-links mt-sm pull-left">
                                 <li><a href="#">1 hour</a></li>
                                 <li><a href="#"><span class="text-danger"><i class="fa fa-heart-o"></i> Like</span></a></li>
                                 <li><a href="#">Comment</a></li>
+                                <li><a id="photo_upload" href="#"><span class="text-danger"><i class="fa fa-file-photo-o"></i> Photo</span></a>
                             </ul>
 
                             <span class="thumb thumb-sm pull-right">
@@ -771,7 +476,7 @@
                                 </span>
                                 <div class="comment-body">
                                     <h6 class="author fw-semi-bold">Ignacio Abad <small>6 mins ago</small></h6>
-                                    <p>Hey, have you heard anything about that?</p>
+                                    <p>True. Heard absolutely the same.</p>
                                 </div>
                             </li>
                             <li>
@@ -856,6 +561,53 @@
         </ul>
     </main>
 </div>
+    		 <script>
+		 		$('#uploadPic').ajaxForm({
+					//보내기 전 유효성 검사가 필요할 경우
+					beforeSubmit: function(data, frm, opt){
+						/* 
+							**data[index]안에 name, type, value(name, size, type 등 들어있음)
+						$.each(data, function(index, val){
+							alert(data[index].value.name);
+						});
+						console.log(data);
+						*/
+						return true;
+					}, 
+					//submit 이후 처리
+					success: function(data, statusText){
+						console.log(data);
+						$('#popup_layer_photo, #overlay_photo').hide();
+						var photo_array = data.list_savedFile;
+							$.each(photo_array, function(index, val){
+								$('#test12').append(
+										"<img width='150px' height='150px' src='image/"+photo_array[index]+"' alt='...'/>"
+								);//append
+							});//each
+						return false;
+					},
+					//ajax error
+					error: function(e){
+						alert('에러 발생');
+						console.log(e);
+					}
+				});//ajaxForm 
+             </script>
+                
+                
+	<script>
+		$('#photo_upload').on('click', function(){
+			$('#popup_layer_photo, #overlay_photo').show(); 
+		});//photo_upload clicked,
+	
+	    $('#overlay_photo, .close').click(function(e){ 
+	        e.preventDefault(); 
+	        $('#popup_layer_photo, #overlay_photo').hide(); 
+	    });//other area clicked,
+	    
+	</script>
+
+
 <!-- The Loader. Is shown when pjax happens -->
 <div class="loader-wrap hiding hide">
     <i class="fa fa-circle-o-notch fa-spin-fast"></i>
@@ -880,8 +632,8 @@
 <script src="js/app.js"></script>
 
 <!-- page specific libs -->
-<script src="http://maps.google.com/maps/api/js?sensor=true"></script>
-<%-- <script src="vendor/gmaps/gmaps.js"></script> --%>
+<%-- <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+<script src="vendor/gmaps/gmaps.js"></script> --%>
 <script src="vendor/magnific-popup/dist/jquery.magnific-popup.min.js"></script>
 <!-- page specific js -->
 

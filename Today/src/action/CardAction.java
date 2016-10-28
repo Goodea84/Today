@@ -1,6 +1,8 @@
 package action;
 
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -8,6 +10,7 @@ import org.apache.struts2.interceptor.SessionAware;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import today.util.FileService;
 import today.dao.CardDAO;
 import today.dao.CustomerDAO;
 import today.vo.Card;
@@ -29,7 +32,6 @@ public class CardAction extends ActionSupport implements SessionAware{
 	private ArrayList<Item> itemlist;
 	private ArrayList<Card> clist;
 	private int card_id;
-	
 	
 	
 	
@@ -107,6 +109,7 @@ public class CardAction extends ActionSupport implements SessionAware{
 		
 		return SUCCESS;
 	}
+	
 	
 	
 	/*

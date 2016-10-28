@@ -130,6 +130,18 @@ Copyright (c) 2015 Daniel Eden
 		overflow: scroll;
 	}
 	
+	/* 유병훈: 사진 업로드 시 공간창출*/
+	#overlay_photo { 
+	background-color: #000; bottom: 0; left: 0; opacity: 0.7; filter: alpha(opacity = 50); 
+	/* IE7 & 8 */ position: fixed; right: 0; top: 0; z-index: 99; display:none;
+	}
+
+	#popup_layer_photo { 
+	width:600px; margin-bottom:50px; background:#fff; border:solid 1px #ccc; position:absolute; 
+	top:150px; left:850px; margin-left:-200px; box-shadow: 0px 1px 20px #333; z-index:100; display:none;
+	}
+	/* 유병훈: 사진 업로드 시  */
+	
 	/* 장민식 */ /* 경로 아이콘 */
 	.pass_1{
 	position:absolute;left:25%;width:50px;height:50px;line-height:37px;margin-left:-25px;
