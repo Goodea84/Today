@@ -17,12 +17,83 @@
     <meta name="author" content="">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <script>
-        /* yeah we need this empty stylesheet here. It's cool chrome & chromium fix
-         chrome fix https://code.google.com/p/chromium/issues/detail?id=167083
-         https://code.google.com/p/chromium/issues/detail?id=332189
-         */
-    </script>
+    
+    <script src="script/jquery-3.1.0.min.js" type="text/javascript"></script> 
+	<script src="script/jquery-ui.min.js" type="text/javascript"></script>
+	<script>
+	
+		$(document).ready(function() {
+			
+			var card_id;
+			
+			$('.Shares').click(function() {
+				 
+				card_id = $(this).attr('href');
+				$('#popup_layer, #overlay_t').show(); 
+				
+				//$('#popup_layer').css("top", Math.max(0, $(window).scrollTop() + 100) + "px"); 
+				// $('#popup_layer').css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + $(window).scrollTop()) + "px"); 
+			});
+			
+			//김승훈 test button
+			$('#test').click(function() {
+				
+				var card_id = $('.card_id');
+				card_id.each(function(index, item){
+					
+					alert(item.value);
+				});
+				
+			});
+			
+			$('#overlay_t, .close').click(function(e) {
+				e.preventDefault();
+				$('#popup_layer, #overlay_t').hide();
+			});
+			
+			//공유버튼을 누르면 친구들에게 카드를 보낸다.
+			$('#sendCard').click(function(){
+				//체크된 친구들에게 카드를 보낸다. 
+		        $("input:checkbox[name='friend_check']:checked").each(function(index, item){
+		        	//customer_id 확인
+		        	$.ajax({
+		        	method: "post"
+		        	, url: "cardAdd"
+		        	, async: false
+		        	, dataType: "json"
+		        	, data: {"card.card_id":card_id, "customer.cust_id":item.value}
+		        	//, async: false
+		        	, success: function(response) {
+							if(response.checkCard===true){
+								//popup 숨기기
+								$('#popup_layer, #overlay_t').hide();
+								alert(response.customer.cust_id + "님에게 보내는 카드 중복입니다.");
+								/* var htm = "<div class='alert alert-danger alert-sm fade in'>"
+									+ "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&nbsp;×&nbsp;</button>"
+									+ "<span class='fw-semi-bold'>" + response.customer.cust_id + "님에게 보내는 카드 중복입니다.&nbsp;</span>";
+					          		+ "</div>"
+					          		
+								$('#alertArea').append(htm); */
+							}else{
+								//popup 숨기기
+								$('#popup_layer, #overlay_t').hide();
+								alert(response.customer.cust_id + "님에게 카드 전송되었습니다.");
+								/* var htm = "<div class='alert alert-danger alert-sm fade in'>"
+									+ "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&nbsp;×&nbsp;</button>"
+									+ "<span class='fw-semi-bold'>" + response.customer.cust_id + "님에게 카드 전송되었습니다.&nbsp;</span>";
+					          		+ "</div>"
+					          		
+								$('#alertArea').append(htm); */
+							}
+						}
+		        	});//ajax end
+		        });//each fucntion end
+			});//click function end
+	
+		});//(document).ready end
+	</script>
+   	<script src="script/jquery-3.1.0.min.js" type="text/javascript"></script> 
+	<script src="script/jquery-ui.min.js" type="text/javascript"></script> 
 </head>
 <body>
 <!--
@@ -70,7 +141,7 @@
                     <span class="icon"><i class="glyphicon glyphicon-inbox"></i></span>
                     My Card
                 </a>
-              </li>
+           	</li>
          </ul>
     </div>
 </nav>
@@ -92,7 +163,7 @@
                         <i class="fa fa-bars fa-lg hidden-xs"></i>
                     </a>
                 </li>
-            <!-- 왼쪽 상단 리프레시 / 취소 -->
+				<!-- 왼쪽 상단 리프레시 / 취소 -->
                 <li class="ml-sm mr-n-xs hidden-xs"><a href="page_moveTo_gallery"><i class="fa fa-refresh fa-lg"></i></a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right visible-xs">
@@ -124,20 +195,26 @@
                         <span class="input-group-addon">
                             <i class="fa fa-map-marker"></i>
                         </span>
-                  <!-- 지역(local) 검색 input tag -->
+						<!-- 지역(local) 검색 input tag -->
                         <input class="form-control" type="text" id="searchLocal" name="searchLocal" placeholder="카드 검색">
                     </div>
                 </div>
+                
+                <!-- <input type="button" value="test" id="test"> 김승훈 테스트버튼 -->
+                
             </div>
+            
+           
+            
             <ul class="nav navbar-nav navbar-right">
             <s:if test="#session.loginId != null">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle dropdown-toggle-notifications" id="notifications-dropdown-toggle" data-toggle="dropdown">
                         <span class="thumb-sm avatar pull-left">
-                           <!-- 상단 이미지  -->
+                        	<!-- 상단 이미지  -->
                         </span>
                         &nbsp;
-                  <strong><s:property value="#session.loginName" /></strong>&nbsp;
+						<strong><s:property value="#session.loginName" /></strong>&nbsp;
                         <span class="circle bg-warning fw-bold">
                             13
                         </span>
@@ -298,7 +375,7 @@
                                         <ul class="dropdown-menu">
                         <li><a href="#"><i class="glyphicon glyphicon-user"></i> &nbsp; My Account</a></li>
                         <li class="divider"></li>
-                  <!-- 알림 숫자 개수 나타내는 방법 badge bg-danger animated bounceIn -->
+						<!-- 알림 숫자 개수 나타내는 방법 badge bg-danger animated bounceIn -->
                         <!-- <li><a href="#">Inbox &nbsp;&nbsp;<span class="badge bg-danger animated bounceIn">9</span></a></li> -->
                         <li><a href="customer/logout.action"><i class="fa fa-sign-out"></i> &nbsp; Log Out</a></li>
                     </ul>
@@ -445,7 +522,7 @@
                         <ul class="post-links">
                             <li><a href="#"><s:property value="date" /></a></li><!-- 날짜 -->
                             <li><a href="#"><span class="text-danger"><i class="fa fa-heart-o"></i> Like</span></a></li> <!-- 옆에 추천수도 입력 -->
-                            <li><a href="#">Details</a></li> <!-- 코스명보여줄까 없앨까 -->
+                            <li><a onclick="return false" href="<s:property value="card_id" />" class="Shares">Shares</a></li>
                         </ul>
                     </div>
                 </div>
@@ -455,8 +532,53 @@
 
             <div class="col-sm-6 col-md-3 js-shuffle-sizer"></div>
         </div> <!-- 카드 끝 : 전혜선 -->
+        
+		<section id="alertSection" class="widget" style="background-color:transparent;">
+			<div class="widget-body" id="alertArea">
+			</div>
+		</section>
+        
     </main>
 </div>
+	<div id="overlay_t"></div>
+	<div id="popup_layer">
+		<section class="widget widget-login animated fadeInUp test">
+			<header>
+				<h3>My Friends List</h3>
+			</header>
+			<div class="widget-body">
+				<div class="list-group chat-sidebar-user-group">
+					<s:iterator value="flist">
+
+						<div class="list-group-item">
+							<!-- <a href="#"><i id="eee"	class="glyphicon glyphicon-envelope pull-right"></i></a> --> 
+							<input type="checkbox" name="friend_check" class="friend_check pull-right" value="<s:property value='cust_id' />">
+							<!-- <a href="#"><i class="glyphicon glyphicon-info-sign pull-right"></i></a> -->
+							<!-- <i class="fa fa-circle text-success pull-right"></i> -->
+							<!-- <i class="fa fa-circle text-success pull-right"></i> -->
+							<span class="thumb-sm pull-left mr"> 
+							<img id="friendimg" class="img-circle" src="<s:property value='cust_image' />"alt="..."> <!-- 사진 -->
+							</span>
+							<h5 class="message-sender" style="color: black">
+								<s:property value="name" />
+							</h5>
+							
+							<!-- 이름 -->
+							<!--  <p class="message-preview">Hey! What's up? So many times since we</p>  -->
+							<!--  프리뷰 -->
+						</div>
+					</s:iterator>
+					<br />
+					<input type="button" class="btn btn-primary width-100 mb-xs" value="Send Card" id="sendCard" />
+
+				</div>
+			</div>
+		</section>
+	</div>
+	<!-- loginform end jhs -->
+
+
+	<!-- The Loader. Is shown when pjax happens -->
 <!-- The Loader. Is shown when pjax happens -->
 <div class="loader-wrap hiding hide">
     <i class="fa fa-circle-o-notch fa-spin-fast"></i>
