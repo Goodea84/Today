@@ -51,7 +51,7 @@ public class CardDAO {
 		
 		try {
 			ss = factory.openSession();
-			result = (ArrayList) ss.selectList("CardMapper.cardidlist",custid);
+			result = (ArrayList)ss.selectList("CardMapper.cardidlist",custid);
 			ss.commit();
 		}
 		catch (Exception e) {
@@ -138,6 +138,7 @@ public class CardDAO {
 		return result;
 	}
 	
+
 	/**
 	 * 리플 검색
 	 * @param itemid : 아이템 아이디

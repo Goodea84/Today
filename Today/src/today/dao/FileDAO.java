@@ -8,6 +8,10 @@ import today.vo.Image;
 
 public class FileDAO {
 	
+	/**
+	 * 파일 저장
+	 * @param image : FileUploadAction에서 생성해 받아온 Image객체
+	 */
 	public void insert(Image image){
 		SqlSession ss = MybatisConfig.getSqlSessionFactory().openSession();
 		try {
@@ -21,11 +25,16 @@ public class FileDAO {
 		}
 	}//insert
 	
-	public List<Image> printAll(){
+	/**
+	 * 페이지 호출될 때마다 DB에서 카드에 담겨있는 이미지 주소를 받아옴
+	 * @param cust_id : 회원 seq
+	 * @return List<Image> : 해당되는 Image 객체
+	 */
+	public List<Image> printAll(int cust_id){
 		List<Image> list_image = null;
 		SqlSession ss = MybatisConfig.getSqlSessionFactory().openSession();
 		try {
-			list_image = ss.selectList("FileMapper.printAll");
+			list_image = ss.selectList("FileMapper.printAll", cust_id);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
