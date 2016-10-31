@@ -33,7 +33,8 @@ public class CardAction extends ActionSupport implements SessionAware{
 	private ArrayList<Card> clist;
 	private int card_id;
 	
-	
+	//카드 보낼 때 중복체크하는 변수
+	private boolean checkCard;
 	
 	public String movecard(){
 		
@@ -157,13 +158,31 @@ public class CardAction extends ActionSupport implements SessionAware{
 		return SUCCESS;
 	}
 	
+	//친구에게 카드를 보내는 코드
 	public String cardAdd() throws Exception{
 		
 		System.out.println(customer.getCust_id());
 		System.out.println(card.getCard_id());
+		System.out.println("customer_id" + customer.getCust_id());
+		System.out.println("cust_id" + customer.getCust_id());
+		
+		cardidlist = dao.cardidlist(customer.getCust_id());
+		customer = cust_dao.selectCustomer2(customer.getCust_id());
+		
+		for(int i : cardidlist){
+			
+			System.out.println("카드 번호 : " + i);
+			
+			if(i==card.getCard_id()){
+				System.out.println("카드 중복입니다.");
+				checkCard = true;
+				return SUCCESS;
+			} 
+		}
 		
 		CardList sendcard = new CardList(0, customer.getCust_id(), card.getCard_id());
 		dao.insertcardlist(sendcard);
+		System.out.println("카드를 보냅니다.");
 		
 		return SUCCESS;
 	}
@@ -257,7 +276,13 @@ public class CardAction extends ActionSupport implements SessionAware{
 	public void setItemlist(ArrayList<Item> itemlist) {
 		this.itemlist = itemlist;
 	}
-	
-	
-	
+
+	public boolean isCheckCard() {
+		return checkCard;
+	}
+
+	public void setCheckCard(boolean checkCard) {
+		this.checkCard = checkCard;
+	}
+
 }

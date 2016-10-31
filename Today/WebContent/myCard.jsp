@@ -23,40 +23,73 @@
 	
 		$(document).ready(function() {
 			
-			
 			var card_id;
-	
-			$('#Shares').click(function() {
-				$('#popup_layer, #overlay_t').show();
-				card_id = $('.card_id').val();
+			
+			$('.Shares').click(function() {
+				 
+				card_id = $(this).attr('href');
+				$('#popup_layer, #overlay_t').show(); 
+				
 				//$('#popup_layer').css("top", Math.max(0, $(window).scrollTop() + 100) + "px"); 
 				// $('#popup_layer').css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + $(window).scrollTop()) + "px"); 
 			});
+			
+			//김승훈 test button
+			$('#test').click(function() {
+				
+				var card_id = $('.card_id');
+				card_id.each(function(index, item){
+					
+					alert(item.value);
+				});
+				
+			});
+			
 			$('#overlay_t, .close').click(function(e) {
 				e.preventDefault();
 				$('#popup_layer, #overlay_t').hide();
 			});
 			
+			//공유버튼을 누르면 친구들에게 카드를 보낸다.
 			$('#sendCard').click(function(){
-				
+				//체크된 친구들에게 카드를 보낸다. 
 		        $("input:checkbox[name='friend_check']:checked").each(function(index, item){
 		        	//customer_id 확인
-		        	alert(item.value);
 		        	$.ajax({
 		        	method: "post"
 		        	, url: "cardAdd"
+		        	, async: false
 		        	, dataType: "json"
 		        	, data: {"card.card_id":card_id, "customer.cust_id":item.value}
+		        	//, async: false
 		        	, success: function(response) {
-						alert("success");
-					}
-		        });
-		        });
-		        	
-		       // }
-			});
+							if(response.checkCard===true){
+								//popup 숨기기
+								$('#popup_layer, #overlay_t').hide();
+								alert(response.customer.cust_id + "님에게 보내는 카드 중복입니다.");
+								/* var htm = "<div class='alert alert-danger alert-sm fade in'>"
+									+ "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&nbsp;×&nbsp;</button>"
+									+ "<span class='fw-semi-bold'>" + response.customer.cust_id + "님에게 보내는 카드 중복입니다.&nbsp;</span>";
+					          		+ "</div>"
+					          		
+								$('#alertArea').append(htm); */
+							}else{
+								//popup 숨기기
+								$('#popup_layer, #overlay_t').hide();
+								alert(response.customer.cust_id + "님에게 카드 전송되었습니다.");
+								/* var htm = "<div class='alert alert-danger alert-sm fade in'>"
+									+ "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&nbsp;×&nbsp;</button>"
+									+ "<span class='fw-semi-bold'>" + response.customer.cust_id + "님에게 카드 전송되었습니다.&nbsp;</span>";
+					          		+ "</div>"
+					          		
+								$('#alertArea').append(htm); */
+							}
+						}
+		        	});//ajax end
+		        });//each fucntion end
+			});//click function end
 	
-		});
+		});//(document).ready end
 	</script>
    	<script src="script/jquery-3.1.0.min.js" type="text/javascript"></script> 
 	<script src="script/jquery-ui.min.js" type="text/javascript"></script> 
@@ -165,7 +198,13 @@
                         <input class="form-control" type="text" id="searchLocal" name="searchLocal" placeholder="카드 검색">
                     </div>
                 </div>
+                
+                <!-- <input type="button" value="test" id="test"> 김승훈 테스트버튼 -->
+                
             </div>
+            
+           
+            
             <ul class="nav navbar-nav navbar-right">
             <s:if test="#session.loginId != null">
                 <li class="dropdown">
@@ -431,8 +470,7 @@
                         <ul class="post-links">
                             <li><a href="#"><s:property value="date" /></a></li><!-- 날짜 -->
                             <li><a href="#"><span class="text-danger"><i class="fa fa-heart-o"></i> Like</span></a></li> <!-- 옆에 추천수도 입력 -->
-                            <li><a href="#">Details</a></li> <!-- 코스명보여줄까 없앨까 -->
-                            <li><a href="#" id="Shares">Shares</a></li>
+                            <li><a onclick="return false" href="<s:property value="card_id" />" class="Shares">Shares</a></li>
                         </ul>
                     </div>
                 </div>
@@ -441,6 +479,12 @@
 
             <div class="col-sm-6 col-md-3 js-shuffle-sizer"></div>
         </div>
+        
+		<section id="alertSection" class="widget" style="background-color:transparent;">
+			<div class="widget-body" id="alertArea">
+			</div>
+		</section>
+        
     </main>
 </div>
 	<div id="overlay_t"></div>
@@ -450,29 +494,29 @@
 				<h3>My Friends List</h3>
 			</header>
 			<div class="widget-body">
-				<h5 class="sidebar-nav-title">FriendList</h5>
-
 				<div class="list-group chat-sidebar-user-group">
 					<s:iterator value="flist">
 
 						<div class="list-group-item">
 							<!-- <a href="#"><i id="eee"	class="glyphicon glyphicon-envelope pull-right"></i></a> --> 
-							<a href="#"><i class="glyphicon glyphicon-info-sign pull-right"></i></a>
+							<input type="checkbox" name="friend_check" class="friend_check pull-right" value="<s:property value='cust_id' />">
+							<!-- <a href="#"><i class="glyphicon glyphicon-info-sign pull-right"></i></a> -->
 							<!-- <i class="fa fa-circle text-success pull-right"></i> -->
 							<!-- <i class="fa fa-circle text-success pull-right"></i> -->
 							<span class="thumb-sm pull-left mr"> 
 							<img id="friendimg" class="img-circle" src="<s:property value='cust_image' />"alt="..."> <!-- 사진 -->
 							</span>
-							<h5 class="message-sender">
+							<h5 class="message-sender" style="color: black">
 								<s:property value="name" />
 							</h5>
-							<input type="checkbox" name="friend_check" class="friend_check" value="<s:property value='cust_id' />">
+							
 							<!-- 이름 -->
 							<!--  <p class="message-preview">Hey! What's up? So many times since we</p>  -->
 							<!--  프리뷰 -->
 						</div>
 					</s:iterator>
-					<input type="button" value="공유" id="sendCard">
+					<br />
+					<input type="button" class="btn btn-primary width-100 mb-xs" value="Send Card" id="sendCard" />
 
 				</div>
 			</div>
