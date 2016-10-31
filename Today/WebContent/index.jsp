@@ -1036,8 +1036,31 @@
 				}
 	        });//ajax
 		});
- 	
-
+		
+		$("#makeCardBtn").on("click", function() {
+			var leng = ybArray2.length;
+			var makeCard = [];
+			$.each(ybArray2, function(index, val) {
+				if (index == 0) {
+					alert(JSON.stringify(ybArray2[index].item[a]));
+					makeCard.push(ybArray2[index].item[a]);
+				} else if (index == 1) {
+					alert(JSON.stringify(ybArray2[index].item[b]));
+					makeCard.push(ybArray2[index].item[b]);
+				} else if (index == 2) {
+					alert(JSON.stringify(ybArray2[index].item[c]));
+					makeCard.push(ybArray2[index].item[c]);
+				} else if (index == 3) {
+					alert(JSON.stringify(ybArray2[index].item[d]));
+					makeCard.push(ybArray2[index].item[d]);
+				} else if (index == 4) {
+					alert(JSON.stringify(ybArray2[index].item[e]));
+					makeCard.push(ybArray2[index].item[e]);
+				}
+			});
+			alert(makeCard.length);
+		})
+		
 	});/* document.ready function end */
 	
 	
@@ -1078,7 +1101,7 @@
     <div class="js-sidebar-content">
     
         <header class="logo hidden-xs">
-            <a href="page_make_gallery"><img src="img/index_logo_min.png"></a>
+            <a href="index"><img src="img/index_logo_min.png"></a>
         </header>
         
         <!-- seems like lots of recent admin template have this feature of user info in the sidebar.
@@ -1569,7 +1592,7 @@
 									<a class="btn btn-info btn-block" id="detailFieldMoreInfo" href="" target='_blank' >Get More Info &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-inbox"></i></a>
 								</p>
 								<p>
-									<button type="button" id="makeCardBtn" class="btn btn-warning btn-block">Make Your Cards &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-inbox"></i></button>
+									<s:a id="makeCardBtn" class="btn btn-warning btn-block" href="#">Make Your Cards &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-inbox"></i></s:a>
 								</p>
 			                </section>
 						</span>
