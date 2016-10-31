@@ -6,7 +6,8 @@
 <html>
 <head>
 
-    <title>오늘 뭐하지?</title>
+    <title>MINNANO MARKERS</title>
+    <link rel="shortcut icon" href="img/favi.ico">
     <link href="css/application.min.css" rel="stylesheet">
     <!-- as of IE9 cannot parse css files with more that 4K classes separating in two files -->
     <!--[if IE 9]>
@@ -29,7 +30,7 @@
 	<script src="script/jquery-ui.min.js" type="text/javascript"></script> 
     
 	<!-- 다음 로드뷰 API 추가 -->
-    <script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=d0224817161ef3c311a65c73ea03f837"></script>
+    <script type="text/javascript" src="https://apis.daum.net/maps/maps3.js?apikey=24e8e748a9e5aa0afc349746fb967077"></script>
     
 	<!-- TMap API 스크립트 추가 -->
 	<script src="https://apis.skplanetx.com/tmap/js?version=1&format=javascript&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f"></script>
@@ -133,9 +134,14 @@
 	var url01;
 	var url02;
 	var local;
+ 	var a=0;
+ 	var b=0;
+ 	var c=0;
+ 	var d=0;
+ 	var e=0;
 	
 	function yb_test(ybArray2, a, b, c, d, e){
-		
+		ybArray.length = 0;
 		var max = ybArray2.length;
 		var i = 0;
 		$.each(ybArray2, function(index, value){
@@ -442,7 +448,7 @@
 			var item;
 			function onOverMarkerS(evt){
 				if(clickCheckS===0){
-				item = ybArray3[0].item[0].title;
+				item = ybArray3[0].item[a].title;
 				blogInfoStart(item);						//블로그 정보를 가져오기 위한 키워드와 인덱스 호출
 				popupS = new Tmap.Popup("p1",
 										lonlatS,
@@ -482,18 +488,26 @@
 			function onOverMarkerE(evt){
 				
 				if(clickCheckE===0){
-				item = ybArray3[itemCount-1].item[0].title;
-				blogInfoEnd(item);
-				popupE = new Tmap.Popup("p1",
-										lonlatE,
-				                        new Tmap.Size(720, 362),
-				                        '<div class="col-xl-9 col-xl-pull-3" id="overayDivEnd"></div>',
-				                        true
-				                        ); 
-				map.addPopup(popupE);
-				popupE.show();
-				clickCheckE=1;
-				}else{
+					if (itemCount === 2) {
+						item = ybArray3[itemCount-1].item[b].title;
+					} else if (itemCount === 3) {
+						item = ybArray3[itemCount-1].item[c].title;
+					} else if (itemCount === 4) {
+						item = ybArray3[itemCount-1].item[d].title;
+					} else if (itemCount === 5) {
+						item = ybArray3[itemCount-1].item[e].title;
+					}
+					blogInfoEnd(item);
+					popupE = new Tmap.Popup("p1",
+											lonlatE,
+					                        new Tmap.Size(720, 362),
+					                        '<div class="col-xl-9 col-xl-pull-3" id="overayDivEnd"></div>',
+					                        true
+					                        ); 
+					map.addPopup(popupE);
+					popupE.show();
+					clickCheckE=1;
+				} else {
 					popupE.show();
 				}
 				
@@ -526,7 +540,7 @@
 				function onOverMarkerA(evt){
 					
 					if(clickCheckA===0){
-					item = ybArray3[1].item[0].title;
+					item = ybArray3[1].item[b].title;
 					blogInfoA(item);					//블로그 정보를 가져오기 위한 키워드와 인덱스 호출
 					popupA = new Tmap.Popup("p1",
 											lonlatA,
@@ -565,7 +579,7 @@
 				function onOverMarkerB(evt){
 					
 					if(clickCheckB===0){
-					item = ybArray3[2].item[0].title;
+					item = ybArray3[2].item[c].title;
 					blogInfoB(item);					//블로그 정보를 가져오기 위한 키워드와 인덱스 호출
 					popupB = new Tmap.Popup("p1",
 											lonlatB,
@@ -605,7 +619,7 @@
 				function onOverMarkerC(evt){
 					
 					if(clickCheckC===0){
-					item = ybArray3[3].item[0].title;
+					item = ybArray3[3].item[d].title;
 					blogInfoC(item);					//블로그 정보를 가져오기 위한 키워드와 인덱스 호출
 					popupC = new Tmap.Popup("p1",
 											lonlatC,
@@ -690,14 +704,16 @@
 		//		그래서 경로 버튼에서 서로를 클릭할 때는 div안에 내용만 바뀌게 함.
 		//		완전히 끄려면 오른쪽 하단의 이미지를 클릭하여야 함.
 		
-		$('#foot').on('click', '#pass_'+1, function(){
+		$('#foot').on('click', '#pass_1', function(){
 			$('#above_foot').toggle(showOrHide);
 			if(showOrHide==true){
 				$('#above_foot').show();
 				//alert(JSON.stringify(ybArray2[0].item[0].longitude)  + "     " +  JSON.stringify(ybArray2[0].item[0].latitude));
-				spotNum = 0;
 				loadRoadView(ybArray2[0].item[0].id, ybArray2[0].item[0].latitude, ybArray2[0].item[0].longitude);
-				loadRoadDetail(0);
+				spotNum = 0;
+				loadRoadDetail(0, a);
+				markerSelectA = true;				markerSelectB = false;				markerSelectC = false;
+				markerSelectD = false;				markerSelectE = false;
 			} else {$('#above_foot').hide();}
 		});
 		$('#foot').on('click', '#pass_2', function(){
@@ -706,7 +722,9 @@
 				$('#above_foot').show();
 				spotNum = 1;
 				loadRoadView(ybArray2[1].item[0].id, ybArray2[1].item[0].latitude, ybArray2[1].item[0].longitude);
-				loadRoadDetail(1);
+				loadRoadDetail(1, b);
+				markerSelectA = false;				markerSelectB = true;				markerSelectC = false;
+				markerSelectD = false;				markerSelectE = false;
 				} else {$('#above_foot').hide();}
 		});
 		$('#foot').on('click', '#pass_3', function(){
@@ -715,7 +733,9 @@
 				$('#above_foot').show();
 				spotNum = 2;
 				loadRoadView(ybArray2[2].item[0].id, ybArray2[2].item[0].latitude, ybArray2[2].item[0].longitude);
-				loadRoadDetail(2);
+				loadRoadDetail(2, c);
+				markerSelectA = false;				markerSelectB = false;				markerSelectC = true;
+				markerSelectD = false;				markerSelectE = false;
 			} else {$('#above_foot').hide();}
 		});
 		$('#foot').on('click', '#pass_4', function(){
@@ -724,7 +744,9 @@
 				$('#above_foot').show();
 				spotNum = 3;
 				loadRoadView(ybArray2[3].item[0].id, ybArray2[3].item[0].latitude, ybArray2[3].item[0].longitude);
-				loadRoadDetail(3);
+				loadRoadDetail(3, d);
+				markerSelectA = false;				markerSelectB = false;				markerSelectC = false;
+				markerSelectD = true;				markerSelectE = false;
 			} else {$('#above_foot').hide();}
 		});
 		$('#foot').on('click', '#pass_5', function(){
@@ -733,7 +755,9 @@
 				$('#above_foot').show();
 				spotNum = 4;
 				loadRoadView(ybArray2[4].item[0].id, ybArray2[4].item[0].latitude, ybArray2[4].item[0].longitude);
-				loadRoadDetail(4);
+				loadRoadDetail(4, e);
+				markerSelectA = false;				markerSelectB = false;				markerSelectC = false;
+				markerSelectD = false;				markerSelectE = true;
 			} else {$('#above_foot').hide();}
 		});
 		
@@ -829,163 +853,6 @@
  	var markerSelectD = false;
  	var markerSelectE = false;
  	
- 	var a=0;
- 	var b=0;
- 	var c=0;
- 	var d=0;
- 	var e=0;
- 	//a,b,c,d,e는 아이템 인덱스를 나타내는 변수이다.
- 	//a,b,c,d,e는 전역변수로 선언되어야하며 search버튼 누를시에는 0으로 초기화 해야 한다. 
- 	//왼쪽을 눌렀을때의 이벤트 함수
- 	$('#left').on('click', function(){
- 		
- 		alert('left');
- 		
- 		if(markerSelectA == true){
- 			if(a==0){
- 				a=2;
- 			}else if(a==1){
- 				a=0;
- 			}else if(a==2){
- 				a=1;
- 			}
- 		}else if(markerSelectB == true){
- 			if(b==0){
- 				b=2;
- 			}else if(b==1){
- 				b=0;
- 			}else if(b==2){
- 				b=1;
- 			}
- 		}else if(markerSelectC == true){
- 			if(c==0){
- 				c=2;
- 			}else if(c==1){
- 				c=0;
- 			}else if(c==2){
- 				c=1;
- 			}
- 		}else if(markerSelectD == true){
- 			if(d==0){
- 				d=2;
- 			}else if(d==1){
- 				d=0;
- 			}else if(d==2){
- 				d=1;
- 			}
- 		}else if(markerSelectE == true){
- 			if(e==0){
- 				e=2;
- 			}else if(e==1){
- 				e=0;
- 			}else if(e==2){
- 				e=1;
- 			}
- 		}
- 		
- 		
- 		var item = [];
-		$(".itemField").each(function(idx){
-	        var item0 = $(".itemField:eq(" + idx + ")").val();
-			item.push(encodeURI(item0));
-			
-	     });//each
-	     
-	     alert(a);
-	     alert(b);
-	      
-        $.ajax({
-        	method: "post"
-        	, url: "map/sendItem"
-        	, dataType: "json"
-        	, data: {"itemList":item}
-        	, success: function(response) {
-				var recommendedItem = response.recommendedItem;
-				$(recommendedItem).each(function(index, value) {
-					var jsonValue = JSON.parse(value);
-					//alert(JSON.stringify(jsonValue));
-					//alert(jsonValue.item[index].title);
-					ybArray2.push(jsonValue);//사용자가 입력한 키워드들이 담김
-				});
-			    yb_test(ybArray2, a, b, c, d, e);//크롤링 해서 추천하는 장소 위도, 경도 담는 function으로 이동
-			}
-        });//ajax
- 	});
- 	//오른쪽을 눌렀을때의 이벤트 함수
-	$('#right').on('click', function(){
-		
-		alert('right');
-		
-		if(markerSelectA == true){
- 			if(a==0){
- 				a=1;
- 			}else if(a==1){
- 				a=2;
- 			}else if(a==2){
- 				a=0;
- 			}
- 		}else if(markerSelectB == true){
- 			if(b==0){
- 				b=1;
- 			}else if(b==1){
- 				b=2;
- 			}else if(b==2){
- 				b=0;
- 			}
- 		}else if(markerSelectC == true){
- 			if(c==0){
- 				c=1;
- 			}else if(c==1){
- 				c=2;
- 			}else if(c==2){
- 				c=0;
- 			}
- 		}else if(markerSelectD == true){
- 			if(d==0){
- 				d=1;
- 			}else if(d==1){
- 				d=2;
- 			}else if(d==2){
- 				d=0;
- 			}
- 		}else if(markerSelectE == true){
- 			if(e==0){
- 				e=1;
- 			}else if(e==1){
- 				e=2;
- 			}else if(e==2){
- 				e=0;
- 			}
- 		}
-		
-		var item = [];
-		$(".itemField").each(function(idx){
-	        var item0 = $(".itemField:eq(" + idx + ")").val();
-			item.push(encodeURI(item0));
-			
-	     });//each
-	     
-	     alert(a);
-	     alert(b);
-	      
-        $.ajax({
-        	method: "post"
-        	, url: "map/sendItem"
-        	, dataType: "json"
-        	, data: {"itemList":item}
-        	, success: function(response) {
-				var recommendedItem = response.recommendedItem;
-				$(recommendedItem).each(function(index, value) {
-					var jsonValue = JSON.parse(value);
-					//alert(JSON.stringify(jsonValue));
-					//alert(jsonValue.item[index].title);
-					ybArray2.push(jsonValue);//사용자가 입력한 키워드들이 담김
-				});
-			    yb_test(ybArray2, a, b, c, d, e);//크롤링 해서 추천하는 장소 위도, 경도 담는 function으로 이동
-			}
-        });//ajax
- 	});
-	//1024추가 김승훈 end
 	
 	/* 장민식 */ /* 로드뷰 추가 펑션 */
 	function loadRoadView(id, x, y) {
@@ -1003,7 +870,7 @@
 	}
 	
 	/* 장민식 */ /* 점포 정보 호출 펑션 */
-	function loadRoadDetail(num) {
+	function loadRoadDetail(num, itemRecommendCount) {
 		$('#detailFieldTitle').text(ybArray2[num].item[itemRecommendCount].title);
 		$('#detailFieldCategory').text(ybArray2[num].item[itemRecommendCount].category);
 		$('#detailFieldAddress').text(ybArray2[num].item[itemRecommendCount].address);
@@ -1017,32 +884,158 @@
 		$('#detailFieldMoreInfo').attr('href', ybArray2[num].item[itemRecommendCount].placeUrl);
 	}
 	
-	//다른 추천 버튼
-	$('#recommendBtnLeft').click(function() {
-		if (itemRecommendCount === 0) {
-			itemRecommendCount = 3;
-		}
-		--itemRecommendCount;	//카운트 차감
-		//점포 세부정보 다시 호출
-		loadRoadDetail(spotNum);
-		//로드뷰 정보 다시호출
-		loadRoadView(ybArray2[spotNum].item[itemRecommendCount].id
-				, ybArray2[spotNum].item[itemRecommendCount].latitude
-				, ybArray2[spotNum].item[itemRecommendCount].longitude);
-	});
-	
-	$('#recommendBtnRight').click(function() {
-		if (itemRecommendCount === 2) {
-			itemRecommendCount = -1;
-		}
-		++itemRecommendCount;	//카운트 증감
-		//점포 세부정보 다시 호출
-		loadRoadDetail(spotNum);
-		//로드뷰 정보 다시호출
-		loadRoadView(ybArray2[spotNum].item[itemRecommendCount].id
-				, ybArray2[spotNum].item[itemRecommendCount].latitude
-				, ybArray2[spotNum].item[itemRecommendCount].longitude);
-	});
+		//다른 추천 버튼
+		$('#recommendBtnLeft').click(function() {
+			
+			if (markerSelectA === true) {
+				if (a === 0) {
+					a = 3;
+				}
+				--a;	//카운트 차감
+				//점포 세부정보 다시 호출
+				loadRoadDetail(0, a);
+				//로드뷰 정보 다시호출
+				loadRoadView(ybArray2[0].item[a].id
+						, ybArray2[0].item[a].latitude
+						, ybArray2[0].item[a].longitude);
+			} else if (markerSelectB === true) {
+				if (b === 0) {
+					b = 3;
+				}
+				--b;	//카운트 차감
+				loadRoadDetail(1, b);
+				loadRoadView(ybArray2[1].item[b].id
+						, ybArray2[1].item[b].latitude
+						, ybArray2[1].item[b].longitude);
+			} else if (markerSelectC === true) {
+				if (c === 0) {
+					c = 3;
+				}
+				--c;	//카운트 차감
+				loadRoadDetail(2, c);
+				loadRoadView(ybArray2[2].item[c].id
+						, ybArray2[2].item[c].latitude
+						, ybArray2[2].item[c].longitude);
+			} else if (markerSelectD === true) {
+				if (d === 0) {
+					d = 3;
+				}
+				--d;	//카운트 차감
+				loadRoadDetail(3, d);
+				loadRoadView(ybArray2[3].item[d].id
+						, ybArray2[3].item[d].latitude
+						, ybArray2[3].item[d].longitude);
+			} else if (markerSelectE === true) {
+				if (e === 0) {
+					e = 3;
+				}
+				--e;	//카운트 차감
+				loadRoadDetail(4, e);
+				loadRoadView(ybArray2[4].item[e].id
+						, ybArray2[4].item[e].latitude
+						, ybArray2[4].item[e].longitude);
+			}
+			
+			var item = [];
+			$(".itemField").each(function(idx){
+		        var item0 = $(".itemField:eq(" + idx + ")").val();
+				item.push(encodeURI(item0));
+				
+		    });//each
+		    ybArray2.length = 0;
+	        $.ajax({
+	        	method: "post"
+	        	, url: "map/sendItem"
+	        	, dataType: "json"
+	        	, data: {"itemList":item}
+	        	, success: function(response) {
+					var recommendedItem = response.recommendedItem;
+					$(recommendedItem).each(function(index, value) {
+						var jsonValue = JSON.parse(value);
+						//alert(JSON.stringify(jsonValue));
+						//alert(jsonValue.item[index].title);
+						ybArray2.push(jsonValue);//사용자가 입력한 키워드들이 담김
+					});
+				    yb_test(ybArray2, a, b, c, d, e);//크롤링 해서 추천하는 장소 위도, 경도 담는 function으로 이동
+				}
+	        });//ajax
+			
+		});
+		
+		$('#recommendBtnRight').click(function() {
+			if (markerSelectA === true) {
+				if (a === 2) {
+					a = -1;
+				}
+				++a;	//카운트 차감
+				//점포 세부정보 다시 호출
+				loadRoadDetail(0, a);
+				//로드뷰 정보 다시호출
+				loadRoadView(ybArray2[0].item[a].id
+						, ybArray2[0].item[a].latitude
+						, ybArray2[0].item[a].longitude);
+			} else if (markerSelectB === true) {
+				if (b === 2) {
+					b = -1;
+				}
+				++b;	//카운트 차감
+				loadRoadDetail(1, b);
+				loadRoadView(ybArray2[1].item[b].id
+						, ybArray2[1].item[b].latitude
+						, ybArray2[1].item[b].longitude);
+			} else if (markerSelectC === true) {
+				if (c === 2) {
+					c = -1;
+				}
+				++c;	//카운트 차감
+				loadRoadDetail(2, c);
+				loadRoadView(ybArray2[2].item[c].id
+						, ybArray2[2].item[c].latitude
+						, ybArray2[2].item[c].longitude);
+			} else if (markerSelectD === true) {
+				if (d === 2) {
+					d = -1;
+				}
+				++d;	//카운트 차감
+				loadRoadDetail(3, d);
+				loadRoadView(ybArray2[3].item[d].id
+						, ybArray2[3].item[d].latitude
+						, ybArray2[3].item[d].longitude);
+			} else if (markerSelectE === true) {
+				if (e === 2) {
+					e = -1;
+				}
+				++e;	//카운트 차감
+				loadRoadDetail(4, e);
+				loadRoadView(ybArray2[4].item[e].id
+						, ybArray2[4].item[e].latitude
+						, ybArray2[4].item[e].longitude);
+			}
+			
+			var item = [];
+			$(".itemField").each(function(idx){
+		        var item0 = $(".itemField:eq(" + idx + ")").val();
+				item.push(encodeURI(item0));
+				
+		    });//each
+		    ybArray2.length = 0;
+	        $.ajax({
+	        	method: "post"
+	        	, url: "map/sendItem"
+	        	, dataType: "json"
+	        	, data: {"itemList":item}
+	        	, success: function(response) {
+					var recommendedItem = response.recommendedItem;
+					$(recommendedItem).each(function(index, value) {
+						var jsonValue = JSON.parse(value);
+						//alert(JSON.stringify(jsonValue));
+						//alert(jsonValue.item[index].title);
+						ybArray2.push(jsonValue);//사용자가 입력한 키워드들이 담김
+					});
+				    yb_test(ybArray2, a, b, c, d, e);//크롤링 해서 추천하는 장소 위도, 경도 담는 function으로 이동
+				}
+	        });//ajax
+		});
  	
 
 	});/* document.ready function end */
@@ -1085,7 +1078,7 @@
     <div class="js-sidebar-content">
     
         <header class="logo hidden-xs">
-            <a href="page_make_gallery">sing</a>
+            <a href="page_make_gallery"><img src="img/index_logo_min.png"></a>
         </header>
         
         <!-- seems like lots of recent admin template have this feature of user info in the sidebar.
@@ -1545,35 +1538,36 @@
 					<div class="widget-body" id="contentsField">
 						<span id="SpotInfo01"></span>	<!-- 로드뷰 span -->
 						<span id="SpotInfo02">			<!-- 점포 정보 span -->
-						    <section class="search-result-item">
+						    <section class="search-result-item" id="infoDiv">
 			                    <a class="image-link" href="#">
-			                        <img class="image" id="detailFieldImage" src="image/noImageLg.jpg" height="150px" width="200px">
+			                        <img class="image" id="detailFieldImage" src="image/noImageLg.jpg" height="140px" width="200px">
 			                    </a>
 			                    <div class="search-result-item-body">
 			                        <div class="row">
 			                            <div class="col-sm-9">
-			                                <h4 class="search-result-item-heading" id="detailFieldTitle"></h4>
+			                                <h5 class="search-result-item-heading" id="detailFieldTitle"></h5>
 			                                <small><p class="fw-semi-bold" id="detailFieldCategory"></p></small>
-			                                <br>
-			                                <small><span class='fw-semi-bold' style="color:#e27045;">Address &nbsp;</span>
+			                                <small><span class='fw-semi-bold' style="color:#e27045;">Address&nbsp;&nbsp;&nbsp;</span>
 			                                <span class='fw-semi-bold' id="detailFieldAddress"></span></small><br>
-			                                <small><span class='fw-semi-bold' style="color:#e27045;">Tel &nbsp;</span>
+			                                <small><span class='fw-semi-bold' style="color:#e27045;">Tel&nbsp;&nbsp;&nbsp;</span>
 			                                <span class='fw-semi-bold' id="detailFieldPhone"></span></small>
 			                                
 			                            </div>
 			                            <div class="col-lg-4"  id="detailFieldBtnSet">
 			                                <p class="value3 mt-sm"> </p><p class="value3 mt-sm"> </p>
-				                            <button class="btn btn-inverse width-50 btn-sm" role="button" id="recommendBtnLeft">
-				                            <i class="fa fa-arrow-left text-warning"></i></button>
+				                            <button class="btn btn-default width-50 btn-xs mb-xs" role="button" id="recommendBtnLeft"> 
+				                            <i class="fa fa-arrow-left text-inverse"> </i></button>
 				                            
-				                            <button class="btn btn-inverse width-50 btn-sm" role="button" id="recommendBtnRight">
-				                            <i class="fa fa-arrow-right text-warning"></i></button>
+				                            <button class="btn btn-default width-50 btn-xs mb-xs" role="button" id="recommendBtnRight"> 
+				                            <i class="fa fa-arrow-right text-inverse"> </i></button>
 				                            
 			                                <p class="value3 mt-sm"> </p>
-			                                <a class="btn btn-primary btn-info btn-sm" id="detailFieldMoreInfo" href="" target='_blank' >&nbsp; Get More Info&nbsp;</a>
 			                            </div>
 			                        </div>
 			                    </div>
+								<p>
+									<a class="btn btn-info btn-block" id="detailFieldMoreInfo" href="" target='_blank' >Get More Info &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-inbox"></i></a>
+								</p>
 								<p>
 									<button type="button" id="makeCardBtn" class="btn btn-warning btn-block">Make Your Cards &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-inbox"></i></button>
 								</p>
