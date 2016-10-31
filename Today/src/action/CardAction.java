@@ -17,6 +17,7 @@ import today.vo.Card;
 import today.vo.CardList;
 import today.vo.Customer;
 import today.vo.Item;
+import today.vo.Reply;
 
 public class CardAction extends ActionSupport implements SessionAware{
 	
@@ -30,11 +31,20 @@ public class CardAction extends ActionSupport implements SessionAware{
 	private ArrayList<Customer> flist;
 	private ArrayList<Integer> cardidlist;
 	private ArrayList<Item> itemlist;
+	private ArrayList<Reply> replylist1;
+	private ArrayList<Reply> replylist2;
+	private ArrayList<Reply> replylist3;
+	private ArrayList<Reply> replylist4;
+	private ArrayList<Reply> replylist5;
+	
 	private ArrayList<Card> clist;
 	private int card_id;
+	private Reply reply;
 	
 	//카드 보낼 때 중복체크하는 변수
 	private boolean checkCard;
+	private String cust_img; //댓글 입력 이미지
+	
 	
 	public String movecard(){
 		
@@ -129,6 +139,8 @@ public class CardAction extends ActionSupport implements SessionAware{
 			fcustomer = cust_dao.selectCustomer2(list.get(i));
 			flist.add(fcustomer);
 		}
+		
+		cust_img = customer.getCust_image();
 
 		//카드 아이디 이용하여 전체 카드 객체 받아오기
 		card = dao.cardlist(card_id);
@@ -136,21 +148,64 @@ public class CardAction extends ActionSupport implements SessionAware{
 		//카드객체의 아이템1-5 arraylist 담기
 		
 		itemlist = new ArrayList<>();
-		//item id 이용해서 item객체 받아오기.
+		replylist1 = new ArrayList<>();
+		replylist2 = new ArrayList<>();
+		replylist3 = new ArrayList<>();
+		replylist4 = new ArrayList<>();
+		replylist5 = new ArrayList<>();
+		
+		//item id 이용해서 item객체,reply객체 받아오기.
 		if(card.getItem1()!=0){
+			Item item = dao.selectItem(card.getItem1());
+			System.out.println("=============="+item.getItem_id());
 			itemlist.add(dao.selectItem(card.getItem1()));
+			replylist1.addAll(dao.selectReply(card.getItem1()));
+			
+			for (int i = 0; i < replylist1.size(); i++) {
+				customer = cust_dao.selectCustomer2(replylist1.get(i).getCust_id());
+				replylist1.get(i).setRe_name(customer.getName());
+				replylist1.get(i).setRe_image(customer.getCust_image());
+			}
 		}
 		if(card.getItem2()!=0){
 			itemlist.add(dao.selectItem(card.getItem2()));
+			replylist2.addAll(dao.selectReply(card.getItem2()));
+			
+			for (int i = 0; i < replylist2.size(); i++) {
+				customer = cust_dao.selectCustomer2(replylist2.get(i).getCust_id());
+				replylist2.get(i).setRe_name(customer.getName());
+				replylist2.get(i).setRe_image(customer.getCust_image());
+			}
 		}		
 		if(card.getItem3()!=0){
 			itemlist.add(dao.selectItem(card.getItem3()));
+			replylist3.addAll(dao.selectReply(card.getItem3()));
+			
+			for (int i = 0; i < replylist3.size(); i++) {
+				customer = cust_dao.selectCustomer2(replylist3.get(i).getCust_id());
+				replylist3.get(i).setRe_name(customer.getName());
+				replylist3.get(i).setRe_image(customer.getCust_image());
+			}
 		}		
 		if(card.getItem4()!=0){
 			itemlist.add(dao.selectItem(card.getItem4()));
+			replylist4.addAll(dao.selectReply(card.getItem4()));
+			
+			for (int i = 0; i < replylist4.size(); i++) {
+				customer = cust_dao.selectCustomer2(replylist4.get(i).getCust_id());
+				replylist4.get(i).setRe_name(customer.getName());
+				replylist4.get(i).setRe_image(customer.getCust_image());
+			}
 		}		
 		if(card.getItem5()!=0){
 			itemlist.add(dao.selectItem(card.getItem5()));
+			replylist5.addAll(dao.selectReply(card.getItem5()));
+			
+			for (int i = 0; i < replylist5.size(); i++) {
+				customer = cust_dao.selectCustomer2(replylist5.get(i).getCust_id());
+				replylist5.get(i).setRe_name(customer.getName());
+				replylist5.get(i).setRe_image(customer.getCust_image());
+			}
 		}
 		
 
@@ -183,6 +238,25 @@ public class CardAction extends ActionSupport implements SessionAware{
 		CardList sendcard = new CardList(0, customer.getCust_id(), card.getCard_id());
 		dao.insertcardlist(sendcard);
 		System.out.println("카드를 보냅니다.");
+		
+		return SUCCESS;
+	}
+	
+	
+	//리플입력
+	
+	public String makereply() throws Exception{
+		
+		
+		customer = cust_dao.selectCustomer((String) session.get("loginId"));
+		reply.setCust_id(customer.getCust_id());
+		
+		dao.insertreply(reply);
+		
+		reply = dao.selectoneReply(reply.getReply_id());
+		reply.setRe_name(customer.getName());
+		reply.setRe_image(customer.getCust_image());
+		
 		
 		return SUCCESS;
 	}
@@ -276,6 +350,65 @@ public class CardAction extends ActionSupport implements SessionAware{
 	public void setItemlist(ArrayList<Item> itemlist) {
 		this.itemlist = itemlist;
 	}
+
+	public Reply getReply() {
+		return reply;
+	}
+
+	public void setReply(Reply reply) {
+		this.reply = reply;
+	}
+
+	public ArrayList<Reply> getReplylist1() {
+		return replylist1;
+	}
+
+	public void setReplylist1(ArrayList<Reply> replylist1) {
+		this.replylist1 = replylist1;
+	}
+
+	public ArrayList<Reply> getReplylist2() {
+		return replylist2;
+	}
+
+	public void setReplylist2(ArrayList<Reply> replylist2) {
+		this.replylist2 = replylist2;
+	}
+
+	public ArrayList<Reply> getReplylist3() {
+		return replylist3;
+	}
+
+	public void setReplylist3(ArrayList<Reply> replylist3) {
+		this.replylist3 = replylist3;
+	}
+
+	public ArrayList<Reply> getReplylist4() {
+		return replylist4;
+	}
+
+	public void setReplylist4(ArrayList<Reply> replylist4) {
+		this.replylist4 = replylist4;
+	}
+
+	public ArrayList<Reply> getReplylist5() {
+		return replylist5;
+	}
+
+	public void setReplylist5(ArrayList<Reply> replylist5) {
+		this.replylist5 = replylist5;
+	}
+
+	public String getCust_img() {
+		return cust_img;
+	}
+
+	public void setCust_img(String cust_img) {
+		this.cust_img = cust_img;
+	}
+
+
+
 
 	public boolean isCheckCard() {
 		return checkCard;

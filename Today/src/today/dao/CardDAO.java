@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import today.vo.Card;
 import today.vo.CardList;
 import today.vo.Item;
+import today.vo.Reply;
 
 public class CardDAO {
 	private SqlSessionFactory factory = MybatisConfig.getSqlSessionFactory();
@@ -50,7 +51,7 @@ public class CardDAO {
 		
 		try {
 			ss = factory.openSession();
-			result = (ArrayList) ss.selectList("CardMapper.cardidlist",custid);
+			result = (ArrayList)ss.selectList("CardMapper.cardidlist",custid);
 			ss.commit();
 		}
 		catch (Exception e) {
@@ -125,6 +126,77 @@ public class CardDAO {
 		try {
 			ss = factory.openSession();
 			result = ss.selectOne("CardMapper.selectItem",itemid);
+			ss.commit();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			if (ss != null) ss.close();
+		}
+		
+		return result;
+	}
+	
+
+	/**
+	 * 리플 검색
+	 * @param itemid : 아이템 아이디
+	 * @return result : 검색한 아이템 객체
+	 */
+	public ArrayList<Reply> selectReply(int itemid) {
+		
+		System.out.println("<DAO> selectReply");
+		ArrayList<Reply>  result = null;
+		SqlSession ss = null;
+		
+		try {
+			ss = factory.openSession();
+			result = (ArrayList)ss.selectList("CardMapper.selectReply",itemid);
+			ss.commit();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			if (ss != null) ss.close();
+		}
+		
+		return result;
+	}
+	
+	
+	//댓글입력
+	public int insertreply(Reply reply){
+		System.out.println("<DAO> insertreply");
+		int result = 0;
+		SqlSession ss = null;
+		
+		try {
+			ss = factory.openSession();
+			ss.insert("CardMapper.insertreply",reply);
+			ss.commit();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			if (ss != null) ss.close();
+		}
+		return result;
+		
+
+	}
+	
+	//입력 후 입력한 댓글 객체 검색
+	public Reply selectoneReply(int replyid){
+		System.out.println("<DAO> selectoneReply");
+		Reply result =null;
+		SqlSession ss = null;
+		
+		try {
+			ss = factory.openSession();
+			result = ss.selectOne("CardMapper.selectoneReply",replyid);
 			ss.commit();
 		}
 		catch (Exception e) {

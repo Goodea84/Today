@@ -438,10 +438,60 @@
 <div class="content-wrap">
     <!-- main page content. the place to put widgets in. usually consists of .row > .col-md-* > .widget.  -->
     <main id="content" class="content" role="main">
-        <ol class="breadcrumb">
-            <li>YOU ARE HERE</li>
-            <li class="active">Gallery</li>
-        </ol>
+        <h1 class="page-title">User - <span class="fw-semi-bold">Profile</span></h1>
+<!-- 프로필 : 전혜선 (수정할 수 있음)-->        
+            <div class="row" >
+            <div class="col-md-6">
+                <section class="widget">
+                    <div class="widget-body">
+                        <div class="widget-top-overflow text-white">
+                            <div class="height-250 overflow-hidden">
+                                <img class="img-responsive" src="demo/img/pictures/19.jpg">
+                            </div>
+                            <div class="btn-toolbar">
+                                <a href="#" class="btn btn-outline btn-sm pull-right">
+                                    <i class="fa fa-twitter mr-xs"></i>
+                                    Follow
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-5 text-center">
+                                <div class="post-user post-user-profile">
+                                    <span class="thumb-xlg">
+                                        <img class="img-circle" src="demo/img/people/a5.jpg" alt="...">
+                                    </span>
+                                    <h4 class="fw-normal">Adam <span class="fw-semi-bold">Johns</span></h4>
+                                    <p>UI/UX designer</p>
+
+                                </div>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="stats-row stats-row-profile mt text-right">
+                                    <div class="stat-item">
+                                        <p class="value">251</p>
+                                        <h5 class="name">Posts</h5>
+                                    </div>
+                                    <div class="stat-item">
+                                        <p class="value">9.38%</p>
+                                        <h5 class="name">Conversion</h5>
+                                    </div>
+                                    <div class="stat-item">
+                                        <p class="value">842</p>
+                                        <h5 class="name">Followers</h5>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    
+                </section>
+            
+            
+            </div>
+        </div><!-- 프로필 : 전혜선 (수정할 수 있음) end-->
+          
         <h1 class="page-title">Media - <span class="fw-semi-bold">Images</span></h1>
         <div class="clearfix mb-lg">
             <div class="btn-group m-b-20 js-filter-options">
@@ -463,10 +513,11 @@
         <s:iterator value="clist"> 
             <div class="col-sm-6 col-md-3 gallery-item" data-groups='["nature"]' data-title="Mountains"><!--분류,이름(아마 순서정렬)  -->
                 <div class="thumbnail">
-                    <a href="../demo/img/pictures/13.jpg"><img src="demo/img/pictures/1.jpg" alt="..."></a><!-- 클릭하면나오는이미지,이미지 -->
+                <div id="aaa">
+                    <a  href="page_moveTo_timeline?card_id=<s:property value='card_id' />" ><img src="demo/img/pictures/1.jpg" alt="..."></a><!-- 클릭하면나오는이미지,이미지 -->
+                    
                     <div class="caption">
                         <h5 class="mt-0 mb-xs"><s:property value="loca_name" /></h5><!-- 이름 -->
-                        <input type="hidden" class="card_id" value="<s:property value="card_id" />"> 
                         <ul class="post-links">
                             <li><a href="#"><s:property value="date" /></a></li><!-- 날짜 -->
                             <li><a href="#"><span class="text-danger"><i class="fa fa-heart-o"></i> Like</span></a></li> <!-- 옆에 추천수도 입력 -->
@@ -475,10 +526,11 @@
                     </div>
                 </div>
             </div>
+            </div>
             </s:iterator>
 
             <div class="col-sm-6 col-md-3 js-shuffle-sizer"></div>
-        </div>
+        </div> <!-- 카드 끝 : 전혜선 -->
         
 		<section id="alertSection" class="widget" style="background-color:transparent;">
 			<div class="widget-body" id="alertArea">
@@ -526,6 +578,7 @@
 
 
 	<!-- The Loader. Is shown when pjax happens -->
+<!-- The Loader. Is shown when pjax happens -->
 <div class="loader-wrap hiding hide">
     <i class="fa fa-circle-o-notch fa-spin-fast"></i>
 </div>

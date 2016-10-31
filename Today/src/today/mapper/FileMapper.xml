@@ -7,8 +7,8 @@
 		INSERT INTO image VALUES(image_seq.nextval, #{cust_id}, #{item_id}, #{photo})
 	</insert>
 
-	<select id="printAll" resultType="Image">
-		SELECT * FROM image
+	<select id="printAll" parameterType="int" resultType="Image">
+		SELECT * FROM image WHERE cust_id=#{cust_id}
 	</select>
 
 </mapper>
