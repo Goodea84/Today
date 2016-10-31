@@ -30,14 +30,15 @@
 	<!-- 유병훈 페이지 열릴 때마다 사진 가져오는 script -->
 	<script>
 		$(function(){
+			var name = '<%= session.getAttribute("loginId") %>';
 			$.ajax({
 				url: 'printImage',
 				method: 'post',
 				success: function(resp){
 					var list = resp.list_image;
 					$.each(list, function(index, val){
-						$('#test12').append(
-							"<img width='150px' height='150px' src='image/"+list[index].photo+"' alt='...'/>"
+						$('#'+list[index].item_id).append(
+							"<img class='demo_image' src='image/"+name+"/"+list[index].item_id+"/"+list[index].photo+"' alt='...'/>"
 						);//append
 					});//for-each
 				}//success
@@ -389,6 +390,7 @@
 	        <s:iterator value="itemlist" status="cust_stat"> 
 	        	<!-- 홀수면 if문 분기처리 -->
 		        <s:if test="# cust_stat.odd == true">
+		        	
 		            <li class="on-left"><!-- 아이템노드+사진+댓글 --> <!-- 여기서 왼쪽 오른쪽...... -->
 		                <time class="event-time" datetime="2014-05-19 03:04"><!-- 노드부분 -->
 		                    <%-- <span class="date">yesterday</span> --%>
@@ -407,8 +409,10 @@
 		                    <h4 class="event-heading"><a href="#">Jessica Nilson</a> <small>@jess</small></h4>
 		                    <p class="fs-sm text-muted">10:12 am - Publicly near Minsk</p>
 		                    
-		                    <div class="event-map" id="test12">	
-		                    	<!-- 사진 업로드 하면 담기는 div 태그 -->
+		                    <div class="event-map" id='<s:property value="itemlist[#cust_stat.index].item_id"/>'>	
+		                    	<a href="#">
+		                        	<img class="demo_image" src="demo/img/pictures/8.jpg"/>
+		                        </a>
 		                    </div>
 
 		                    <footer><!-- 사진 담기는 부분 아래부터 댓글 쓰는 부분까지 -->
@@ -419,7 +423,10 @@
 			                                <li><a href="#">Comment</a></li>
 			                            </ul>
 			                            <ul class="post-links mt-sm pull-right">
-		                            		<li><a id="photo_upload" href="#"><span class="text-danger"><i class="fa fa-file-photo-o"></i> Photo</span></a><!-- 사진 업로드 버튼 -->
+		                            		<li>
+		                            			<input type="hidden" class="item_no" value='<s:property value="itemlist[#cust_stat.index].item_id"/>'/>
+		                            			<a class="photo_upload" href="#"><span class="text-danger"><i class="fa fa-file-photo-o"></i> Photo</span></a><!-- 사진 업로드 버튼 -->
+		                            		</li>
 		                            	</ul>
 		                          	</div> 
 		                          	
@@ -487,17 +494,19 @@
 		                    <h4 class="event-heading"><a href="#">Jessica Smith</a> <small>@jess</small></h4>
 		                    <p class="fs-sm text-muted">February 22, 2014 at 01:59 PM</p>
 		                   
-		                   <!-- 사진 업로드 하면 바로 담기는 div 태그, 이걸 밑에 div로 옮겨야 할 듯.
-		                    <div class="event-map" id="test12">	
-		                    	사진 업로드 하면 담기는 div 태그
-		                    </div> -->
-		                   
-		                    <!-- 현재 디폴트로 쓰고 있는 사진. 사진이 꽉 차지 않는 건 div보다 img의 width가 작기 때문! -->
-		                    <div class="event-image">
-		                        <a href="demo/img/pictures/8.jpg">
-		                            <img width="850px" src="demo/img/pictures/8.jpg">
+		                   	<!--  사진 업로드 하면 바로 담기는 div 태그, 이걸 밑에 div로 옮겨야 할 듯. -->
+		                    <div class="event-map" id='<s:property value="itemlist[#cust_stat.index].item_id"/>'>	
+		                   		<a href="#">
+		                        	<img class="demo_image" src="demo/img/pictures/8.jpg"/>
 		                        </a>
 		                    </div>
+		                   
+		                    <!-- 현재 디폴트로 쓰고 있는 사진. 사진이 꽉 차지 않는 건 div보다 img의 width가 작기 때문! -->
+		                   <!-- <div class="event-image">
+		                        <a href="demo/img/pictures/8.jpg">
+		                        	<img src="demo/img/pictures/8.jpg"/>
+		                        </a>
+		                    </div> -->
 		                    
 		                    <footer><!-- 사진 담기는 부분 아래부터 댓글 쓰는 부분까지 -->
 		                        <div class="clearfix">
@@ -507,7 +516,10 @@
 		                                <li><a href="#">Comment</a></li>
 		                            </ul>
 		                            <ul class="post-links mt-sm pull-right">
-		                            	<li><a id="photo_upload" href="#"><span class="text-danger"><i class="fa fa-file-photo-o"></i> Photo</span></a><!-- 사진 업로드 버튼 -->
+	                            		<li>
+	                            			<input type="hidden" class="item_no" value='<s:property value="itemlist[#cust_stat.index].item_id"/>'/>
+	                            			<a class="photo_upload" href="#"><span class="text-danger"><i class="fa fa-file-photo-o"></i> Photo</span></a><!-- 사진 업로드 버튼 -->
+	                            		</li>
 		                            </ul>
 									
 						<%-- 	사람들 좋아요 누르는 거 필요없을 거 같아서 일단 주석처리 함	
@@ -561,6 +573,7 @@
     </main>
 </div>
 <!-- 메인 내용 끝 -->
+
 			<!-- 사진 업로드 부분 -->
 			<div id="overlay_photo"></div> 
 			<div id="popup_layer_photo">
@@ -568,19 +581,46 @@
 		             <header>
 		                 <h3>Photo Upload</h3>
 		             </header>
+                  <form id="uploadPic" action="userImage" method="post" theme="simple" enctype="multipart/form-data">           
 		             <div class="widget-body">
-		                   <form id="uploadPic" action="userImage" method="post" theme="simple" enctype="multipart/form-data">           
 						<br/><br/>
-		              	<input type="file" id="upload" name="userImage" multiple class="multi with-preview" maxlength="2" accept="gif|jpg|png"/>
-		           	<input type="submit" value="등록"/>
-		              </form>
+		              	<input type="file" id="upload" value="upload" name="userImage" multiple class="multi with-preview" maxlength="2" accept="gif|jpg|png"/>
+		           		<a id="upload_pic_btn" href="#"><i class="glyphicon glyphicon-upload"></i></a>
+		           		<a id="upload_btn" href="#"><i id="upload_btn_ok" class="glyphicon glyphicon-ok"></i></a>
+		           		<input type="submit" id="upload_real_btn" value="등록"/>
+		           		<input type="hidden" id="item_number" name="item_number" value=""/>
 		             </div>
+	              </form>
 		         </section>
 			</div>
 
 			<!-- 다른 script와 합치면 ajaxForm 오류가 날 수 있음 -->
     		 <script>
-		 		$('#uploadPic').ajaxForm({
+    			 $('.photo_upload').on('click', function(){
+    				$('#popup_layer_photo, #overlay_photo').show(); 
+    			});//사진 올리기 아이콘 클릭 시, 팝업 효과
+    		
+    		    $('#overlay_photo, .close').click(function(e){ 
+    		        e.preventDefault(); 
+    		        $('#popup_layer_photo, #overlay_photo').hide(); 
+    		    });//팝업 효과 나타났을 때, 다른 부분 클릭하면 사라지는 효과
+    		    
+    		 	$('.photo_upload').on('click', function(){
+    		 		var temp = $(this).parent().children('.item_no').val();
+    		 		$('#item_number').val(temp);
+        		 	var temp2 = $('#item_number').val();
+    		 	});//사진 등록할 때, 해당 item_no를 FORM안에 hidden값으로 넣고 가져감.
+    		 
+    			$('#upload_pic_btn').on('click', function(){
+    				$('#upload').trigger('click');
+    			});//사진 올리기 버튼 클릭
+
+    			$('#upload_btn').on('click', function(){
+    		 		$('#upload_real_btn').trigger('click'); 
+    			});//업로드 버튼 클릭
+			 	
+    			
+    			$('#uploadPic').ajaxForm({
 					//보내기 전 유효성 검사가 필요할 경우
 					beforeSubmit: function(data, frm, opt){
 						/* 
@@ -597,9 +637,12 @@
 						console.log(data);
 						$('#popup_layer_photo, #overlay_photo').hide();
 						var photo_array = data.list_savedFile;
-							$.each(photo_array, function(index, val){
-								$('#test12').append(
-										"<img width='150px' height='150px' src='image/"+photo_array[index]+"' alt='...'/>"
+						var map_itemNo = data.map_itemNo;
+						var map_savedFile = data.map_savedFile;
+						var name = '<%= session.getAttribute("loginId") %>';
+							$.each(map_itemNo, function(index, val){
+								$('#'+map_itemNo[index]).append(
+									"<img class='demo_image' src='image/"+name+"/"+map_itemNo[index]+"/"+map_savedFile[index]+"' alt='...'/>"
 								);//append
 							});//each
 						return false;
@@ -609,22 +652,9 @@
 						alert('에러 발생');
 						console.log(e);
 					}
-				});//ajaxForm 
+				});//ajaxForm
              </script>
                 
-                
-	<script>
-		$('#photo_upload').on('click', function(){
-			$('#popup_layer_photo, #overlay_photo').show(); 
-		});//photo_upload clicked,
-	
-	    $('#overlay_photo, .close').click(function(e){ 
-	        e.preventDefault(); 
-	        $('#popup_layer_photo, #overlay_photo').hide(); 
-	    });//other area clicked,
-	    
-	</script>
-
 
 <!-- The Loader. Is shown when pjax happens -->
 <div class="loader-wrap hiding hide">

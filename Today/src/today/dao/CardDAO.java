@@ -50,7 +50,7 @@ public class CardDAO {
 		
 		try {
 			ss = factory.openSession();
-			result = (ArrayList) ss.selectList("CardMapper.cardidlist",custid);
+			result = (ArrayList)ss.selectList("CardMapper.cardidlist",custid);
 			ss.commit();
 		}
 		catch (Exception e) {
@@ -137,4 +137,4 @@ public class CardDAO {
 		return result;
 	}
 	
-}
+}//class

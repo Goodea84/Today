@@ -137,6 +137,8 @@ public class CardAction extends ActionSupport implements SessionAware{
 		itemlist = new ArrayList<>();
 		//item id 이용해서 item객체 받아오기.
 		if(card.getItem1()!=0){
+			Item item = dao.selectItem(card.getItem1());
+			System.out.println("=============="+item.getItem_id());
 			itemlist.add(dao.selectItem(card.getItem1()));
 		}
 		if(card.getItem2()!=0){
