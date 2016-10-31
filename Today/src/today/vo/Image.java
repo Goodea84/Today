@@ -5,6 +5,7 @@ public class Image {
 	private int cust_id;
 	private int item_id;
 	private String photo;
+	
 	public Image() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -39,6 +40,11 @@ public class Image {
 	}
 	public void setPhoto(String photo) {
 		this.photo = photo;
+	}
+	@Override
+	public String toString() {
+		return "Image [image_id=" + image_id + ", cust_id=" + cust_id + ", item_id=" + item_id + ", photo=" + photo
+				+ "]";
 	}
 	
 	

@@ -24,7 +24,6 @@ public class CustomerDAO {
 	
 	public Customer selectCustomer(String email) {
 		System.out.println("<DAO> selectCustomer");
-		System.out.println("email : "+email);
 		SqlSession ss = null;
 		Customer customer = null;
 		
@@ -52,7 +51,6 @@ public class CustomerDAO {
 	public ArrayList<Integer> friendList(int custid) {
 		
 		System.out.println("<DAO> listFriend");
-		System.out.println("custid : "+custid);
 		SqlSession ss = null;
 		ArrayList<Integer> result=null;
 		
@@ -81,7 +79,6 @@ public class CustomerDAO {
 	
 	public Customer selectCustomer2(int custid) {
 		System.out.println("<DAO> selectCustomer2");
-		System.out.println("custid : "+custid);
 		SqlSession ss = null;
 		Customer customer = null;
 		

@@ -19,5 +19,6 @@
 			<result>/index.action</result>
 		</action>
 		
+
     </package>
 </struts>

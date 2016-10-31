@@ -37,4 +37,23 @@ select * from item where item_id=#{itemid}
 </select>
 
 
+<!-- 아이템 별 댓글리스트 불러오기  -->
+<select id="selectReply" parameterType="int" resultType="Reply" >
+select * from reply where item_id=#{itemid}
+</select>
+
+
+<!-- 댓글생성  -->
+<insert id="insertreply" parameterType="Reply" >
+insert into reply values(REPLY_SEQ.nextval, #{cust_id}, #{item_id},#{content},sysdate)
+<selectKey keyProperty="reply_id" resultType="int" order="AFTER">
+SELECT REPLY_SEQ.currval FROM dual
+</selectKey>
+</insert>
+
+<!-- 댓글 생성 후 생성된 댓글 객체 불러오기 -->
+<select id="selectoneReply" parameterType="int" resultType="Reply" >
+select * from reply where reply_id=#{replyid}
+</select>
+
 </mapper>

@@ -69,7 +69,7 @@
                     <span class="icon"><i class="glyphicon glyphicon-inbox"></i></span>
                     My Card
                 </a>
-           	</li>
+              </li>
          </ul>
     </div>
 </nav>
@@ -91,7 +91,7 @@
                         <i class="fa fa-bars fa-lg hidden-xs"></i>
                     </a>
                 </li>
-				<!-- 왼쪽 상단 리프레시 / 취소 -->
+            <!-- 왼쪽 상단 리프레시 / 취소 -->
                 <li class="ml-sm mr-n-xs hidden-xs"><a href="page_moveTo_gallery"><i class="fa fa-refresh fa-lg"></i></a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right visible-xs">
@@ -123,7 +123,7 @@
                         <span class="input-group-addon">
                             <i class="fa fa-map-marker"></i>
                         </span>
-						<!-- 지역(local) 검색 input tag -->
+                  <!-- 지역(local) 검색 input tag -->
                         <input class="form-control" type="text" id="searchLocal" name="searchLocal" placeholder="카드 검색">
                     </div>
                 </div>
@@ -133,10 +133,10 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle dropdown-toggle-notifications" id="notifications-dropdown-toggle" data-toggle="dropdown">
                         <span class="thumb-sm avatar pull-left">
-                        	<!-- 상단 이미지  -->
+                           <!-- 상단 이미지  -->
                         </span>
                         &nbsp;
-						<strong><s:property value="#session.loginName" /></strong>&nbsp;
+                  <strong><s:property value="#session.loginName" /></strong>&nbsp;
                         <span class="circle bg-warning fw-bold">
                             13
                         </span>
@@ -297,7 +297,7 @@
                                         <ul class="dropdown-menu">
                         <li><a href="#"><i class="glyphicon glyphicon-user"></i> &nbsp; My Account</a></li>
                         <li class="divider"></li>
-						<!-- 알림 숫자 개수 나타내는 방법 badge bg-danger animated bounceIn -->
+                  <!-- 알림 숫자 개수 나타내는 방법 badge bg-danger animated bounceIn -->
                         <!-- <li><a href="#">Inbox &nbsp;&nbsp;<span class="badge bg-danger animated bounceIn">9</span></a></li> -->
                         <li><a href="customer/logout.action"><i class="fa fa-sign-out"></i> &nbsp; Log Out</a></li>
                     </ul>
