@@ -11,6 +11,7 @@
 		<typeAlias type="today.vo.CardList" alias="CardList" />
 		<typeAlias type="today.vo.Item" alias="Item" />			
 		<typeAlias type="today.vo.Image" alias="Image"/>
+		<typeAlias type="today.vo.Reply" alias="Reply" />
 	</typeAliases>
 	
 	<!-- DB접속 정보 셋팅 -->

@@ -42,6 +42,46 @@
 					});//for-each
 				}//success
 			});//ajax
+
+			$(".replyBtn").on('click',function(){
+				var appid;
+				
+				
+				  if (this.id == "wreply1") {
+					  appid = $('#div1');
+				  }
+				  if (this.id == "wreply2") {
+					  appid = $('#div2');
+				  }
+				  if (this.id == "wreply3") {
+					  appid = $('#div3');
+				  }
+				  if (this.id == "wreply4") {
+					  appid = $('#div4');
+				  }
+				  if (this.id == "wreply5") {
+					  appid = $('#div5');
+				  }
+
+				var recontent = $(this).parent().children('#recontent').val();
+				var item_id = $(this).parent().children('input[type="hidden"]').val();
+
+
+				
+		 		$.ajax({
+					url : "reply"
+					, dataType  : "json"
+					, data : {"reply.item_id":item_id,"reply.content":recontent}
+					, success : function(resp){
+						appid.append("<li><span class='thumb-xs avatar pull-left mr-sm'><img class='img-circle' src='"+resp.reply.re_image+"' alt='...'>"
+								+"</span><div class='comment-body'><h6 class='author fw-semi-bold'>"+resp.reply.re_name+"<small>"
+								+resp.reply.re_date+"</small></h6><p>"+resp.reply.content+"</p></div></li>");
+
+					}
+				});
+				
+				
+			});
 		});//onload
 	</script>
 	<!-- 유병훈 페이지 열릴 때마다 사진 가져오는 script 끝 -->
@@ -386,7 +426,7 @@
         <h1 class="page-title">Events - <span class="fw-semi-bold">Feed</span></h1>
         <ul class="timeline">
         
-	        <s:iterator value="itemlist" status="cust_stat"> 
+	        <s:iterator value="itemlist" status="cust_stat"> <!-- 만약 item_id가 1이면 replylist1을 뿌리고.. 이렇게..? -->
 	        	<!-- 홀수면 if문 분기처리 -->
 		        <s:if test="# cust_stat.odd == true">
 		            <li class="on-left"><!-- 아이템노드+사진+댓글 --> <!-- 여기서 왼쪽 오른쪽...... -->
@@ -439,28 +479,111 @@
 			                            <!-- 좋아요 누른 사람들 끝 --> --%>
 		                        
 		                        <!-- 댓글 부분 시작 -->
-		                        <ul class="post-comments mt-sm">
+		                        <ul>
+		                            
+		                            <s:if test="item_id==1">
+		                            <div class="post-comments mt-sm" id=div1>
+		                            <s:iterator value="replylist1">
+		                            
 		                            <li>
 		                            	<!-- 댓글 작성자 사진 -->
 		                                <span class="thumb-xs avatar pull-left mr-sm">
-		                                    <img class="img-circle" src="demo/img/people/a1.jpg" alt="...">
+		                                    <img class="img-circle" src="<s:property value='re_image' />" alt="...">
 		                                </span>
 		                                <!-- 댓글 내용 -->
 		                                <div class="comment-body">
-		                                    <h6 class="author fw-semi-bold">Ignacio Abad <small>6 mins ago</small></h6>
-		                                    <p>True. Heard absolutely the same.</p>
+		                                    <h6 class="author fw-semi-bold"><s:property value="re_name" /> <small><s:property value="re_date" /></small></h6>
+		                                    <p><s:property value="content" /></p>
 		                                </div>
 		                            </li>
-		                            <li>
+		                            </s:iterator>
+		                            </div>
+		                       <div class="post-comments mt-sm">
+		                      <li>
 		                            	<!-- 댓글 작성란의 쓰는이의 사진 -->
 		                                <span class="thumb-xs avatar pull-left mr-sm">
-		                                    <img class="img-circle" src="img/avatar.png" alt="...">
+		                                    <img class="img-circle" src="<s:property value="cust_img" />" alt="...">
 		                                </span>
 		                                <!-- 댓글 입력란 -->
+								<s:form id="replyform" action="reply" method="post">
 		                                <div class="comment-body">
-		                                    <input class="form-control input-sm" type="text" placeholder="Write your comment...">
+											<input class="form-control input-sm recontent" type="text" id="recontent" name="recontent" />
+											<input type="hidden" value="<s:property value='item_id'/>" id="item_id" name="item_id" class="item_id" />
+											<a class="replyBtn" href="#" id="wreply1">전송 </a> 
+		                                </div>
+								</s:form>
+		                       </li>
+		                       </div>
+		                       
+		                       
+		                            </s:if>
+		                            
+		                   			<s:if test="item_id==3">
+		                   			<div id=div3 class="post-comments mt-sm">
+		                            <s:iterator value="replylist3">
+		                            <li>
+		                            	<!-- 댓글 작성자 사진 -->
+		                                <span class="thumb-xs avatar pull-left mr-sm">
+		                                    <img class="img-circle" src="<s:property value='re_image' />" alt="...">
+		                                </span>
+		                                <!-- 댓글 내용 -->
+		                                <div class="comment-body">
+		                                    <h6 class="author fw-semi-bold"><s:property value="re_name" /> <small><s:property value="re_date" /></small></h6>
+		                                    <p><s:property value="content" /></p>
 		                                </div>
 		                            </li>
+		                            </s:iterator>
+		                            </div>
+		                            <div class="post-comments mt-sm">
+		                         <li>
+		                            	<!-- 댓글 작성란의 쓰는이의 사진 -->
+		                                <span class="thumb-xs avatar pull-left mr-sm">
+		                                    <img class="img-circle" src="<s:property value="cust_img" />" alt="...">
+		                                </span>
+		                                <!-- 댓글 입력란 -->
+								<s:form id="replyform" action="reply" method="post">
+		                                <div class="comment-body">
+											<input class="form-control input-sm recontent" type="text" id="recontent" name="recontent" />
+											<input type="hidden" value="<s:property value='item_id'/>" id="item_id" name="item_id" class="item_id" />
+											<a class="replyBtn" href="#" id="wreply3">전송 </a> 
+		                                </div>
+								</s:form>
+		                            </li>
+		                            </div>
+		                            </s:if>
+		                           <s:if test="item_id==5">
+		                            <div id=div5 class="post-comments mt-sm">
+		                            <s:iterator value="replylist5">
+		                            <li>
+		                            	<!-- 댓글 작성자 사진 -->
+		                                <span class="thumb-xs avatar pull-left mr-sm">
+		                                    <img class="img-circle" src="<s:property value='re_image' />" alt="...">
+		                                </span>
+		                                <!-- 댓글 내용 -->
+		                                <div class="comment-body">
+		                                    <h6 class="author fw-semi-bold"><s:property value="re_name" /> <small><s:property value="re_date" /></small></h6>
+		                                    <p><s:property value="content" /></p>
+		                                </div>
+		                            </li>
+		                            </s:iterator>
+		                            </div>
+		                            <div class="post-comments mt-sm">
+		                          <li>
+		                            	<!-- 댓글 작성란의 쓰는이의 사진 -->
+		                                <span class="thumb-xs avatar pull-left mr-sm">
+		                                    <img class="img-circle" src="<s:property value="cust_img" />" alt="...">
+		                                </span>
+		                                <!-- 댓글 입력란 -->
+								<s:form id="replyform" action="reply" method="post">
+		                                <div class="comment-body">
+											<input class="form-control input-sm recontent" type="text" id="recontent" name="recontent" />
+											<input type="hidden" value="<s:property value='item_id'/>" id="item_id" name="item_id" class="item_id" />
+											<a class="replyBtn" href="#" id="wreply5">전송 </a> 
+		                                </div>
+								</s:form>
+		                            </li>
+		                            </div>
+		                            </s:if>
 		                        </ul>
 		                        <!-- 댓글 부분 끝 -->
 		                    </footer>
@@ -474,81 +597,120 @@
 		                <time class="event-time" datetime="2014-05-19 03:04"><!-- 노드부분 -->
 		                    <%-- <span class="date">yesterday</span> --%>
 		                    <span class="time"><s:property value="item_name"/></span><!-- 일겹살 뜨는 부분 -->
+		                    <%-- <span class="time"><s:property value="item_name"/><span class="fw-semi-bold">am</span></span> --%>
 		                </time>
-		                
-		                <span class="event-icon event-icon-danger"><!-- 아이콘 (아이템) -->
+			            
+		            	<span class="event-icon event-icon-danger"><!-- 아이콘 (아이템) -->
 		                    <i class="glyphicon glyphicon-cutlery"></i>
 		                </span>
 		                
 		                <section class="event"><!-- 사진 담길 곳....... -->
-		                	<span class="thumb-sm avatar pull-left mr-sm">
+		                    <span class="thumb-sm avatar pull-left mr-sm">
 		                        <img class="img-circle" src="demo/img/people/a2.jpg" alt="...">
 		                    </span>
-		                    <h4 class="event-heading"><a href="#">Jessica Smith</a> <small>@jess</small></h4>
-		                    <p class="fs-sm text-muted">February 22, 2014 at 01:59 PM</p>
-		                   
-		                   <!-- 사진 업로드 하면 바로 담기는 div 태그, 이걸 밑에 div로 옮겨야 할 듯.
-		                    <div class="event-map" id="test12">	
-		                    	사진 업로드 하면 담기는 div 태그
-		                    </div> -->
-		                   
-		                    <!-- 현재 디폴트로 쓰고 있는 사진. 사진이 꽉 차지 않는 건 div보다 img의 width가 작기 때문! -->
-		                    <div class="event-image">
-		                        <a href="demo/img/pictures/8.jpg">
-		                            <img width="850px" src="demo/img/pictures/8.jpg">
-		                        </a>
-		                    </div>
+		                    <h4 class="event-heading"><a href="#">Jessica Nilson</a> <small>@jess</small></h4>
+		                    <p class="fs-sm text-muted">10:12 am - Publicly near Minsk</p>
 		                    
+		                    <div class="event-map" id="test12">	
+		                    	<!-- 사진 업로드 하면 담기는 div 태그 -->
+		                    </div>
+
 		                    <footer><!-- 사진 담기는 부분 아래부터 댓글 쓰는 부분까지 -->
-		                        <div class="clearfix">
-		                            <ul class="post-links mt-sm pull-left">
-		                                <li><a href="#">1 hour</a></li>
-		                                <li><a href="#"><span class="text-danger"><i class="fa fa-heart-o"></i> Like</span></a></li>
-		                                <li><a href="#">Comment</a></li>
-		                            </ul>
-		                            <ul class="post-links mt-sm pull-right">
-		                            	<li><a id="photo_upload" href="#"><span class="text-danger"><i class="fa fa-file-photo-o"></i> Photo</span></a><!-- 사진 업로드 버튼 -->
-		                            </ul>
-									
-						<%-- 	사람들 좋아요 누르는 거 필요없을 거 같아서 일단 주석처리 함	
-									<!-- 좋아요 누른 사람들 시작 -->
-		                            <span class="thumb thumb-sm pull-right">
-		                                <a href="#">
-		                                    <img class="img-circle" src="demo/img/people/a1.jpg">
-		                                </a>
-		                            </span>
-		                            <span class="thumb thumb-sm pull-right">
-		                                <a href="#"><img class="img-circle" src="demo/img/people/a5.jpg"></a>
-		                            </span>
-		                            <span class="thumb thumb-sm pull-right">
-		                                <a href="#"><img class="img-circle" src="demo/img/people/a3.jpg"></a>
-		                            </span>
-		                            <!-- 좋아요 누른 사람들 끝 --> --%>
-		                        </div>
+			                        <div class="clearfix">
+			                            <ul class="post-links mt-sm pull-left">
+			                                <li><a href="#">1 hour</a></li>
+			                                <li><a href="#"><span class="text-danger"><i class="fa fa-heart-o"></i> Like</span></a></li>
+			                                <li><a href="#">Comment</a></li>
+			                            </ul>
+			                            <ul class="post-links mt-sm pull-right">
+		                            		<li><a id="photo_upload" href="#"><span class="text-danger"><i class="fa fa-file-photo-o"></i> Photo</span></a><!-- 사진 업로드 버튼 -->
+		                            	</ul>
+		                          	</div> 
+		                          	
+									<%-- 좋아요 누른 사람들 뜨는 부분 일단 주석 처리 
+										<!-- 좋아요 누른 사람들 시작 -->
+			                            <span class="thumb thumb-sm pull-right">
+			                                <a href="#">
+			                                    <img class="img-circle" src="demo/img/people/a1.jpg">
+			                                </a>
+			                            </span>
+			                            <span class="thumb thumb-sm pull-right">
+			                                <a href="#"><img class="img-circle" src="demo/img/people/a5.jpg"></a>
+			                            </span>
+			                            <span class="thumb thumb-sm pull-right">
+			                                <a href="#"><img class="img-circle" src="demo/img/people/a3.jpg"></a>
+			                            </span>
+			                            <!-- 좋아요 누른 사람들 끝 --> --%>
 		                        
 		                        <!-- 댓글 부분 시작 -->
-		                        <ul class="post-comments mt-sm">
+		                        <ul>
+		                            
+		                            <s:if test="item_id==2">
+		                            <div class="post-comments mt-sm" id=div2>
+		                            <s:iterator value="replylist2">
 		                            <li>
 		                            	<!-- 댓글 작성자 사진 -->
 		                                <span class="thumb-xs avatar pull-left mr-sm">
-		                                    <img class="img-circle" src="demo/img/people/a1.jpg" alt="...">
+		                                    <img class="img-circle" src="<s:property value='re_image' />" alt="...">
 		                                </span>
 		                                <!-- 댓글 내용 -->
 		                                <div class="comment-body">
-		                                    <h6 class="author fw-semi-bold">Ignacio Abad <small>6 mins ago</small></h6>
-		                                    <p>Hey, have you heard anything about that?</p>
+		                                    <h6 class="author fw-semi-bold"><s:property value="re_name" /> <small><s:property value="re_date" /></small></h6>
+		                                    <p><s:property value="content" /></p>
 		                                </div>
 		                            </li>
-		                            <li>
+		                            </s:iterator>
+		                            </div>
+		                      <div class="post-comments mt-sm">
+		                      <li>
 		                            	<!-- 댓글 작성란의 쓰는이의 사진 -->
 		                                <span class="thumb-xs avatar pull-left mr-sm">
-		                                    <img class="img-circle" src="img/avatar.png" alt="...">
+		                                    <img class="img-circle" src="<s:property value="cust_img" />" alt="...">
 		                                </span>
 		                                <!-- 댓글 입력란 -->
+								<s:form id="replyform" action="reply" method="post">
 		                                <div class="comment-body">
-		                                    <input class="form-control input-sm" type="text" placeholder="Write your comment...">
+											<input class="form-control input-sm recontent" type="text" id="recontent" name="recontent" />
+											<input type="hidden" value="<s:property value='item_id'/>" id="item_id" name="item_id" class="item_id" />
+											<a class="replyBtn" href="#" id="wreply2">전송 </a> 
+		                                </div>
+								</s:form>
+		                       </li>
+		                       </div>
+		                            </s:if>
+		                   			<s:if test="item_id==4" >
+		                            <div id=div4 class="post-comments mt-sm">
+		                            <s:iterator value="replylist4">
+		                            <li>
+		                            	<!-- 댓글 작성자 사진 -->
+		                                <span class="thumb-xs avatar pull-left mr-sm">
+		                                    <img class="img-circle" src="<s:property value='re_image' />" alt="...">
+		                                </span>
+		                                <!-- 댓글 내용 -->
+		                                <div class="comment-body">
+		                                    <h6 class="author fw-semi-bold"><s:property value="re_name" /> <small><s:property value="re_date" /></small></h6>
+		                                    <p><s:property value="content" /></p>
 		                                </div>
 		                            </li>
+		                            </s:iterator>
+		                            </div>
+		                            <div class="post-comments mt-sm">
+		                         <li>
+		                            	<!-- 댓글 작성란의 쓰는이의 사진 -->
+		                                <span class="thumb-xs avatar pull-left mr-sm">
+		                                    <img class="img-circle" src="<s:property value="cust_img" />" alt="...">
+		                                </span>
+		                                <!-- 댓글 입력란 -->
+								<s:form id="replyform" action="reply" method="post">
+		                                <div class="comment-body">
+											<input class="form-control input-sm recontent" type="text" id="recontent" name="recontent" />
+											<input type="hidden" value="<s:property value='item_id'/>" id="item_id" name="item_id" class="item_id" />
+											<a class="replyBtn" href="#" id="wreply4">전송 </a> 
+		                                </div>
+								</s:form>
+		                            </li>
+		                            </div>
+		                            </s:if>
 		                        </ul>
 		                        <!-- 댓글 부분 끝 -->
 		                    </footer>
