@@ -617,11 +617,6 @@
 		                    <h4 class="event-heading"><a href="#">Jessica Nilson</a> <small>@jess</small></h4>
 		                    <p class="fs-sm text-muted">10:12 am - Publicly near Minsk</p>
 		                    
-		                    <div class="event-map" id="test12">	
-		                    	<!-- 사진 업로드 하면 담기는 div 태그 -->
-		                    <h4 class="event-heading"><a href="#">Jessica Smith</a> <small>@jess</small></h4>
-		                    <p class="fs-sm text-muted">February 22, 2014 at 01:59 PM</p>
-		                   
 		                   	<!--  사진 업로드 하면 바로 담기는 div 태그, 이걸 밑에 div로 옮겨야 할 듯. -->
 		                    <div class="event-map" id='<s:property value="itemlist[#cust_stat.index].item_id"/>'>	
 		                   		<a href="#">
@@ -637,31 +632,6 @@
 		                    </div> -->
 
 		                    <footer><!-- 사진 담기는 부분 아래부터 댓글 쓰는 부분까지 -->
-			                        <div class="clearfix">
-			                            <ul class="post-links mt-sm pull-left">
-			                                <li><a href="#">1 hour</a></li>
-			                                <li><a href="#"><span class="text-danger"><i class="fa fa-heart-o"></i> Like</span></a></li>
-			                                <li><a href="#">Comment</a></li>
-			                            </ul>
-			                            <ul class="post-links mt-sm pull-right">
-		                            		<li><a id="photo_upload" href="#"><span class="text-danger"><i class="fa fa-file-photo-o"></i> Photo</span></a><!-- 사진 업로드 버튼 -->
-		                            	</ul>
-		                          	</div> 
-		                          	
-									<%-- 좋아요 누른 사람들 뜨는 부분 일단 주석 처리 
-										<!-- 좋아요 누른 사람들 시작 -->
-			                            <span class="thumb thumb-sm pull-right">
-			                                <a href="#">
-			                                    <img class="img-circle" src="demo/img/people/a1.jpg">
-			                                </a>
-			                            </span>
-			                            <span class="thumb thumb-sm pull-right">
-			                                <a href="#"><img class="img-circle" src="demo/img/people/a5.jpg"></a>
-			                            </span>
-			                            <span class="thumb thumb-sm pull-right">
-			                                <a href="#"><img class="img-circle" src="demo/img/people/a3.jpg"></a>
-			                            </span>
-			                            <!-- 좋아요 누른 사람들 끝 --> --%>
 		                        <div class="clearfix">
 		                            <ul class="post-links mt-sm pull-left">
 		                                <li><a href="#">1 hour</a></li>
