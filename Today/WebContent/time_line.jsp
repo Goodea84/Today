@@ -957,6 +957,7 @@
 <%-- <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
 <script src="vendor/gmaps/gmaps.js"></script> --%>
 <script src="vendor/magnific-popup/dist/jquery.magnific-popup.min.js"></script>
+
 <!-- page specific js -->
 
 <%-- <script src="js/timeline.js"></script> --%>
