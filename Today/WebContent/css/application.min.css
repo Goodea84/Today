@@ -189,6 +189,21 @@ Copyright (c) 2015 Daniel Eden
 	#upload_btn{position: absolute; left: 550px; }/* 올리기 아이콘 위치 */
 	/* 유병훈: 사진 업로드 시  */
 	
+	/* 유병훈: 사진 클릭 시 공간창출*/
+	#overlay_view_photo { 
+	background-color: #000; bottom: 0; left: 0; opacity: 0.7; filter: alpha(opacity = 50); 
+	/* IE7 & 8 */ position: fixed; right: 0; top: 0; z-index: 99; display:none;
+	}
+	#popup_layer_view_photo { 
+	width:auto; height: auto; margin-bottom:50px; background:#fff; border:solid 1px #ccc; position:absolute; 
+	top:150px; left:850px; margin-left:-200px; box-shadow: 0px 1px 20px #333; z-index:100; display:none;
+	}
+	#chevron-left{position: absolute; top:350px; left: 0px;}
+	#chevron-right{position: absolute; top:350px; right: 0px;}
+	.attatched_pic{width: 700px; height: 500px;}
+	#pics_no{position:absolute; top:30px; left:110px;}
+	/* 유병훈: 사진 클릭 시 공간창출  */
+	
 	
 	/* 유병훈: 타임라인 사진 크기 조정 */
 	img.demo_image{width:auto; height:200px; position: absolute;
