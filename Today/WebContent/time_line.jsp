@@ -104,7 +104,7 @@
     <!-- need this .js class to initiate slimscroll -->
     <div class="js-sidebar-content">
         <header class="logo hidden-xs">
-            <a href="index.html">sing</a>
+            <a href="index"><img src="img/index_logo_min.png"></a>
         </header>
         <!-- seems like lots of recent admin template have this feature of user info in the sidebar.
              looks good, so adding it and enhancing with notifications -->
@@ -125,14 +125,16 @@
             <!-- #notifications-dropdown-menu goes here when screen collapsed to xs or sm -->
         </div>
         <!-- main notification links are placed inside of .sidebar-nav -->
+        <br/>
+        <h5 class="sidebar-nav-title">Hello <strong><s:property value="#session.loginName" /></strong> <a class="action-link" href="#"><i class="fa fa-map-marker"></i></a></h5>
         <ul class="sidebar-nav">
           <li>
-              <a href="index">
+              <a href="index" data-no-pjax>
                   <span class="icon"><i class="glyphicon glyphicon-map-marker"></i></span>
                   Maps
               </a>
           </li>
-          <li class="active">
+          <li class="active" data-no-pjax>
               <a href="page_moveTo_gallery">
                   <span class="icon"><i class="glyphicon glyphicon-inbox"></i></span>
                   My Card
