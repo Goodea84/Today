@@ -438,7 +438,7 @@
 		            <li class="on-left"><!-- 아이템노드+사진+댓글 --> <!-- 여기서 왼쪽 오른쪽...... -->
 		                <time class="event-time" datetime="2014-05-19 03:04"><!-- 노드부분 -->
 		                    <%-- <span class="date">yesterday</span> --%>
-		                    <span class="time"><s:property value="item_name"/></span><!-- 일겹살 뜨는 부분 -->
+		                    <span class="time"><s:property value="title"/></span><!-- 일겹살 뜨는 부분 -->
 		                    <%-- <span class="time"><s:property value="item_name"/><span class="fw-semi-bold">am</span></span> --%>
 		                </time>
 			            
@@ -491,7 +491,7 @@
 		                        
 		                        <!-- 댓글 부분 시작 -->
 		                        <ul>
-		                            <s:if test="item_id==1">
+		                            <s:if test="iterator_id==1">
 		                            <div class="post-comments mt-sm" id=div1>
 		                            <s:iterator value="replylist1">
 		                            
@@ -528,7 +528,7 @@
 		                       
 		                            </s:if>
 		                            
-		                   			<s:if test="item_id==3">
+		                   			<s:if test="iterator_id==3">
 		                   			<div id=div3 class="post-comments mt-sm">
 		                            <s:iterator value="replylist3">
 		                            <li>
@@ -561,7 +561,7 @@
 		                            </li>
 		                            </div>
 		                            </s:if>
-		                           <s:if test="item_id==5">
+		                           <s:if test="iterator_id==5">
 		                            <div id=div5 class="post-comments mt-sm">
 		                            <s:iterator value="replylist5">
 		                            <li>
@@ -606,7 +606,7 @@
 		            <li class="on-right">
 		                <time class="event-time" datetime="2014-05-19 03:04"><!-- 노드부분 -->
 		                    <%-- <span class="date">yesterday</span> --%>
-		                    <span class="time"><s:property value="item_name"/></span><!-- 일겹살 뜨는 부분 -->
+		                    <span class="time"><s:property value="title"/></span><!-- 일겹살 뜨는 부분 -->
 		                    <%-- <span class="time"><s:property value="item_name"/><span class="fw-semi-bold">am</span></span> --%>
 		                </time>
 			            
@@ -668,7 +668,7 @@
 		                        <!-- 댓글 부분 시작 -->
 		                        <ul>
 		                            
-		                            <s:if test="item_id==2">
+		                            <s:if test="iterator_id==2">
 		                            <div class="post-comments mt-sm" id=div2>
 		                            <s:iterator value="replylist2">
 		                            <li>
@@ -701,7 +701,7 @@
 		                       </li>
 		                       </div>
 		                            </s:if>
-		                   			<s:if test="item_id==4" >
+		                   			<s:if test="iterator_id==4">
 		                            <div id=div4 class="post-comments mt-sm">
 		                            <s:iterator value="replylist4">
 		                            <li>
@@ -813,14 +813,19 @@
     		 		//최초 클릭 시 가장 최근에 저장한 값을 보임.
     		 		$('.view_photo').append("<img class='attatched_pic' src='"+temp[length-1].src+"'/>");
     		 		i = length-1;//초기값은 가장 끝의 index
-    		 		if(i===1){
+    		 		if(i===0){
     		 			$('#chevron-right-btn').css('display', 'none');
     		 			$('#chevron-left-btn').css('display', 'none');
+    		 		}else if(i===1){
+    		 			$('#chevron-right-btn').css('display', 'none');
+    		 			$('#chevron-left-btn').css('display', 'none');
+    		 			$('.view_photo').append("<h3 id='pics_no'>"+i+" of "+(length-1)+"</h3>");
     		 		}else{
     		 			$('#chevron-left-btn').css('display', '');
+    		 			$('.view_photo').append("<h3 id='pics_no'>"+i+" of "+(length-1)+"</h3>");
     		 		}
     		 		//최초 사진 수와 총 사진 개수를 보여주는 h3태그. 가장 끝에 것을 먼저 보여줌.
-    		 		$('.view_photo').append("<h3 id='pics_no'>"+i+" of "+(length-1)+"</h3>");
+    		 		
     		 		$('#chevron-right-btn').css('display', 'none');
    		 			
     		 		//왼쪽 버튼 클릭

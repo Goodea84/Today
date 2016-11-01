@@ -209,4 +209,26 @@ public class CardDAO {
 		return result;
 	}
 	
+	//아이템생성
+	public int insertitem (Item item){
+	System.out.println("<DAO> insertitem");
+	SqlSession ss = null;
+	int result = 0;
+	
+	try {
+		ss = factory.openSession();
+		result = ss.insert("CardMapper.insertitem", item);
+		ss.commit();
+		
+	}
+	catch (Exception e) {
+		e.printStackTrace();
+	}
+	finally {
+		if (ss != null) ss.close();
+	}
+	System.out.println("<DAO> 끝");
+	return result;
+	}
+	
 }
