@@ -4,7 +4,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sing - Time Line</title>
+    <title>MINNANO MARKERS</title>
+    <link rel="shortcut icon" href="img/favi.ico">
     <link href="css/application.min.css" rel="stylesheet">
     <!-- as of IE9 cannot parse css files with more that 4K classes separating in two files -->
     <!--[if IE 9]>
@@ -49,7 +50,6 @@
 
 			$(".replyBtn").on('click',function(){
 				var appid;
-				
 				
 				  if (this.id == "wreply1") {
 					  appid = $('#div1');
@@ -427,7 +427,7 @@
     <main id="content" class="content" role="main">
         <ol class="breadcrumb">
             <li>YOU ARE HERE</li>
-            <li class="active">Time Line</li>
+            <li class="active">My Card</li><li class="active">Time Line</li>
         </ol>
         <h1 class="page-title">Events - <span class="fw-semi-bold">Feed</span></h1>
         <ul class="timeline">
@@ -436,15 +436,31 @@
 	        	<!-- 홀수면 if문 분기처리 -->
 		        <s:if test="# cust_stat.odd == true">
 		            <li class="on-left"><!-- 아이템노드+사진+댓글 --> <!-- 여기서 왼쪽 오른쪽...... -->
+	            		<!-- 중간 마커 표시 -->
+		                <s:if test="#cust_stat.first == true">
+			                <time class="event-time" datetime="2014-05-19 03:04"><!-- 노드부분 -->
+			                    <span class="badge bg-warning"><s:property value="title"/></span><!-- 일겹살 뜨는 부분 -->
+			                </time>
+			            	<span class="event-icon event-icon-warning"><!-- 아이콘 (아이템) -->
+			                    <i class="glyphicon glyphicon-map-marker"></i>
+			                </span>
+		                </s:if>
+		                <s:if test="#cust_stat.last == true">
+			                <time class="event-time" datetime="2014-05-19 03:04"><!-- 노드부분 -->
+			                    <span class="badge bg-danger"><s:property value="title"/></span><!-- 일겹살 뜨는 부분 -->
+			                </time>
+		                	<span class="event-icon event-icon-danger"><!-- 아이콘 (아이템) -->
+			                    <i class="glyphicon glyphicon-map-marker"></i>
+			                </span>
+		                </s:if>
+		                <s:if test="#cust_stat.first == false && #cust_stat.last == false">
 		                <time class="event-time" datetime="2014-05-19 03:04"><!-- 노드부분 -->
-		                    <%-- <span class="date">yesterday</span> --%>
-		                    <span class="time"><s:property value="title"/></span><!-- 일겹살 뜨는 부분 -->
-		                    <%-- <span class="time"><s:property value="item_name"/><span class="fw-semi-bold">am</span></span> --%>
+		                    <span class="badge bg-info"><s:property value="title"/></span><!-- 일겹살 뜨는 부분 -->
 		                </time>
-			            
-		            	<span class="event-icon event-icon-danger"><!-- 아이콘 (아이템) -->
-		                    <i class="glyphicon glyphicon-cutlery"></i>
-		                </span>
+		                	<span class="event-icon event-icon-info"><!-- 아이콘 (아이템) -->
+			                    <i class="glyphicon glyphicon-map-marker"></i>
+			                </span>
+		                </s:if>
 		                
 		                <section class="event"><!-- 사진 담길 곳....... -->
 		                    <span class="thumb-sm avatar pull-left mr-sm">
@@ -452,13 +468,11 @@
 		                    </span>
 		                    <h4 class="event-heading"><a href="#">Jessica Nilson</a> <small>@jess</small></h4>
 		                    <p class="fs-sm text-muted">10:12 am - Publicly near Minsk</p>
-		                    
-		                    <div class="event-map" id='<s:property value="itemlist[#cust_stat.index].item_id"/>'>	
+		                    <div class="event-image" id='<s:property value="itemlist[#cust_stat.index].item_id"/>'>	
 		                    	<a href="#">
-		                        	<img class="demo_image" src="demo/img/pictures/8.jpg"/>
+		                        	<img class="demo_image" src=""/>
 		                        </a>
 		                    </div>
-
 		                    <footer><!-- 사진 담기는 부분 아래부터 댓글 쓰는 부분까지 -->
 			                        <div class="clearfix">
 			                            <ul class="post-links mt-sm pull-left">
@@ -604,15 +618,24 @@
 	            	<!-- 오른쪽(짝수면)으로 나뉘는 부분 시작 -->
 		            <s:else>
 		            <li class="on-right">
-		                <time class="event-time" datetime="2014-05-19 03:04"><!-- 노드부분 -->
-		                    <%-- <span class="date">yesterday</span> --%>
-		                    <span class="time"><s:property value="title"/></span><!-- 일겹살 뜨는 부분 -->
-		                    <%-- <span class="time"><s:property value="item_name"/><span class="fw-semi-bold">am</span></span> --%>
-		                </time>
-			            
-		            	<span class="event-icon event-icon-danger"><!-- 아이콘 (아이템) -->
-		                    <i class="glyphicon glyphicon-cutlery"></i>
-		                </span>
+	            		<!-- 중간 마커 표시 -->
+		            	<s:if test="#cust_stat.last == true">
+							<time class="event-time" datetime="2014-05-19 03:04"><!-- 노드부분 -->
+			                    <span class="badge bg-danger"><s:property value="title"/></span><!-- 일겹살 뜨는 부분 -->
+			                </time>
+			            	<span class="event-icon event-icon-danger"><!-- 아이콘 (아이템) -->
+			            		<!-- 중간 마커 표시 -->
+			                    <i class="glyphicon glyphicon-map-marker"></i>
+			                </span>
+		                </s:if>
+		                <s:if test="#cust_stat.first == false && #cust_stat.last == false">
+							<time class="event-time" datetime="2014-05-19 03:04"><!-- 노드부분 -->
+			                    <span class="badge bg-info"><s:property value="title"/></span><!-- 일겹살 뜨는 부분 -->
+			                </time>
+		                	<span class="event-icon event-icon-info"><!-- 아이콘 (아이템) -->
+			                    <i class="glyphicon glyphicon-map-marker"></i>
+			                </span>
+		                </s:if>
 		                
 		                <section class="event"><!-- 사진 담길 곳....... -->
 		                    <span class="thumb-sm avatar pull-left mr-sm">
@@ -622,9 +645,9 @@
 		                    <p class="fs-sm text-muted">10:12 am - Publicly near Minsk</p>
 		                    
 		                   	<!--  사진 업로드 하면 바로 담기는 div 태그, 이걸 밑에 div로 옮겨야 할 듯. -->
-		                    <div class="event-map" id='<s:property value="itemlist[#cust_stat.index].item_id"/>'>	
+		                    <div class="event-image" id='<s:property value="itemlist[#cust_stat.index].item_id"/>'>	
 		                   		<a href="#">
-		                        	<img class="demo_image" src="demo/img/pictures/8.jpg"/>
+		                        	<img class="demo_image" src=""/>
 		                        </a>
 		                    </div>
 		                   
@@ -802,7 +825,7 @@
     		 	var temp;
     		 	var i;
     		 	
-    		 	$('.event-map').on('click', function(){
+    		 	$('.event-image').on('click', function(){
     		 		temp = "";
     		 		i = 0;
     		 		$('.view_photo').append("<a id='chevron-left-btn' href='#'><i id='chevron-left' class='glyphicon glyphicon-chevron-left'></i></a>");

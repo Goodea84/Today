@@ -200,13 +200,12 @@ Copyright (c) 2015 Daniel Eden
 	}
 	#chevron-left{position: absolute; top:350px; left: 0px;}
 	#chevron-right{position: absolute; top:350px; right: 0px;}
-	.attatched_pic{width:auto; max-width: 900px;}
+	.attatched_pic{width:auto; max-width: 900px; max-height: 600px; vertical-align: center; text-align: center;}
 	#pics_no{position:absolute; top:30px; left:110px;}
 	/* 유병훈: 사진 클릭 시 공간창출  */
 	
 	/* 유병훈: 타임라인 사진 크기 조정 */
-	img.demo_image{width:auto; max-height:200px; position: absolute;
-	
+	img.demo_image{max-width:100%; min-width: 729px;
 	}
 	
 	/* 유병훈: 타임라인 사진 크기 */
