@@ -1042,7 +1042,7 @@
 			var makeCard = [];
 			$.each(ybArray2, function(index, val) {
 				if (index == 0) {
-					alert(JSON.stringify(ybArray2[index].item[a]));
+					alert(JSON.stringify(ybArray2[index].item[a].title));
 					makeCard.push(ybArray2[index].item[a]);
 				} else if (index == 1) {
 					alert(JSON.stringify(ybArray2[index].item[b]));
@@ -1058,7 +1058,7 @@
 					makeCard.push(ybArray2[index].item[e]);
 				}
 			});
-			alert(makeCard.length);
+				alert(makeCard.length);
 		})
 		
 	});/* document.ready function end */
@@ -1134,7 +1134,7 @@
              <li class="active">
 				<a href="index" data-no-pjax>
                     <span class="icon"><i class="glyphicon glyphicon-map-marker"></i></span>
-                    Maps
+                    Markers
                 </a>
              </li>
              <li>
