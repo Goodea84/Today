@@ -48,7 +48,7 @@
 				
 		<!-- 카드만들기, 페이지 이동 -->
 		<action name="page_make_gallery" class="action.CardAction" method="makecard">
-			<result>/myCard.jsp</result>
+			<result type="json" />
 		</action>
 		
 		<!-- 유병훈 사진업로드  -->

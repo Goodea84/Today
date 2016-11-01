@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -45,6 +48,9 @@ public class CardAction extends ActionSupport implements SessionAware{
 	private boolean checkCard;
 	private String cust_img; //댓글 입력 이미지
 	
+	private String makeCard;
+	private ArrayList<Integer> itemidlist;
+	private Item item;
 	
 	public String movecard(){
 		
@@ -74,20 +80,58 @@ public class CardAction extends ActionSupport implements SessionAware{
 	 * 카드만들기.
 	 * 아이템저장, 카드저장, 친구리스트 불러오기, 카드리스트 저장, 카드리스트 불러오기 수행
 	 **/
-	public String makecard(){
+	public String makecard() throws Exception{
 
 		//아이템 테이블에 아이템 삽입, 아이템 키값 받아옴
 		
+		JSONArray  object =  (JSONArray) JSONValue.parse(makeCard);
+		
+		
+		System.out.println(object.size());
+		
+		itemidlist = new ArrayList<>();
+		
+		for (int i = 0; i < object.size(); i++) {
+			JSONObject getitem = (JSONObject) object.get(i);
+			System.out.println((i + 1) + "번 아이템: " + getitem.get("title").toString());
+			Item item2 = new Item(0, getitem.get("title").toString(), Double.parseDouble(getitem.get("latitude").toString()), Double.parseDouble(getitem.get("longitude").toString()), getitem.get("address").toString(), getitem.get("phone").toString(),0);
+			dao.insertitem(item2);
+			itemidlist.add(item2.getItem_id());
+		}
+		
+		//int item_id1 = dao.insertitem(item);
+		
+		
 		//넘어오는 카드 데이터들로 insertCard..... 
-		//card = new Card(1, "홍대", 1, 2, 3, 4, 5, "1", 0);
 		card = new Card();
-		card.setLoca_name("홍대");
-		card.setItem1(1);
-		card.setItem2(2);
-		card.setItem3(3);
-		card.setItem4(4);
-		card.setItem5(5);
+		
+		System.out.println("local :" + (String) session.get("local2"));
+
+		card.setCard_id(0);
 		card.setDate("1");
+		card.setLoca_name((String) session.get("local2"));
+		card.setRecommend(0);
+		
+		
+		card.setItem1(itemidlist.get(0));
+		card.setItem2(itemidlist.get(1));
+		
+		if(itemidlist.size()==3){
+			System.out.println("3개입력");
+			card.setItem3(itemidlist.get(2));
+		}
+		if(itemidlist.size()==4){
+			System.out.println("4개입력");
+			card.setItem3(itemidlist.get(2));
+			card.setItem4(itemidlist.get(3));
+		}
+		if(itemidlist.size()==5){
+			System.out.println("5개입력");
+			card.setItem3(itemidlist.get(2));
+			card.setItem4(itemidlist.get(3));
+			card.setItem5(itemidlist.get(4));
+		}
+		
 		dao.insertcard(card);
 		
 		
@@ -120,6 +164,7 @@ public class CardAction extends ActionSupport implements SessionAware{
 		
 		return SUCCESS;
 	}
+	
 	
 	
 	
@@ -158,7 +203,9 @@ public class CardAction extends ActionSupport implements SessionAware{
 		if(card.getItem1()!=0){
 			Item item = dao.selectItem(card.getItem1());
 			System.out.println("=============="+item.getItem_id());
-			itemlist.add(dao.selectItem(card.getItem1()));
+			item = dao.selectItem(card.getItem1());
+			item.setIterator_id(1);
+			itemlist.add(item);
 			replylist1.addAll(dao.selectReply(card.getItem1()));
 			
 			for (int i = 0; i < replylist1.size(); i++) {
@@ -168,7 +215,9 @@ public class CardAction extends ActionSupport implements SessionAware{
 			}
 		}
 		if(card.getItem2()!=0){
-			itemlist.add(dao.selectItem(card.getItem2()));
+			item = dao.selectItem(card.getItem2());
+			item.setIterator_id(2);
+			itemlist.add(item);
 			replylist2.addAll(dao.selectReply(card.getItem2()));
 			
 			for (int i = 0; i < replylist2.size(); i++) {
@@ -178,7 +227,9 @@ public class CardAction extends ActionSupport implements SessionAware{
 			}
 		}		
 		if(card.getItem3()!=0){
-			itemlist.add(dao.selectItem(card.getItem3()));
+			item = dao.selectItem(card.getItem3());
+			item.setIterator_id(3);
+			itemlist.add(item);
 			replylist3.addAll(dao.selectReply(card.getItem3()));
 			
 			for (int i = 0; i < replylist3.size(); i++) {
@@ -188,7 +239,9 @@ public class CardAction extends ActionSupport implements SessionAware{
 			}
 		}		
 		if(card.getItem4()!=0){
-			itemlist.add(dao.selectItem(card.getItem4()));
+			item = dao.selectItem(card.getItem4());
+			item.setIterator_id(4);
+			itemlist.add(item);
 			replylist4.addAll(dao.selectReply(card.getItem4()));
 			
 			for (int i = 0; i < replylist4.size(); i++) {
@@ -198,7 +251,9 @@ public class CardAction extends ActionSupport implements SessionAware{
 			}
 		}		
 		if(card.getItem5()!=0){
-			itemlist.add(dao.selectItem(card.getItem5()));
+			item = dao.selectItem(card.getItem5());
+			item.setIterator_id(5);
+			itemlist.add(item);
 			replylist5.addAll(dao.selectReply(card.getItem5()));
 			
 			for (int i = 0; i < replylist5.size(); i++) {
@@ -417,5 +472,31 @@ public class CardAction extends ActionSupport implements SessionAware{
 	public void setCheckCard(boolean checkCard) {
 		this.checkCard = checkCard;
 	}
+
+	public String getMakeCard() {
+		return makeCard;
+	}
+
+	public void setMakeCard(String makeCard) {
+		this.makeCard = makeCard;
+	}
+
+	public ArrayList<Integer> getItemidlist() {
+		return itemidlist;
+	}
+
+	public void setItemidlist(ArrayList<Integer> itemidlist) {
+		this.itemidlist = itemidlist;
+	}
+
+	public Item getItem() {
+		return item;
+	}
+
+	public void setItem(Item item) {
+		this.item = item;
+	}
+	
+	
 
 }

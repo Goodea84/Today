@@ -319,7 +319,7 @@
 					method: "post"
 					, url: "map/sendLocal.action"
 					, dataType: "json"
-					, data: {"local":local}
+					, data: {"local":local, "local2":local0}
 					, success: successFunc
 				});
 			  }
@@ -1040,27 +1040,38 @@
 		$("#makeCardBtn").on("click", function() {
 			var leng = ybArray2.length;
 			var makeCard = [];
+			
+			
 			$.each(ybArray2, function(index, val) {
 				if (index == 0) {
-					alert(JSON.stringify(ybArray2[index].item[a].title));
 					makeCard.push(ybArray2[index].item[a]);
 				} else if (index == 1) {
-					alert(JSON.stringify(ybArray2[index].item[b]));
 					makeCard.push(ybArray2[index].item[b]);
 				} else if (index == 2) {
-					alert(JSON.stringify(ybArray2[index].item[c]));
 					makeCard.push(ybArray2[index].item[c]);
 				} else if (index == 3) {
-					alert(JSON.stringify(ybArray2[index].item[d]));
 					makeCard.push(ybArray2[index].item[d]);
 				} else if (index == 4) {
-					alert(JSON.stringify(ybArray2[index].item[e]));
 					makeCard.push(ybArray2[index].item[e]);
 				}
 			});
-				alert(makeCard.length);
+			//alert(makeCard.length);
+			
+			jQuery.ajaxSettings.traditional = true;
+			
+			
+			var test = JSON.stringify(makeCard);
+			$.ajax({
+				url: 'page_make_gallery',
+				method: 'post',
+	        	dataType: "json",
+		        data: {"makeCard":test},
+				success: function() {
+				alert('카드저장성공');
+				}
+
+			});//ajax
 		})
-		
 	});/* document.ready function end */
 	
 	
