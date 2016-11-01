@@ -38,11 +38,14 @@
 					var list = resp.list_image;
 					$.each(list, function(index, val){
 						$('#'+list[index].item_id).append(
-							"<img class='demo_image' src='image/"+name+"/"+list[index].item_id+"/"+list[index].photo+"' alt='...'/>"
+							"<a class='allImage img_"+list[index].item_id+"' href='#'><img class='demo_image' src='image/"+name+"/"+list[index].item_id+"/"+list[index].photo+"' alt='...'/></a>"
 						);//append
 					});//for-each
 				}//success
 			});//ajax
+			
+			
+			
 
 			$(".replyBtn").on('click',function(){
 				var appid;
@@ -486,7 +489,6 @@
 		                        
 		                        <!-- 댓글 부분 시작 -->
 		                        <ul>
-		                            
 		                            <s:if test="item_id==1">
 		                            <div class="post-comments mt-sm" id=div1>
 		                            <s:iterator value="replylist1">
@@ -761,10 +763,93 @@
 	              </form>
 		         </section>
 			</div>
-
+			<!-- 사진 업로드 부분 끝 -->
+			
+			<!-- 사진 보이기  -->
+			<div id="overlay_view_photo"></div> 
+			<div id="popup_layer_view_photo">
+		         <section class="widget widget-login animated fadeInUp">
+		             <header>
+		                 <h3>Photo</h3>
+		             </header>
+		             <div class="widget-body view_photo">
+						<br/><br/><!-- 사진 담기는 보이는 부분 -->
+						
+		             </div>
+		         </section>
+			</div>
+			<!-- 사진 보이기  끝 -->
+			
 			<!-- 다른 script와 합치면 ajaxForm 오류가 날 수 있음 -->
     		 <script>
-    			 $('.photo_upload').on('click', function(){
+    		 	//사진 클릭 시 팝업 효과
+    		 	var temp;
+    		 	var i;
+    		 	
+    		 	$('.event-map').on('click', function(){
+    		 		temp = "";
+    		 		i = 0;
+    		 		$('.view_photo').append("<a id='chevron-left-btn' href='#'><i id='chevron-left' class='glyphicon glyphicon-chevron-left'></i></a>");
+    		 		$('.view_photo').append("<a id='chevron-right-btn' href='#'><i id='chevron-right' class='glyphicon glyphicon-chevron-right'></i></a>");
+    		 		$('#popup_layer_view_photo, #overlay_view_photo').show();
+    		 		temp = $(this).children().children();
+    		 		var length = temp.length;
+    		 		//최초 클릭 시 가장 최근에 저장한 값을 보임.
+    		 		$('.view_photo').append("<img class='attatched_pic' src='"+temp[length-1].src+"'/>");
+    		 		i = length-1;//초기값은 가장 끝의 index
+    		 		if(i===1){
+    		 			$('#chevron-right-btn').css('display', 'none');
+    		 			$('#chevron-left-btn').css('display', 'none');
+    		 		}else{
+    		 			$('#chevron-left-btn').css('display', '');
+    		 		}
+    		 		//최초 사진 수와 총 사진 개수를 보여주는 h3태그. 가장 끝에 것을 먼저 보여줌.
+    		 		$('.view_photo').append("<h3 id='pics_no'>"+i+" of "+(length-1)+"</h3>");
+    		 		$('#chevron-right-btn').css('display', 'none');
+   		 			
+    		 		//왼쪽 버튼 클릭
+    		 		$('#chevron-left-btn').on('click', function(){
+    		 			i--;
+    		 			$('#chevron-right-btn').css('display', '');
+    		 			$('#chevron-left-btn').css('display', '');
+    		 			if(i<2){
+   		 					$('#chevron-left-btn').css('display', 'none');
+    		 			}
+    		 				$('.view_photo').children('.attatched_pic').remove();
+    		 				$('.view_photo').children('#pics_no').remove();
+	    		 			$('.view_photo').append("<img class='attatched_pic' src='"+temp[i].src+"'/>");
+	    		 			$('.view_photo').append("<h3 id='pics_no'>"+(i)+" of "+(length-1)+"</h3>");
+    		 		});//왼쪽 버튼 클릭
+    		 		
+    		 		
+    		 		//오른쪽 버튼 클릭
+					$('#chevron-right-btn').on('click', function(){
+    		 			i++;
+						$('#chevron-right-btn').css('display', '');
+						$('#chevron-left-btn').css('display', '');
+						if(i>=(length-1)){
+							$('#chevron-right-btn').css('display', 'none');
+						}
+							$('.view_photo').children('.attatched_pic').remove();
+    		 				$('.view_photo').children('#pics_no').remove();
+	    		 			$('.view_photo').append("<img class='attatched_pic' src='"+temp[i].src+"'/>");
+	    		 			$('.view_photo').append("<h3 id='pics_no'>"+(i)+" of "+(length-1)+"</h3>");
+    		 		});//오른쪽 버튼 클릭
+    		 	});//사진 클릭 시 팝업 효과
+    		 	
+    		 	//사진 이외 부분 클릭 시 사라지는 효과
+    		 	$('#overlay_view_photo, .close').click(function(e){ 
+    		        e.preventDefault(); 
+    		        $('#chevron-right-btn').remove();
+    		        $('#chevron-left-btn').remove();
+    		        $('#popup_layer_view_photo, #overlay_view_photo').hide(); 
+    		        $('.view_photo').children('.attatched_pic').remove();
+    		        $('.view_photo').children('#pics_no').remove();
+    		    });//사진 이외 부분 클릭 시 사라지는 효과
+    		    
+    		    
+    		 
+   			 	$('.photo_upload').on('click', function(){
     				$('#popup_layer_photo, #overlay_photo').show(); 
     			});//사진 올리기 아이콘 클릭 시, 팝업 효과
     		
@@ -810,7 +895,7 @@
 						var name = '<%= session.getAttribute("loginId") %>';
 							$.each(map_itemNo, function(index, val){
 								$('#'+map_itemNo[index]).append(
-									"<img class='demo_image' src='image/"+name+"/"+map_itemNo[index]+"/"+map_savedFile[index]+"' alt='...'/>"
+									"<a class='allImage img_"+map_itemNo[index]+"' href='#'><img class='demo_image' src='image/"+name+"/"+map_itemNo[index]+"/"+map_savedFile[index]+"' alt='...'/></a>"
 								);//append
 							});//each
 						return false;
