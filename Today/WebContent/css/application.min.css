@@ -273,16 +273,29 @@ Copyright (c) 2015 Daniel Eden
 		position:absolute; left:60%; width: 38.5%; height: 225px;
 	}
 	
+	/* 카드생성버튼 */
 	#makeCardBtn{
-		position:absolute; top: 80%; left: 2%;
+		position:absolute; top: 192px; left: 0;
+	}
+	
+	/* more info 버튼 */
+	#detailFieldMoreInfo{	
+		position:absolute; top: 150px; left: 0;
 	}
 	
 	#detailFieldBtnSet{
-		position:absolute; top: 16%; left: 77%;
+		position:absolute; top: 110px; left: 260px;
 	}
 	
+	#detailFieldTitle{
+		font-weight: bold;
+		color: #3d3d3d;
+		font-size: 13pt;
+	}
 	
-	
+	#infoDiv{
+		width: 542px;
+	}
 	
 	/* .timeline .event-icon.event-icon-warning{background-color:#f0b518;border-color:#f2c03a}
 	.timeline .event-icon.event-icon-success{background-color:#64bd63;border-color:#7dc87c}

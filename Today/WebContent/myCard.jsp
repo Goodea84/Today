@@ -4,7 +4,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sing - Gallery</title>
+    <title>MINNANO MARKERS</title>
+    <link rel="shortcut icon" href="img/favi.ico">
     <link href="css/application.min.css" rel="stylesheet">
     <!-- as of IE9 cannot parse css files with more that 4K classes separating in two files -->
     <!--[if IE 9]>
@@ -105,7 +106,7 @@
     <!-- need this .js class to initiate slimscroll -->
     <div class="js-sidebar-content">
         <header class="logo hidden-xs">
-            <a href="index">sing</a>
+            <a href="index"><img src="img/index_logo_min.png"></a>
         </header>
         <!-- seems like lots of recent admin template have this feature of user info in the sidebar.
              looks good, so adding it and enhancing with notifications -->
@@ -492,7 +493,7 @@
             </div>
         </div><!-- 프로필 : 전혜선 (수정할 수 있음) end-->
           
-        <h1 class="page-title">Media - <span class="fw-semi-bold">Images</span></h1>
+        <h1 class="page-title">My - <span class="fw-semi-bold">Markers</span></h1>
         <div class="clearfix mb-lg">
             <div class="btn-group m-b-20 js-filter-options">
                 <span class="btn btn-default filter active" data-group="all">All</span>

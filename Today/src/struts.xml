@@ -20,7 +20,11 @@
 		</interceptors>
 		
 		
-		<default-action-ref name="index"/>
+		<default-action-ref name="main"/>
+		
+		<action name="main">
+       		<result>/main.jsp</result>
+		</action>
 		
 		<action name="index">
        		<result>/index.jsp</result>
