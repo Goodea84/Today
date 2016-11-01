@@ -186,7 +186,7 @@ Copyright (c) 2015 Daniel Eden
 	}
 	#upload_real_btn{display: none;}/* 실제 submit버튼 가리기 */
 	#upload{display: none;}/* 실제 사진 올리기버튼 가리기(최초에만 되네..) */
-	#upload_btn{position: absolute; left: 550px; }/* 올리기 아이콘 위치 */
+	#upload_btn{position: absolute; left: 480px; }/* 올리기 아이콘 위치 */
 	/* 유병훈: 사진 업로드 시  */
 	
 	/* 유병훈: 사진 클릭 시 공간창출*/
@@ -204,9 +204,9 @@ Copyright (c) 2015 Daniel Eden
 	#pics_no{position:absolute; top:30px; left:110px;}
 	/* 유병훈: 사진 클릭 시 공간창출  */
 	
-	
 	/* 유병훈: 타임라인 사진 크기 조정 */
-	img.demo_image{width:auto; height:200px; position: absolute;
+	img.demo_image{width:auto; max-height:200px; position: absolute;
+	
 	}
 	
 	/* 유병훈: 타임라인 사진 크기 */

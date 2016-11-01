@@ -749,21 +749,35 @@
 			<!-- 사진 업로드 부분 -->
 			<div id="overlay_photo"></div> 
 			<div id="popup_layer_photo">
-		         <section class="widget widget-login animated fadeInUp">
-		             <header>
-		                 <h3>Photo Upload</h3>
-		             </header>
-                  <form id="uploadPic" action="userImage" method="post" theme="simple" enctype="multipart/form-data">           
-		             <div class="widget-body">
-						<br/><br/>
-		              	<input type="file" id="upload" value="upload" name="userImage" multiple class="multi with-preview" maxlength="2" accept="gif|jpg|png"/>
-		           		<a id="upload_pic_btn" href="#"><i class="glyphicon glyphicon-upload"></i></a>
-		           		<a id="upload_btn" href="#"><i id="upload_btn_ok" class="glyphicon glyphicon-ok"></i></a>
-		           		<input type="submit" id="upload_real_btn" value="등록"/>
-		           		<input type="hidden" id="item_number" name="item_number" value=""/>
-		             </div>
-	              </form>
-		         </section>
+			<section class="widget widget-login animated fadeInUp">
+				<form id="uploadPic" action="userImage" method="post" theme="simple" enctype="multipart/form-data">           
+					<div style="border: 1px solid #cccccc; padding: 10px">
+						<header>
+							<img src="img/makeTimeLine/camera_ico.png">
+						</header>
+						<div class="widget-body">
+							<br/><br/>
+							<input type="file" id="upload" value="upload" name="userImage" multiple class="multi with-preview" maxlength="2" accept="gif|jpg|png"/>
+						</div>
+					</div>
+					<br/>
+					<a id="upload_pic_btn" class="btn btn-warning" href="#">PHOTO CHOICE&nbsp;
+						<span class="circle bg-white">
+							<i class="glyphicon glyphicon-arrow-up text-warning"></i>
+						</span>
+					</a>
+					
+					<a id="upload_btn" class="btn btn-info" href="#">SEND&nbsp;
+						<span class="circle bg-white">
+							<i class="fa fa-arrow-right text-info"></i>
+						</span>
+					</a>
+					<input type="submit" id="upload_real_btn" value="등록"/>
+					<input type="hidden" id="item_number" name="item_number" value=""/>
+					
+					
+				</form>
+			</section>
 			</div>
 			<!-- 사진 업로드 부분 끝 -->
 			
