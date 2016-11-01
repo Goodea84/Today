@@ -131,12 +131,12 @@
                 <h5 class="sidebar-nav-title">Hello <strong><s:property value="#session.loginName" /></strong> <a class="action-link" href="#"><i class="fa fa-map-marker"></i></a></h5>
         <ul class="sidebar-nav">
             <li>
-                <a href="index">
+                <a href="index" data-no-pjax>
                     <span class="icon"><i class="glyphicon glyphicon-map-marker"></i></span>
                     Maps
                 </a>
             </li>
-            <li class="active">
+            <li class="active" data-no-pjax>
                 <a href="page_moveTo_gallery">
                     <span class="icon"><i class="glyphicon glyphicon-inbox"></i></span>
                     My Card
