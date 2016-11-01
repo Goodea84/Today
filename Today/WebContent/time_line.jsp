@@ -438,7 +438,7 @@
 		            <li class="on-left"><!-- 아이템노드+사진+댓글 --> <!-- 여기서 왼쪽 오른쪽...... -->
 		                <time class="event-time" datetime="2014-05-19 03:04"><!-- 노드부분 -->
 		                    <%-- <span class="date">yesterday</span> --%>
-		                    <span class="time"><s:property value="item_name"/></span><!-- 일겹살 뜨는 부분 -->
+		                    <span class="time"><s:property value="title"/></span><!-- 일겹살 뜨는 부분 -->
 		                    <%-- <span class="time"><s:property value="item_name"/><span class="fw-semi-bold">am</span></span> --%>
 		                </time>
 			            
@@ -491,7 +491,7 @@
 		                        
 		                        <!-- 댓글 부분 시작 -->
 		                        <ul>
-		                            <s:if test="item_id==1">
+		                            <s:if test="iterator_id==1">
 		                            <div class="post-comments mt-sm" id=div1>
 		                            <s:iterator value="replylist1">
 		                            
@@ -528,7 +528,7 @@
 		                       
 		                            </s:if>
 		                            
-		                   			<s:if test="item_id==3">
+		                   			<s:if test="iterator_id==3">
 		                   			<div id=div3 class="post-comments mt-sm">
 		                            <s:iterator value="replylist3">
 		                            <li>
@@ -561,7 +561,7 @@
 		                            </li>
 		                            </div>
 		                            </s:if>
-		                           <s:if test="item_id==5">
+		                           <s:if test="iterator_id==5">
 		                            <div id=div5 class="post-comments mt-sm">
 		                            <s:iterator value="replylist5">
 		                            <li>
@@ -606,7 +606,7 @@
 		            <li class="on-right">
 		                <time class="event-time" datetime="2014-05-19 03:04"><!-- 노드부분 -->
 		                    <%-- <span class="date">yesterday</span> --%>
-		                    <span class="time"><s:property value="item_name"/></span><!-- 일겹살 뜨는 부분 -->
+		                    <span class="time"><s:property value="title"/></span><!-- 일겹살 뜨는 부분 -->
 		                    <%-- <span class="time"><s:property value="item_name"/><span class="fw-semi-bold">am</span></span> --%>
 		                </time>
 			            
@@ -668,7 +668,7 @@
 		                        <!-- 댓글 부분 시작 -->
 		                        <ul>
 		                            
-		                            <s:if test="item_id==2">
+		                            <s:if test="iterator_id==2">
 		                            <div class="post-comments mt-sm" id=div2>
 		                            <s:iterator value="replylist2">
 		                            <li>
@@ -701,7 +701,7 @@
 		                       </li>
 		                       </div>
 		                            </s:if>
-		                   			<s:if test="item_id==4" >
+		                   			<s:if test="iterator_id==4">
 		                            <div id=div4 class="post-comments mt-sm">
 		                            <s:iterator value="replylist4">
 		                            <li>

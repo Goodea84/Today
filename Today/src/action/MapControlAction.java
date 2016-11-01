@@ -19,6 +19,7 @@ import com.opensymphony.xwork2.ActionSupport;
 public class MapControlAction extends ActionSupport implements SessionAware{
 
 	private String local;						//지역
+	private String local2;
 	private Map<String, Object> session;		//세션
 	private ArrayList<String> itemList;			//프론트 단에서 넘어오는 아이템 명(URIEncoding)
 	private String urlStr;						//외부 API 사용을 위한 주소
@@ -35,6 +36,7 @@ public class MapControlAction extends ActionSupport implements SessionAware{
 	//(장민식) 지역설정 값을 session에 설정(ex: 홍대, 삼청동, 하남)
 	public String SessionLocal() {
 		session.put("local", local);
+		session.put("local2", local2);
 		return SUCCESS;
 	}//setSessionLocal end
 	
@@ -267,8 +269,18 @@ public class MapControlAction extends ActionSupport implements SessionAware{
 	}
 	
 	//▼▼▼▼▼▼▼▼ setters getters ▼▼▼▼▼▼▼▼
+	
+	
 	public ArrayList<String> getItemList() {
 		return itemList;
+	}
+
+	public String getLocal2() {
+		return local2;
+	}
+
+	public void setLocal2(String local2) {
+		this.local2 = local2;
 	}
 
 	public String getBlogInfoReturn2() {

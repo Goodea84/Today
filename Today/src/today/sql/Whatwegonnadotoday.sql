@@ -68,17 +68,15 @@ CREATE TABLE ITEM
 	-- 아이템아이디
 	ITEM_ID number(2) NOT NULL,
 	-- 상호명
-	ITEM_NAME varchar2(10) NOT NULL,
+	title varchar2(50) NOT NULL,
 	-- 좌표x
 	ITEM_X number(20,10) NOT NULL,
 	-- y좌표
 	ITEM_Y number(20,10) NOT NULL,
-	-- 링크
-	LINKED varchar2(20),
+	-- 주소
+	address varchar2(80),
 	-- 아이템전화번호
-	ITEM_PHONE varchar2(20),
-	-- 이미지
-	IMAGE varchar2(150),
+	phone varchar2(20),
 	PRIMARY KEY (ITEM_ID)
 );
 
@@ -225,11 +223,6 @@ CREATE SEQUENCE ITEM_SEQ;
 CREATE SEQUENCE IMAGE_SEQ;
 CREATE SEQUENCE REPLY_SEQ;
 
-DROP SEQUENCE IMAGE_SEQ;
-
-select * from CUSTOMER;
-select * from CardList;
-select * from CARD;
 
 --INCERT CUSTOMER
 insert into CUSTOMER values(cust_seq.nextval,'aaa@aaa.aaa','jhs','aaa','서울시','01011111111','friendimg/one.jpg');
@@ -246,9 +239,3 @@ insert into FriendList values(friend_seq.nextval,1,4);
 insert into FriendList values(friend_seq.nextval,4,1);
 insert into FriendList values(friend_seq.nextval,1,5);
 insert into FriendList values(friend_seq.nextval,5,1);
-
-insert into ITEM values(item_seq.nextval,'일겹살',1.0,1.0,'www.naver.com','010222','image.jpg');
-insert into ITEM values(item_seq.nextval,'이겹살',2.0,2.0,'www.naver.com','010222','image.jpg');
-insert into ITEM values(item_seq.nextval,'삼겹살',3.0,3.0,'www.naver.com','010222','image.jpg');
-insert into ITEM values(item_seq.nextval,'사겹살',4.0,4.0,'www.naver.com','010222','image.jpg');
-insert into ITEM values(item_seq.nextval,'오겹살',5.0,5.0,'www.naver.com','010222','image.jpg');
