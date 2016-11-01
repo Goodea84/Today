@@ -799,14 +799,19 @@
     		 		//최초 클릭 시 가장 최근에 저장한 값을 보임.
     		 		$('.view_photo').append("<img class='attatched_pic' src='"+temp[length-1].src+"'/>");
     		 		i = length-1;//초기값은 가장 끝의 index
-    		 		if(i===1){
+    		 		if(i===0){
     		 			$('#chevron-right-btn').css('display', 'none');
     		 			$('#chevron-left-btn').css('display', 'none');
+    		 		}else if(i===1){
+    		 			$('#chevron-right-btn').css('display', 'none');
+    		 			$('#chevron-left-btn').css('display', 'none');
+    		 			$('.view_photo').append("<h3 id='pics_no'>"+i+" of "+(length-1)+"</h3>");
     		 		}else{
     		 			$('#chevron-left-btn').css('display', '');
+    		 			$('.view_photo').append("<h3 id='pics_no'>"+i+" of "+(length-1)+"</h3>");
     		 		}
     		 		//최초 사진 수와 총 사진 개수를 보여주는 h3태그. 가장 끝에 것을 먼저 보여줌.
-    		 		$('.view_photo').append("<h3 id='pics_no'>"+i+" of "+(length-1)+"</h3>");
+    		 		
     		 		$('#chevron-right-btn').css('display', 'none');
    		 			
     		 		//왼쪽 버튼 클릭
