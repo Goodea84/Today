@@ -93,9 +93,6 @@
 		<div class="w3-content w3-container w3-padding-64" id="about">
 		  <h3 class="w3-center">ABOUT MINNANO MARKERS</h3>
 		  <p class="w3-center"><em>MINNANO MARKERS is spreading all over the world</em></p>
-		  <p>&nbsp;&nbsp;민나노마커즈는 짱입니다. 그렇습니다.<br>&nbsp;&nbsp;민나노마커즈는 짱입니다.민나노마커즈는 짱입니다.민나노마커즈는 짱입니다.민나노마커즈는 짱입니다.민나노마커즈는 짱입니다.민나노마커즈는 짱입니다.민나노마커즈는 짱입니다.민나노마커즈는 짱입니다.민나노마커즈는 짱입니다.민나노마커즈는 짱입니다.민나노마커즈는 짱입니다.민나노마커즈는 짱입니다.민나노마커즈는 짱입니다.민나노마커즈는 짱입니다.민나노마커즈는 짱입니다.민나노마커즈는 짱입니다.민나노마커즈는 짱입니다.
-		
-		</p>
 		  <div class="w3-row">
 		    <div class="w3-col m6 w3-center w3-section">
 		      <img src="img/pr_logo01.jpg" alt="MINNANO MARKERS">
@@ -103,7 +100,8 @@
 		
 		    <!-- Hide this text on small devices -->
 		    <div class="w3-col m6 w3-hide-small w3-section">
-		      <p>&nbsp;&nbsp;MINNANO MARKERS is Zzang. Zzang man!!<br>&nbsp;&nbsp;MINNANO MARKERS is Zzang.MINNANO MARKERS is Zzang.MINNANO MARKERS is Zzang.MINNANO MARKERS is Zzang.MINNANO MARKERS is Zzang.MINNANO MARKERS is Zzang.MINNANO MARKERS is Zzang.MINNANO MARKERS is Zzang.MINNANO MARKERS is Zzang.MINNANO MARKERS is Zzang.MINNANO MARKERS is Zzang.MINNANO MARKERS is Zzang.MINNANO MARKERS is Zzang.MINNANO MARKERS is Zzang.MINNANO MARKERS is Zzang.</p>
+		      <p><b>하나의 감성 민나노 마커즈</b><br>「오늘 뭐하지?」「내일 뭐할까?」와 같은 일상 생활에서 언제나 오고가는 물음에 해답을 얻을 수 있는 감성 공간입니다. 민나노 마커즈가 단순히 최적의 경로 정보를 제공한다면 우리는 감성이라는 단어를 사용하지 않았을 것입니다.「우리 오늘 뭐할까?」라는 사용자의 NEEDS를 해결하는 동시에 「우리 그때 뭐했지?」 라는 물음에 추억과 감성으로 다가갑니다. 그것이 우리 민나노 마커즈가 하나의 감성을 나타내는 방법중 하나라고 생각합니다. 자 이제 하나의 추억을 함께 만들어 볼까요?
+		
 		    </div>
 		  </div>
 		</div>
