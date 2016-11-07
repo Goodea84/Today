@@ -1,5 +1,7 @@
 package today.dao;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -30,11 +32,11 @@ public class FileDAO {
 	 * @param cust_id : 회원 seq
 	 * @return List<Image> : 해당되는 Image 객체
 	 */
-	public List<Image> printAll(int cust_id){
+	public List<Image> printAll(HashMap<String, Object> map){
 		List<Image> list_image = null;
 		SqlSession ss = MybatisConfig.getSqlSessionFactory().openSession();
 		try {
-			list_image = ss.selectList("FileMapper.printAll", cust_id);
+			list_image = ss.selectList("FileMapper.printAll", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

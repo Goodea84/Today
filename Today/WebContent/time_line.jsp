@@ -26,20 +26,30 @@
    	<script src="script/jquery-3.1.0.min.js" type="text/javascript"></script> 
 	<script src="script/jquery-ui.min.js" type="text/javascript"></script> 
 	<script src="https://rawgit.com/fyneworks/multifile/2.1.0-preview/jquery.MultiFile.js" type="text/javascript"></script>
+	
 	<script src="script/jquery.form.min.js" type="text/javascript"></script>
 	
 	<!-- 유병훈 페이지 열릴 때마다 사진 가져오는 script -->
 	<script>
 		$(function(){
 			var name = '<%= session.getAttribute("loginId") %>';
+
+			var arr_item_id = new Array();
+			$.each($('.testYB'), function(index, val){
+				arr_item_id.push(val.value);
+			}); 
+			
+			jQuery.ajaxSettings.traditional = true; //배열 보낼 때 필수..
 			$.ajax({
 				url: 'printImage',
 				method: 'post',
+				data: {"list_itemid":arr_item_id},
+				dataType: 'json',
 				success: function(resp){
 					var list = resp.list_image;
 					$.each(list, function(index, val){
 						$('#'+list[index].item_id).append(
-							"<a class='allImage img_"+list[index].item_id+"' href='#'><img class='demo_image' src='image/"+name+"/"+list[index].item_id+"/"+list[index].photo+"' alt='...'/></a>"
+							"<a class='allImage img_"+list[index].item_id+"' href='#'><img class='demo_image' src='image/"+list[index].item_id+"/"+list[index].photo+"' alt='...'/></a>"
 						);//append
 					});//for-each
 				}//success
@@ -161,6 +171,7 @@
 	
 </head>
 <body>
+
 <!--
   Main sidebar seen on the left. may be static or collapsing depending on selected state.
 
@@ -551,7 +562,7 @@
 			                            </ul>
 			                            <ul class="post-links mt-sm pull-right">
 		                            		<li>
-		                            			<input type="hidden" class="item_no" value='<s:property value="itemlist[#cust_stat.index].item_id"/>'/>
+		                            			<input type="hidden" class="item_no testYB" value='<s:property value="itemlist[#cust_stat.index].item_id"/>'/>
 		                            			<a class="photo_upload" href="#"><span class="text-danger"><i class="fa fa-file-photo-o"></i> Photo</span></a><!-- 사진 업로드 버튼 -->
 		                            		</li>
 		                            	</ul>
@@ -736,7 +747,7 @@
 		                            </ul>
 		                            <ul class="post-links mt-sm pull-right">
 	                            		<li>
-	                            			<input type="hidden" class="item_no" value='<s:property value="itemlist[#cust_stat.index].item_id"/>'/>
+	                            			<input type="hidden" class="item_no testYB" value='<s:property value="itemlist[#cust_stat.index].item_id"/>'/>
 	                            			<a class="photo_upload" href="#"><span class="text-danger"><i class="fa fa-file-photo-o"></i> Photo</span></a><!-- 사진 업로드 버튼 -->
 	                            		</li>
 		                            </ul>
@@ -847,7 +858,8 @@
 						<header>
 							<img src="img/makeTimeLine/camera_ico.png">
 						</header>
-						<div class="widget-body">
+						
+						<div class="widget-body pic_upload_btn">
 							<br/><br/>
 							<input type="file" id="upload" value="upload" name="userImage" multiple class="multi with-preview" maxlength="2" accept="gif|jpg|png"/>
 						</div>
@@ -866,8 +878,6 @@
 					</a>
 					<input type="submit" id="upload_real_btn" value="등록"/>
 					<input type="hidden" id="item_number" name="item_number" value=""/>
-					
-					
 				</form>
 			</section>
 			</div>
@@ -964,12 +974,17 @@
     		 
    			 	$('.photo_upload').on('click', function(){
     				$('#popup_layer_photo, #overlay_photo').show(); 
+    				//return false; 하면 따라가진 않는데 팝업 창이 맨 위에 생성됨.
     			});//사진 올리기 아이콘 클릭 시, 팝업 효과
     		
     		    $('#overlay_photo, .close').click(function(e){ 
     		        e.preventDefault(); 
+    		        if($('.MultiFile-remove').length){
+	    		        $('.MultiFile-remove')[0].click();
+    		        }
     		        $('#popup_layer_photo, #overlay_photo').hide(); 
     		    });//팝업 효과 나타났을 때, 다른 부분 클릭하면 사라지는 효과
+    		    
     		    
     		 	$('.photo_upload').on('click', function(){
     		 		var temp = $(this).parent().children('.item_no').val();
@@ -978,10 +993,11 @@
     		 	});//사진 등록할 때, 해당 item_no를 FORM안에 hidden값으로 넣고 가져감.
     		 
     			$('#upload_pic_btn').on('click', function(){
-    				$('#upload').trigger('click');
-    			});//사진 올리기 버튼 클릭
+  					$('input[type=file]:first').trigger('click');
+    			});//사진 올리기 버튼 클릭 
 
     			$('#upload_btn').on('click', function(){
+    				
     		 		$('#upload_real_btn').trigger('click'); 
     			});//업로드 버튼 클릭
 			 	
@@ -1008,9 +1024,10 @@
 						var name = '<%= session.getAttribute("loginId") %>';
 							$.each(map_itemNo, function(index, val){
 								$('#'+map_itemNo[index]).append(
-									"<a class='allImage img_"+map_itemNo[index]+"' href='#'><img class='demo_image' src='image/"+name+"/"+map_itemNo[index]+"/"+map_savedFile[index]+"' alt='...'/></a>"
+									"<a class='allImage img_"+map_itemNo[index]+"' href='#'><img class='demo_image' src='image/"+map_itemNo[index]+"/"+map_savedFile[index]+"' alt='...'/></a>"
 								);//append
 							});//each
+						$('.MultiFile-remove')[0].click();
 						return false;
 					},
 					//ajax error

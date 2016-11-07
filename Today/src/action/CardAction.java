@@ -273,9 +273,6 @@ public class CardAction extends ActionSupport implements SessionAware{
 				replylist5.get(i).setRe_image(customer.getCust_image());
 			}
 		}
-		
-
-		
 		return SUCCESS;
 	}
 	

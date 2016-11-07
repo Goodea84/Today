@@ -7,8 +7,12 @@
 		INSERT INTO image VALUES(image_seq.nextval, #{cust_id}, #{item_id}, #{photo})
 	</insert>
 
-	<select id="printAll" parameterType="int" resultType="Image">
-		SELECT * FROM image WHERE cust_id=#{cust_id}
+	<select id="printAll" parameterType="map" resultType="Image">
+		SELECT * FROM image 
+		WHERE 
+		<foreach collection="list" item="type" open="(" close=")" separator="or">
+			item_id = #{type.value}
+		</foreach>
 	</select>
 
 </mapper>
