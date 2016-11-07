@@ -208,8 +208,8 @@ Copyright (c) 2015 Daniel Eden
 	
 	/* 유병훈: 사진 올리는 과정에서 나타나는 지저분한 것들 안보이게 */
 	#upload_F1{display: none;}
+	#upload_F2{display: none;}
 	.MultiFile-title{display: none;}
-	
 	
 	/* 장민식 */ /* 경로 아이콘 */
 	.pass_1{

@@ -30,6 +30,7 @@ public class FileUploadAction extends ActionSupport implements ServletRequestAwa
 	private List<Image> list_image;//DB에 저장된 파일명 담아 페이지 열릴 때 뿌리는 데 쓰임
 	private HttpServletRequest servletRequest;//파일 저장경로 받기 위함
 	private int item_number;//저장할 때 time_line 페이지에서 받아오는 item_no
+	private ArrayList<Integer> list_itemid = new ArrayList<>();
 	
 	/**
 	 * (2개 이상 가능)사진 저장하는 메소드
@@ -43,7 +44,7 @@ public class FileUploadAction extends ActionSupport implements ServletRequestAwa
 		if(userImage!=null){
 			for(int i=0; i<userImageFileName.size(); i++){
 				String realPath = servletRequest.getSession().getServletContext().getRealPath("/");
-				String basePath = realPath + "image/" + (String)session.get("loginId") + "/" + item_number;
+				String basePath = realPath + "image/" + item_number;
 				System.out.println("Server path:" + basePath);
 				//보안을 위해서는 사용자 아이디도 암호화하여 저장할 필요가 있지만, 그건 나중에 하도록...
 				String savedFile = fs.saveFile(userImage.get(i), basePath, userImageFileName.get(i));
@@ -63,10 +64,10 @@ public class FileUploadAction extends ActionSupport implements ServletRequestAwa
 	 * 페이지 열릴 때 호출되는 메소드. 카드에 맞는 사진을 담아 가져감
 	 */
 	public String printAll(){
+		HashMap<String, Object> map = new HashMap<>();
 		FileDAO dao = new FileDAO();
-		CustomerDAO cust_dao = new CustomerDAO();
-		Customer cust = cust_dao.selectCustomer((String)session.get("loginId"));
-		list_image = dao.printAll(cust.getCust_id());
+		map.put("list", list_itemid);
+		list_image = dao.printAll(map);
 //		System.out.println(list_image);
 		return SUCCESS;
 	}//printAll
@@ -134,6 +135,14 @@ public class FileUploadAction extends ActionSupport implements ServletRequestAwa
 
 	public void setMap_savedFile(HashMap<Integer, String> map_savedFile) {
 		this.map_savedFile = map_savedFile;
+	}
+
+	public ArrayList<Integer> getList_itemid() {
+		return list_itemid;
+	}
+
+	public void setList_itemid(ArrayList<Integer> list_itemid) {
+		this.list_itemid = list_itemid;
 	}
 
 	@Override
