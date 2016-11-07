@@ -169,7 +169,7 @@
             <li>
                 <a href="index" data-no-pjax>
                     <span class="icon"><i class="glyphicon glyphicon-map-marker"></i></span>
-                    Maps
+                    Markers
                 </a>
             </li>
             <li class="active" data-no-pjax>
@@ -232,7 +232,7 @@
                             <i class="fa fa-map-marker"></i>
                         </span>
 						<!-- 지역(local) 검색 input tag -->
-                        <input class="form-control" type="text" id="searchLocal" name="searchLocal" placeholder="카드 검색">
+                        <input class="form-control" type="text" id="searchLocal" name="searchLocal" placeholder="Search the card">
                     </div>
                 </div>
                 
@@ -533,10 +533,10 @@
         <h1 class="page-title">My - <span class="fw-semi-bold">Markers</span></h1>
         <div class="clearfix mb-lg">
             <div class="btn-group m-b-20 js-filter-options">
-                <span class="btn btn-default filter active" data-group="all">All</span>
-                <span class="btn btn-default filter" data-group="nature">Nature</span>
-                <span class="btn btn-default filter" data-group="people">People</span>
-                <span class="btn btn-default filter" data-group="space">Space</span>
+                <span class="btn btn-default filter active" data-group="all">Public</span>
+                <span class="btn btn-default filter" data-group="nature">Friends</span>
+                <span class="btn btn-default filter" data-group="people">Only Me</span>
+                <%-- <span class="btn btn-default filter" data-group="space">Space</span> --%>
             </div>
             <div class="pull-right m-b-20">
                 <div class="btn-group js-sort-options">

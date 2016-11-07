@@ -114,7 +114,7 @@ $(function(){
 
         $('#show-success-message').on('click', function(){
             Messenger().post({
-                message: 'Success : Thanks for check your card list.',
+                message: 'Success : Card has been created successfully!',
                 type: 'success',
                 showCloseButton: true
             });
@@ -124,7 +124,7 @@ $(function(){
         
         $('#show-success-messageAlert').on('click', function(){
             Messenger().post({
-                message: 'Notice : 경로는 최대 5곳만 검색 가능 합니다.',
+                message: 'Notice : Routes can be searched maximum 5 places.',
                 type: 'error',
                 showCloseButton: true
             });

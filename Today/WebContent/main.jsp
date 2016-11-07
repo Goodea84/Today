@@ -92,7 +92,7 @@
 		<!-- Container (About Section) -->
 		<div class="w3-content w3-container w3-padding-64" id="about">
 		  <h3 class="w3-center">ABOUT MINNANO MARKERS</h3>
-		  <p class="w3-center"><em>MINNANO MARKERS is spreading all over the world</em></p>
+		  <p class="w3-center"><em>MINNANO MARKERS is spreading all over the world.</em></p>
 		  <div class="w3-row">
 		    <div class="w3-col m6 w3-center w3-section">
 		      <img src="img/pr_logo01.jpg" alt="MINNANO MARKERS">
@@ -100,7 +100,17 @@
 		
 		    <!-- Hide this text on small devices -->
 		    <div class="w3-col m6 w3-hide-small w3-section">
-		      <p><b>하나의 감성 민나노 마커즈</b><br>「오늘 뭐하지?」「내일 뭐할까?」와 같은 일상 생활에서 언제나 오고가는 물음에 해답을 얻을 수 있는 감성 공간입니다. 민나노 마커즈가 단순히 최적의 경로 정보를 제공한다면 우리는 감성이라는 단어를 사용하지 않았을 것입니다.「우리 오늘 뭐할까?」라는 사용자의 NEEDS를 해결하는 동시에 「우리 그때 뭐했지?」 라는 물음에 추억과 감성으로 다가갑니다. 그것이 우리 민나노 마커즈가 하나의 감성을 나타내는 방법중 하나라고 생각합니다. 자 이제 하나의 추억을 함께 만들어 볼까요?
+		      <p><b>MINNANO MARKERS : Stimulating your sensibility</b><br>
+		      ‘What are we going to do today? What about tomorrow?’<br>
+		       MINNANO MARKERS answers those questions with sensibility.<br/>
+		       We wouldn't use the word, sensibility, if MINNANO MARKERS simply <br/>
+		       provides optimal route information. Not only do we give the answer <br/>
+		       to the question like ‘What are we going to do today?’, <br/>
+		       but also we provide you with the memory and sensibility like <br/>
+		       ‘Remember what we have done on that day?’ This is how we show <br/>
+		       the sensibility that we could have from anywhere anytime.<br/>
+		       Well then, let’s give it a try and make a memory <br/>
+		       with MINNANO MARKERS, shall we?
 		
 		    </div>
 		  </div>
@@ -119,7 +129,7 @@
 		
 		<div class="w3-content w3-container w3-padding-64">
 		  <h3 class="w3-center">HOW TO USE</h3>
-		  <p class="w3-center"><em>민나노 마커즈를 이용하시면 간단하게 필요한 정보를 얻을 수 있습니다.</em></p><br>
+		  <p class="w3-center"><em>By using MINNANO MARKERS, you can simply get the information you are looking for!</em></p><br>
 		
 			<div class="w3-row-padding w3-center">
 				<div class="w3-col m3">
@@ -140,19 +150,19 @@
 			</div>
 			<div class="w3-row-padding w3-center">
 			    <div class="w3-col m3">
-					<b>STEP01</b><small><br>지역을 입력해주세요.<br></small>
+					<b>STEP01</b><small><br>Enter the specific name of local area.<br></small>
 			    </div>
 			
 			    <div class="w3-col m3">
-					<b>STEP02</b><small><br>원하는 경로를 입력해주세요.<br>경로는 2마커에서 5마커까지<br>선택할 수 있습니다.<br> <br></small>
+					<b>STEP02</b><small><br>Input keywords you would like to try.<br>You can select from 2 to 5 options. <br></small>
 			    </div>
 			
 			    <div class="w3-col m3">
-					<b>STEP03</b><small><br>지도에 나타난 이동경로를<br>학인하세요.<br></small>
+					<b>STEP03</b><small><br>Check the routes appearing on the map.<br></small>
 			    </div>
 			
 			    <div class="w3-col m3">
-					<b>STEP04</b><small><br>지도에 표시된 마커즈를 눌러보세요.<br>해당 점포의 블로그 리뷰들을<br>확인할 수 있습니다.</small>
+					<b>STEP04</b><small><br>Click the marker on the map <br>and you can check and read the reviews from blogs of the destinations.</small>
 			    </div>
 		    </div>
 		    <div class="w3-row-padding w3-center">
@@ -174,19 +184,19 @@
 			</div>
 			<div class="w3-row-padding w3-center">
 			    <div class="w3-col m3">
-					<b>STEP05</b><small><br>지도 하단 마커즈를 눌러보세요.<br>해당 점포의 로드뷰, 정보 등을<br>확인할 수 있습니다.</small><br> <br>
+					<b>STEP05</b><small><br>Click markers at the bottom of the map <br>and you can check the details and roadview of the destinations.</small><br> <br>
 			    </div>
 			
 			    <div class="w3-col m3">
-					<b>STEP06</b><small><br>추천 장소가 맘에 안드시나요?<br>하단 정보창에서 좌우 버튼을 눌러보세요.<br>각 마커 별로 각기 다른 추천 장소를<br>추천하고 정보를 제공합니다.</small><br> <br>
+					<b>STEP06</b><small><br>Do not like the place we recommended? <br>Well, sorry about that :( <br>why don’t you give us another chance? <br>Click the left/right button at the bottom. <br>We also provide you with other famous places at each marker!</small><br> <br>
 			    </div>
 			
 			    <div class="w3-col m3">
-					<b>STEP07</b><small><br>지도 하단 마커즈를 눌러보세요.<br>해당 점포의 로드뷰, 정보 등을<br>확인할 수 있습니다.</small><br> <br>
+					<b>STEP07</b><small><br>Like the routes? Cool! <br> Then, let’s make a card and share with your friends. <br>Apart from our webpage, it’s possible to share via KakaoTalk and Facebook!</small><br> <br>
 			    </div>
 			
 			    <div class="w3-col m3">
-					<b>STEP08</b><small><br>지도 하단 마커즈를 눌러보세요.<br>해당 점포의 로드뷰, 정보 등을<br>확인할 수 있습니다.</small><br> <br>
+					<b>STEP08</b><small><br>How was that you tried? <br>Did it live up to your expectations?<br>Let’s share some pictures and comments using the card you have created.<br>It becomes the part of precious memories with people you were with!</small><br> <br>
 			    </div>
 		    </div>
 			<div class="w3-row-padding w3-center">
@@ -198,15 +208,15 @@
 		
 		<div class="bgimg-3 w3-display-container">
 		  <div class="w3-display-middle">
-		    <span class="w3-center w3-padding-xlarge w3-black w3-xlarge w3-wide w3-animate-opacity">DEVELOPERSE</span>
+		    <span class="w3-center w3-padding-xlarge w3-black w3-xlarge w3-wide w3-animate-opacity">DEVELOPERS</span>
 		  </div>
 		</div>
 		
 		
 		<!-- Container (Portfolio Section) -->
 		<div class="w3-content w3-container w3-padding-64">
-		  <h3 class="w3-center">DEVELOPERSE</h3>
-		  <p class="w3-center"><em>We are making innovation<br> Click on the images to make them bigger</em></p><br>
+		  <h3 class="w3-center">DEVELOPERS</h3>
+		  <p class="w3-center"><em>We are making innovation<br> Click the images to make them bigger</em></p><br>
 		
 		  <!-- Responsive Grid. Four columns on tablets, laptops and desktops. Will stack on mobile devices/small screens (100% width) -->
 		  <div class="w3-row-padding w3-center">
@@ -228,19 +238,19 @@
 		  </div>
 			<div class="w3-row-padding w3-center">
 			    <div class="w3-col m3">
-					<b>CEO</b><br>Jang jackman
+					<b>CEO</b><br>Jang Jackman
 			    </div>
 			
 			    <div class="w3-col m3">
-					<b>Beomgye development manager</b><br>Kim takuya
+					<b>CTO at Beomgye Lab</b><br>Kim Takuya
 			    </div>
 			
 			    <div class="w3-col m3">
-					<b>Silicon Valley branch manager</b><br>Yu pitt
+					<b>Branch Manager at Silicon Valley</b><br>Yu Pitt
 			    </div>
 			
 			    <div class="w3-col m3">
-					<b>Chief researcher</b><br>Jeon suji
+					<b>Chief Researcher</b><br>Jeon Suji
 			    </div>
 			    <a href="index" class="w3-padding-large">
 					<button class="w3-btn w3-orange w3-padding-xlarge" style="margin-top:64px">ENTER ON A MINNANO MARKERS</button>
@@ -266,8 +276,8 @@
 		
 		<!-- Container (Contact Section) -->
 		<div class="w3-content w3-container w3-padding-64">
-		  <h3 class="w3-center">WHERE I WORK</h3>
-		  <p class="w3-center"><em>I'd love your feedback!</em></p>
+		  <h3 class="w3-center">WHERE WE WORK</h3>
+		  <p class="w3-center"><em>We'd love to hear your feedback!</em></p>
 		
 		  <div class="w3-row w3-padding-32 w3-section">
 		    <div class="w3-col m4 w3-container">
@@ -276,7 +286,7 @@
 		    </div>
 		    <div class="w3-col m8 w3-container w3-section">
 		      <div class="w3-large w3-margin-bottom">
-		        <i class="fa fa-map-marker w3-hover-text-black" style="width:30px"></i>SC IT Master in Coex, KOREA<br>
+		        <i class="fa fa-map-marker w3-hover-text-black" style="width:30px"></i>SC IT Master in Coex, Republic of Korea<br>
 		        <i class="fa fa-phone w3-hover-text-black" style="width:30px"></i> Phone: +82 10 43998611 <br>
 		        <i class="fa fa-envelope w3-hover-text-black" style="width:30px"> </i> Email: msik0604@gmail.com<br>
 		      </div>

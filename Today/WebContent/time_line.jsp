@@ -397,7 +397,7 @@
           <li>
               <a href="index" data-no-pjax>
                   <span class="icon"><i class="glyphicon glyphicon-map-marker"></i></span>
-                  Maps
+                  Markers
               </a>
           </li>
           <li class="active" data-no-pjax>
@@ -457,13 +457,14 @@
             <!-- search form! link it to your search server -->
             <div class="navbar-form navbar-left">
                 <div class="form-group">
-                    <div class="input-group input-group-no-border">
+                <!-- 병훈: 타임라인에서 카드 검색은 필요 없음? -->
+                    <%-- <div class="input-group input-group-no-border">
                         <span class="input-group-addon">
                             <i class="fa fa-map-marker"></i>
                         </span>
 						<!-- 지역(local) 검색 input tag -->
                         <input class="form-control" type="text" id="searchLocal" name="searchLocal" placeholder="카드 검색">
-                    </div>
+                    </div> --%>
                 </div>
             </div>
             <ul class="nav navbar-nav navbar-right">
@@ -698,7 +699,7 @@
             <li>YOU ARE HERE</li>
             <li class="active">My Card</li><li class="active">Time Line</li>
         </ol>
-        <h1 class="page-title">Events - <span class="fw-semi-bold">Feed</span></h1>
+        <h1 class="page-title">My Card- <span class="fw-semi-bold">Time Line</span></h1>
         
         <div id="g_map">
         </div>
@@ -816,7 +817,7 @@
 		                                <div class="comment-body">
 											<input class="form-control input-sm recontent" type="text" id="recontent1" name="recontent" />
 											<input type="hidden" value="<s:property value='item_id'/>" id="item_id" name="item_id" class="item_id" />
-											<a class="replyBtn" href="#" id="wreply1">전송 </a> 
+											<a class="replyBtn" href="#" id="wreply1">Leave </a> 
 		                                </div>
 								</s:form>
 		                       </li>
@@ -852,7 +853,7 @@
 		                                <div class="comment-body">
 											<input class="form-control input-sm recontent" type="text" id="recontent3" name="recontent" />
 											<input type="hidden" value="<s:property value='item_id'/>" id="item_id" name="item_id" class="item_id" />
-											<a class="replyBtn" href="#" id="wreply3">전송 </a> 
+											<a class="replyBtn" href="#" id="wreply3">Leave </a> 
 		                                </div>
 								</s:form>
 		                            </li>
@@ -885,7 +886,7 @@
 		                                <div class="comment-body">
 											<input class="form-control input-sm recontent" type="text" id="recontent5" name="recontent" />
 											<input type="hidden" value="<s:property value='item_id'/>" id="item_id" name="item_id" class="item_id" />
-											<a class="replyBtn" href="#" id="wreply5">전송 </a> 
+											<a class="replyBtn" href="#" id="wreply5">Leave </a> 
 		                                </div>
 								</s:form>
 		                            </li>
@@ -1001,7 +1002,7 @@
 		                                <div class="comment-body">
 											<input class="form-control input-sm recontent" type="text" id="recontent2" name="recontent" />
 											<input type="hidden" value="<s:property value='item_id'/>" id="item_id" name="item_id" class="item_id" />
-											<a class="replyBtn" href="#" id="wreply2">전송 </a> 
+											<a class="replyBtn" href="#" id="wreply2">Leave </a> 
 		                                </div>
 								</s:form>
 		                       </li>
@@ -1034,7 +1035,7 @@
 		                                <div class="comment-body">
 											<input class="form-control input-sm recontent" type="text" id="recontent4" name="recontent" />
 											<input type="hidden" value="<s:property value='item_id'/>" id="item_id" name="item_id" class="item_id" />
-											<a class="replyBtn" href="#" id="wreply4">전송 </a> 
+											<a class="replyBtn" href="#" id="wreply4">Leave </a> 
 		                                </div>
 								</s:form>
 		                            </li>

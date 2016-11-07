@@ -84,6 +84,7 @@ public class CardAction extends ActionSupport implements SessionAware{
 		
 		//카드 아이디 이용하여 전체 카드 객체 받아오기
 		card = dao.cardlist(card_id);
+		
 		listsize = clist.size();
 		
 		
@@ -229,7 +230,6 @@ public class CardAction extends ActionSupport implements SessionAware{
 
 		//카드 아이디 이용하여 전체 카드 객체 받아오기
 		card = dao.cardlist(card_id);
-
 		//카드객체의 아이템1-5 arraylist 담기
 		
 		itemlist = new ArrayList<>();
@@ -242,7 +242,6 @@ public class CardAction extends ActionSupport implements SessionAware{
 		//item id 이용해서 item객체,reply객체 받아오기.
 		if(card.getItem1()!=0){
 			Item item = dao.selectItem(card.getItem1());
-			System.out.println("=============="+item.getItem_id());
 			item = dao.selectItem(card.getItem1());
 			item.setIterator_id(1);
 			itemlist.add(item);

@@ -96,6 +96,15 @@
 	
 	/* 장민식 *//* 아이템 검색 데이터 호출*/
 	$('#searchRoad').click(function() {
+		//유병훈 : 지역명 검색 하지 않고 키워드만 가지고 검색하려 할 때 예외처리
+		var searchLocal = $('#searchLocal').val();
+		if(searchLocal.length===0){
+			alert('please input name of the local first :)');
+			 $('#searchLocal').focus();
+			return false;
+		}//if
+		//유병훈
+	
 	ybArray.length = 0;
     ybArray2.length = 0;
 	ybArray3.length = 0;
@@ -1267,7 +1276,7 @@
                             <i class="fa fa-map-marker"></i>
                         </span>
 						<!-- 지역(local) 검색 input tag -->
-                        <input class="form-control" type="text" id="searchLocal" name="searchLocal" placeholder="지역을 검색해주세요">
+                        <input class="form-control" type="text" id="searchLocal" name="searchLocal" placeholder="Input local area here!">
                         
                         	<!--  김승훈테스트버튼 
                         	<input type="button" id="left" value="left" >
