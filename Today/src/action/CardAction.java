@@ -137,6 +137,9 @@ public class CardAction extends ActionSupport implements SessionAware{
 		
 		//friendlist...
 		customer = cust_dao.selectCustomer((String) session.get("loginId"));
+		if (customer == null ) {
+			return ERROR;
+		}
 		list = cust_dao.friendList(customer.getCust_id());
 
 		flist = new ArrayList<>();

@@ -42,10 +42,10 @@ $(function(){
         $.globalMessenger({ theme: theme });
         Messenger.options = { theme: theme  };
 
-        Messenger().post("Thanks for checking out Messenger!");
+        /*Messenger().post("Welcome to MINNANO MARKERS");*/
 
 
-        var loc = ['bottom', 'right'];
+        var loc = ['top', 'right'];
 
         var $lsel = $('.location-selector');
 
@@ -114,8 +114,18 @@ $(function(){
 
         $('#show-success-message').on('click', function(){
             Messenger().post({
-                message: 'Showing success message was successful!',
+                message: 'Success : Thanks for check your card list.',
                 type: 'success',
+                showCloseButton: true
+            });
+
+            return false;
+        });
+        
+        $('#show-success-messageAlert').on('click', function(){
+            Messenger().post({
+                message: 'Notice : 경로는 최대 5곳만 검색 가능 합니다.',
+                type: 'error',
                 showCloseButton: true
             });
 
