@@ -69,6 +69,31 @@ public class CustomerDAO {
 		return result;
 	}
 	
+	/**
+	 * 팔뤄워수
+	 * @param custid 로그인한 user ID key 값
+	 * @return 해당 user의 friendcust_id
+	 */
+	public int follower (int custid) {
+		
+		System.out.println("<DAO> follower");
+		SqlSession ss = null;
+		int result=0;
+		
+		try {
+			ss = factory.openSession();
+			result = (int) ss.selectOne("CustomerMapper.follower", custid);
+			ss.commit();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			if (ss != null) ss.close();
+		}
+		return result;
+	}
+
 	
 	/**
 	 * 친구객체 (친구목록2)

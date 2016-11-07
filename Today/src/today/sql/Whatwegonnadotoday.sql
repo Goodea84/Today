@@ -100,7 +100,7 @@ CREATE TABLE CARD
 	-- 카드아이디(key)
 	CARD_ID number(2) NOT NULL,
 	-- 위치이름(ex.홍대)
-	LOCA_NAME varchar2(10) NOT NULL,
+	LOCA_NAME varchar2(20) NOT NULL,
 	-- 아이템1
 	ITEM1 number(2) NOT NULL,
 	-- 아이템2

@@ -51,7 +51,12 @@ public class CardAction extends ActionSupport implements SessionAware{
 	private String makeCard;
 	private ArrayList<Integer> itemidlist;
 	private Item item;
+	private int listsize;
+	private int sumrecommend;
+	private int follower;
 	
+	
+	//카드페이지 이동
 	public String movecard(){
 		
 		//친구리스트
@@ -65,13 +70,19 @@ public class CardAction extends ActionSupport implements SessionAware{
 			flist.add(fcustomer);
 		}
 		
+		follower = cust_dao.follower(customer.getCust_id());
+		
+		
 		//카드리스트
 		cardidlist = dao.cardidlist(customer.getCust_id());
 		clist = new ArrayList<>();
 		for(int i=0;i<cardidlist.size();i++){
 			card = dao.cardlist(cardidlist.get(i));
 			clist.add(card);
+			sumrecommend = sumrecommend+card.getRecommend();
 		}
+		
+		listsize = clist.size();
 		
 		return SUCCESS;
 	}
@@ -302,8 +313,10 @@ public class CardAction extends ActionSupport implements SessionAware{
 	
 	public String makereply() throws Exception{
 		
-		
+		System.out.println("웨안대ㅐㅐㅐ : "+session.get("loginId"));
 		customer = cust_dao.selectCustomer((String) session.get("loginId"));
+		System.out.println("웨안대ㅐㅐㅐ : "+customer.getCust_id());
+		System.out.println("웨안대ㅐㅐㅐ : "+reply.getContent());
 		reply.setCust_id(customer.getCust_id());
 		
 		dao.insertreply(reply);
@@ -495,6 +508,30 @@ public class CardAction extends ActionSupport implements SessionAware{
 
 	public void setItem(Item item) {
 		this.item = item;
+	}
+
+	public int getListsize() {
+		return listsize;
+	}
+
+	public void setListsize(int listsize) {
+		this.listsize = listsize;
+	}
+
+	public int getSumrecommend() {
+		return sumrecommend;
+	}
+
+	public void setSumrecommend(int sumrecommend) {
+		this.sumrecommend = sumrecommend;
+	}
+
+	public int getFollower() {
+		return follower;
+	}
+
+	public void setFollower(int follower) {
+		this.follower = follower;
 	}
 	
 	

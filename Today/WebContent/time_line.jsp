@@ -47,27 +47,90 @@
 			
 			
 			
-
+/* 전혜선 리플달기 */
 			$(".replyBtn").on('click',function(){
 				var appid;
+				var recontent;
+				var item_id;
 				
 				  if (this.id == "wreply1") {
 					  appid = $('#div1');
+					  recontent = $(this).parent().children('#recontent1').val();
 				  }
 				  if (this.id == "wreply2") {
 					  appid = $('#div2');
+					  recontent = $(this).parent().children('#recontent2').val();
 				  }
 				  if (this.id == "wreply3") {
 					  appid = $('#div3');
+					  recontent = $(this).parent().children('#recontent3').val();
 				  }
 				  if (this.id == "wreply4") {
 					  appid = $('#div4');
+					  recontent = $(this).parent().children('#recontent4').val();
 				  }
 				  if (this.id == "wreply5") {
 					  appid = $('#div5');
+					  recontent = $(this).parent().children('#recontent5').val();
 				  }
 
-				var recontent = $(this).parent().children('#recontent').val();
+				
+				item_id = $(this).parent().children('input[type="hidden"]').val();
+
+
+				
+		 		$.ajax({
+					url : "reply"
+					, dataType  : "json"
+					, data : {"reply.item_id":item_id,"reply.content":recontent}
+					, success : function(resp){
+						appid.append("<li><span class='thumb-xs avatar pull-left mr-sm'><img class='img-circle' src='"+resp.reply.re_image+"' alt='...'>"
+								+"</span><div class='comment-body'><h6 class='author fw-semi-bold'>"+resp.reply.re_name+"<small>"
+								+resp.reply.re_date+"</small></h6><p>"+resp.reply.content+"</p></div></li>");
+ 
+					}
+				});
+		 		
+		 		
+		 		$("input[name=recontent]").val('');
+		 		
+		 		return false;
+				
+			});
+			
+			/* enter눌리면 트리거로 버튼 클릭 불러준다. xxxxx  다시해줘야해 ㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠ*/
+			
+			  
+ 			$("input[name=recontent]").keydown(function (key) {
+ 
+        		if(key.keyCode == 13){//키가 13이면 실행 (엔터는 13)
+        			/* $('.replyBtn').trigger("click"); */
+        		
+        			var appid;
+				
+				  if (this.id == "recontent1") {
+					  alert('1');
+					  appid = $('#div1');
+				  }
+				  if (this.id == "recontent2") {
+					  alert('2');
+					  appid = $('#div2');
+				  }
+				  if (this.id == "recontent3") {
+					  alert('3');
+					  appid = $('#div3');
+				  }
+				  if (this.id == "recontent4") {
+					  alert('4');
+					  appid = $('#div4');
+				  }
+				  if (this.id == "recontent5") {
+					  alert('5');
+					  appid = $('#div5');
+				  }
+
+				var recontent = $(this).val();
+				alert(recontent);
 				var item_id = $(this).parent().children('input[type="hidden"]').val();
 
 
@@ -80,12 +143,18 @@
 						appid.append("<li><span class='thumb-xs avatar pull-left mr-sm'><img class='img-circle' src='"+resp.reply.re_image+"' alt='...'>"
 								+"</span><div class='comment-body'><h6 class='author fw-semi-bold'>"+resp.reply.re_name+"<small>"
 								+resp.reply.re_date+"</small></h6><p>"+resp.reply.content+"</p></div></li>");
-
+ 
 					}
 				});
-				
-				
-			});
+		 		
+		 		
+		 		$("input[name=recontent]").val('');
+        			return false;
+        		}
+ 
+  			  });
+			
+			
 		});//onload
 	</script>
 	<!-- 유병훈 페이지 열릴 때마다 사진 가져오는 script 끝 -->
@@ -531,7 +600,7 @@
 		                                <!-- 댓글 입력란 -->
 								<s:form id="replyform" action="reply" method="post">
 		                                <div class="comment-body">
-											<input class="form-control input-sm recontent" type="text" id="recontent" name="recontent" />
+											<input class="form-control input-sm recontent" type="text" id="recontent1" name="recontent" />
 											<input type="hidden" value="<s:property value='item_id'/>" id="item_id" name="item_id" class="item_id" />
 											<a class="replyBtn" href="#" id="wreply1">전송 </a> 
 		                                </div>
@@ -567,7 +636,7 @@
 		                                <!-- 댓글 입력란 -->
 								<s:form id="replyform" action="reply" method="post">
 		                                <div class="comment-body">
-											<input class="form-control input-sm recontent" type="text" id="recontent" name="recontent" />
+											<input class="form-control input-sm recontent" type="text" id="recontent3" name="recontent" />
 											<input type="hidden" value="<s:property value='item_id'/>" id="item_id" name="item_id" class="item_id" />
 											<a class="replyBtn" href="#" id="wreply3">전송 </a> 
 		                                </div>
@@ -600,7 +669,7 @@
 		                                <!-- 댓글 입력란 -->
 								<s:form id="replyform" action="reply" method="post">
 		                                <div class="comment-body">
-											<input class="form-control input-sm recontent" type="text" id="recontent" name="recontent" />
+											<input class="form-control input-sm recontent" type="text" id="recontent5" name="recontent" />
 											<input type="hidden" value="<s:property value='item_id'/>" id="item_id" name="item_id" class="item_id" />
 											<a class="replyBtn" href="#" id="wreply5">전송 </a> 
 		                                </div>
@@ -716,7 +785,7 @@
 		                                <!-- 댓글 입력란 -->
 								<s:form id="replyform" action="reply" method="post">
 		                                <div class="comment-body">
-											<input class="form-control input-sm recontent" type="text" id="recontent" name="recontent" />
+											<input class="form-control input-sm recontent" type="text" id="recontent2" name="recontent" />
 											<input type="hidden" value="<s:property value='item_id'/>" id="item_id" name="item_id" class="item_id" />
 											<a class="replyBtn" href="#" id="wreply2">전송 </a> 
 		                                </div>
@@ -749,7 +818,7 @@
 		                                <!-- 댓글 입력란 -->
 								<s:form id="replyform" action="reply" method="post">
 		                                <div class="comment-body">
-											<input class="form-control input-sm recontent" type="text" id="recontent" name="recontent" />
+											<input class="form-control input-sm recontent" type="text" id="recontent4" name="recontent" />
 											<input type="hidden" value="<s:property value='item_id'/>" id="item_id" name="item_id" class="item_id" />
 											<a class="replyBtn" href="#" id="wreply4">전송 </a> 
 		                                </div>
