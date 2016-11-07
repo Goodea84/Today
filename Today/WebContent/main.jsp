@@ -165,11 +165,11 @@
 				</div>
 				
 				<div class="w3-col m3">
-					<img src="img/howToUse/how_img03.jpg" style="width:100%" class="w3-margin w3-circle">
+					<img src="img/howToUse/how_img07.jpg" style="width:100%" class="w3-margin w3-circle">
 				</div>
 				
 				<div class="w3-col m3">
-					<img src="img/howToUse/how_img04.jpg" style="width:100%" class="w3-margin w3-circle">
+					<img src="img/howToUse/how_img08.jpg" style="width:100%" class="w3-margin w3-circle">
 				</div>
 			</div>
 			<div class="w3-row-padding w3-center">
@@ -182,11 +182,11 @@
 			    </div>
 			
 			    <div class="w3-col m3">
-					<b>STEP07</b><small><br>지도 하단 마커즈를 눌러보세요.<br>해당 점포의 로드뷰, 정보 등을<br>확인할 수 있습니다.</small><br> <br>
+					<b>STEP07</b><small><br>맘에드는 코스를 결정했나요?<br>추천 경로를 카드로 만들어<br>카드리스트로 보관하거나<br>카드를 친구들과 공유 할 수 있습니다.</small><br> <br>
 			    </div>
 			
 			    <div class="w3-col m3">
-					<b>STEP08</b><small><br>지도 하단 마커즈를 눌러보세요.<br>해당 점포의 로드뷰, 정보 등을<br>확인할 수 있습니다.</small><br> <br>
+					<b>STEP08</b><small><br>만들어진 카드를 이용하여<br>나만의 타임라인을 만들어보세요<br>공유된 카드는 타임라인도 함께<br>공유할 수 있습니다.</small><br> <br>
 			    </div>
 		    </div>
 			<div class="w3-row-padding w3-center">

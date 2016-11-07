@@ -397,7 +397,7 @@
           <li>
               <a href="index" data-no-pjax>
                   <span class="icon"><i class="glyphicon glyphicon-map-marker"></i></span>
-                  Maps
+                  Markers
               </a>
           </li>
           <li class="active" data-no-pjax>
@@ -1110,8 +1110,8 @@
     		 	$('.event-image').on('click', function(){
     		 		temp = "";
     		 		i = 0;
-    		 		$('.view_photo').append("<a id='chevron-left-btn' href='#'><i id='chevron-left' class='glyphicon glyphicon-chevron-left'></i></a>");
-    		 		$('.view_photo').append("<a id='chevron-right-btn' href='#'><i id='chevron-right' class='glyphicon glyphicon-chevron-right'></i></a>");
+    		 		$('.view_photo').append("<a id='chevron-left-btn' href='#'><img src='img/photoBtn_left.jpg' id='chevron-left'/></a>");
+    		 		$('.view_photo').append("<a id='chevron-right-btn' href='#'><img src='img/photoBtn_right.jpg' id='chevron-right'/></a>");
     		 		$('#popup_layer_view_photo, #overlay_view_photo').show();
     		 		temp = $(this).children().children();
     		 		var length = temp.length;

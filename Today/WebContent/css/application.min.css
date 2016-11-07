@@ -201,7 +201,7 @@ Copyright (c) 2015 Daniel Eden
 	}
 	#chevron-left{position: absolute; top:350px; left: 0px;}
 	#chevron-right{position: absolute; top:350px; right: 0px;}
-	.attatched_pic{width:auto; max-width: 900px; max-height: 600px; vertical-align: center; text-align: center;}
+	.attatched_pic{width:auto; max-width: 900px; height:600px; vertical-align: center; text-align: center;}
 	#pics_no{position:absolute; top:30px; left:110px;}
 	/* 유병훈: 사진 클릭 시 공간창출  */
 	
