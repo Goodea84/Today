@@ -328,7 +328,7 @@
 		//검색 지명 중심 좌표로 이동
 		function successFunc(response){
 			
-		    urlStr = "https://maps.googleapis.com/maps/api/geocode/json?&key=AIzaSyCBo-zr3K1N7rrX2Qh9C3ITBHoh1Dcfswk";
+		    urlStr = "https://maps.googleapis.com/maps/api/geocode/json?&key=AIzaSyDVLxXZ9ZuzAMHRtVgCrpT4sltMpznoFAk";
 		    urlStr += "&address="+response.local;
 		    
 		    $.getJSON(urlStr, function(data){

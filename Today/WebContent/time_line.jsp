@@ -28,6 +28,9 @@
 	<script src="https://rawgit.com/fyneworks/multifile/2.1.0-preview/jquery.MultiFile.js" type="text/javascript"></script>
 	<script src="script/jquery.form.min.js" type="text/javascript"></script>
 	
+	<script src="https://apis.skplanetx.com/tmap/js?version=1&format=javascript&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f"></script>
+
+	
 	<!-- 유병훈 페이지 열릴 때마다 사진 가져오는 script -->
 	<script>
 		$(function(){
@@ -45,9 +48,6 @@
 				}//success
 			});//ajax
 			
-			
-			
-
 			$(".replyBtn").on('click',function(){
 				var appid;
 				
@@ -76,18 +76,204 @@
 					url : "reply"
 					, dataType  : "json"
 					, data : {"reply.item_id":item_id,"reply.content":recontent}
-					, success : function(resp){
+					, success : function(resp){ 
 						appid.append("<li><span class='thumb-xs avatar pull-left mr-sm'><img class='img-circle' src='"+resp.reply.re_image+"' alt='...'>"
 								+"</span><div class='comment-body'><h6 class='author fw-semi-bold'>"+resp.reply.re_name+"<small>"
 								+resp.reply.re_date+"</small></h6><p>"+resp.reply.content+"</p></div></li>");
 
 					}
 				});
-				
-				
 			});
+			
+			//위도 경도 추출후 배열로 입력
+			var xArray = [5];
+			var yArray = [5];
+			
+			//pr_3857 인스탄스 생성.
+			var pr_4326 = new Tmap.Projection("EPSG:4326");
+			
+			//pr_3857 인스탄스 생성.
+			var pr_3857 = new Tmap.Projection("EPSG:3857");
+			
+			//WGS84GEO -> EPSG:3857 좌표형식 변환
+			function get3857LonLat(coordX, coordY){
+			    return new Tmap.LonLat(coordX, coordY).transform(pr_4326, pr_3857);
+			}
+			
+			$(".item_s").each(function(index, item){
+	      		xArray[index] = parseFloat(item.value);
+	      	});
+			
+			$(".item_j").each(function(index, item){
+	      		yArray[index] = parseFloat(item.value);
+	      	});
+			
+			//위도 경도 입력 배열 선언
+			var xyArray = [];
+			
+			xyArray.push(get3857LonLat(yArray[0], xArray[0]));
+			xyArray.push(get3857LonLat(yArray[1], xArray[1]));
+			
+			if(xArray.length==3||xArray.length==4||xArray.length==5){
+			xyArray.push(get3857LonLat(yArray[2], xArray[2]));
+			}
+			if(xArray.length==4||xArray.length==5){
+			xyArray.push(get3857LonLat(yArray[3], xArray[3]));
+			}
+			if(xArray.length==4||xArray.length==5){
+			xyArray.push(get3857LonLat(yArray[4], xArray[4]));
+			}
+			
+			var length = xyArray.length;
+			//맵 그리기 
+			
+			initialize();
+			
+			var map;
+			
+			function initialize() {
+			    map = new Tmap.Map({div:"g_map", width:'100%', height:'330px'});
+			}
+			//중심좌표 설정
+			map.setCenter(new Tmap.LonLat(14135893.887852,4518348.1852606), 14);
+			
+			searchRoute();
+			//경로 길 그리기
+			function searchRoute(){
+				/* 맵 새로고침 */
+				/* map.destroy();
+				initTmap(); */
+				
+				var startX = xyArray[0].lon;//출발지
+				var startY = xyArray[0].lat;
+				var endX = xyArray[length-1].lon;//도착지
+				var endY = xyArray[length-1].lat;
+				
+				 var routeFormat = new Tmap.Format.KML({extractStyles:true, extractAttributes:true});
+
+			     var startName = "출발";
+			     var endName = "도착";
+			     var urlStr = "https://apis.skplanetx.com/tmap/routes/pedestrian?version=1&format=xml";
+			         urlStr += "&startX="+startX;
+			         urlStr += "&startY="+startY;
+			         urlStr += "&endX="+endX;
+			         urlStr += "&endY="+endY;
+			     //경유지 추가 분기 처리
+		         if(length===3){
+					 urlStr += "&passList="+xyArray[1].lon+","+xyArray[1].lat;
+				 }else if(length===4){
+					 urlStr += "&passList="+xyArray[1].lon+","+xyArray[1].lat+"_"+xyArray[2].lon+","+xyArray[2].lat;
+				 }else if(length===5){
+					 urlStr += "&passList="+xyArray[1].lon+","+xyArray[1].lat+"_"+xyArray[2].lon+","+xyArray[2].lat+"_"+xyArray[3].lon+","+xyArray[3].lat;
+					 
+				 }
+			         //urlStr += "&passList="+"14135893.887852, 4518348.1852606_14135881.887852, 4519591.4745242_14134881.887852, 4517572.4745242";
+			         urlStr += "&startName="+encodeURIComponent(startName);
+			         urlStr += "&endName="+encodeURIComponent(endName);
+			         urlStr += "&appKey=a35c8baf-b97e-3edc-8b03-5092e9e38b3f";
+			         
+			   
+			         
+			     var prtcl = new Tmap.Protocol.HTTP({
+			                                         url: urlStr,
+			                                         format:routeFormat
+			                                         });
+			     var routeLayer = new Tmap.Layer.Vector("route", {protocol:prtcl, strategies:[new Tmap.Strategy.Fixed()]});
+			     routeLayer.events.register("featuresadded", routeLayer, onDrawnFeatures);
+			     map.addLayer(routeLayer);
+			     
+			     //컨트롤러 추가(키보드, 마우스 포인터 위경도)
+			     map.addControls([
+			                      new Tmap.Control.KeyboardDefaults(),
+			                      new Tmap.Control.MousePosition(),
+			                  ]);
+			}//searchRoute fucntion end
+			
+			//경로 그리기 후 해당영역으로 줌
+			function onDrawnFeatures(e){
+			    map.zoomToExtent(this.getDataExtent());
+			}
+			
+			//출발지 마크 생성
+			var markerLayer = new Tmap.Layer.Markers();
+			map.addLayer(markerLayer);
+			 
+			var lonlatS = new Tmap.LonLat(xyArray[0].lon, xyArray[0].lat);
+			 
+			var size = new Tmap.Size(24,38);
+			var offset = new Tmap.Pixel((-size.w/2),(-size.h/2));
+			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_s.png', size, offset); 
+			     
+			var marker = new Tmap.Marker(lonlatS, icon);
+			
+			markerLayer.addMarker(marker);
+			
+			
+			//도착지 마크 생성
+			var lonlatE = new Tmap.LonLat(xyArray[length-1].lon, xyArray[length-1].lat);
+			 
+			var size = new Tmap.Size(24,38);
+			var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
+			var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_f.png', size, offset); 
+			     
+			var marker = new Tmap.Marker(lonlatE, icon);
+			
+			markerLayer.addMarker(marker);
+			
+			if(length===3||length===4||length===5){
+				//marker A 표시
+				var lonlatA = new Tmap.LonLat(xyArray[1].lon, xyArray[1].lat);
+				 
+				var size = new Tmap.Size(24,38);
+				var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
+				var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_2.png', size, offset); 
+				     
+				var marker = new Tmap.Marker(lonlatA, icon);
+				
+				markerLayer.addMarker(marker);
+				
+				
+			}//end if
+			
+			//경로지가 2, 3개일 때
+			if(length===4||length===5){
+				//marker B 표시	
+				var lonlatB = new Tmap.LonLat(xyArray[2].lon, xyArray[2].lat);
+				 
+				var size = new Tmap.Size(24,38);
+				var offset = new Tmap.Pixel((-size.w/2), (-size.h/2));
+				var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_3.png', size, offset); 
+				     
+				var marker = new Tmap.Marker(lonlatB, icon);
+				markerLayer.addMarker(marker);
+				
+			}//end if
+			
+			//경로지가  3개일 때
+			if(length===5){
+				//marker C 표시	
+				var lonlatC = new Tmap.LonLat(xyArray[3].lon, xyArray[3].lat);
+				 
+				var size = new Tmap.Size(24,38);
+				var offset = new Tmap.Pixel(-(size.w/2), -(size.h/2));
+				var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_b_m_4.png', size, offset); 
+				     
+				var marker = new Tmap.Marker(lonlatC, icon);
+				markerLayer.addMarker(marker);
+				
+			}//end if 
+			
+			/*
+			배열 초기화
+			xArray.length = [5];
+			yArray.length = [5];
+			xyArray.length=0; */
+			
+			
 		});//onload
+		
 	</script>
+	
 	<!-- 유병훈 페이지 열릴 때마다 사진 가져오는 script 끝 -->
 	
 </head>
@@ -135,7 +321,7 @@
               </a>
           </li>
           <li class="active" data-no-pjax>
-              <a href="page_moveTo_gallery">
+              <a href="page_moveTo_gallery" data-no-pjax>
                   <span class="icon"><i class="glyphicon glyphicon-inbox"></i></span>
                   My Card
               </a>
@@ -398,6 +584,8 @@
             </div>
         </header>
         
+     <!-- 외부 접속시에 친구리스트 불러오지 않는다. -->
+     <s:if test="<s:property value='checkCard' />!=true">
         <div class="chat-sidebar-contacts chat-sidebar-panel open">
             <h5 class="sidebar-nav-title">FriendList</h5>
             <div class="list-group chat-sidebar-user-group">
@@ -416,6 +604,7 @@
 	            </s:iterator>
             </div>
        	</div>
+	</s:if>
     </div>
 </div>
 </s:if>
@@ -430,9 +619,19 @@
             <li class="active">My Card</li><li class="active">Time Line</li>
         </ol>
         <h1 class="page-title">Events - <span class="fw-semi-bold">Feed</span></h1>
+        
+        <div id="g_map">
+        </div>
+        <br />
+        
         <ul class="timeline">
         
 	        <s:iterator value="itemlist" status="cust_stat"> <!-- 만약 item_id가 1이면 replylist1을 뿌리고.. 이렇게..? -->
+	        
+	        <!--  -->
+	        <input type="hidden" class="item_s" value='<s:property value="itemlist[#cust_stat.index].item_x"/>'/> 
+	        <input type="hidden" class="item_j" value='<s:property value="itemlist[#cust_stat.index].item_y"/>'/>
+	        
 	        	<!-- 홀수면 if문 분기처리 -->
 		        <s:if test="# cust_stat.odd == true">
 		            <li class="on-left"><!-- 아이템노드+사진+댓글 --> <!-- 여기서 왼쪽 오른쪽...... -->
@@ -451,6 +650,8 @@
 			                </time>
 		                	<span class="event-icon event-icon-danger"><!-- 아이콘 (아이템) -->
 			                    <i class="glyphicon glyphicon-map-marker"></i>
+			                    <input type="hidden" class="itme_x" value="item_x">
+			                    <input type="hidden" class="itme_y" value="item_y">
 			                </span>
 		                </s:if>
 		                <s:if test="#cust_stat.first == false && #cust_stat.last == false">
@@ -459,6 +660,8 @@
 		                </time>
 		                	<span class="event-icon event-icon-info"><!-- 아이콘 (아이템) -->
 			                    <i class="glyphicon glyphicon-map-marker"></i>
+			                    <input type="hidden" class="itme_x" value="item_x">
+			                    <input type="hidden" class="itme_y" value="item_y">
 			                </span>
 		                </s:if>
 		                

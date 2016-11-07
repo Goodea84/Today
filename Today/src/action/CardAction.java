@@ -44,7 +44,7 @@ public class CardAction extends ActionSupport implements SessionAware{
 	private int card_id;
 	private Reply reply;
 	
-	//카드 보낼 때 중복체크하는 변수
+	//카드 보낼 때 중복체크하는 변수//외부에서 접속했을때 확인후 친구리스트 불러오기 취소
 	private boolean checkCard;
 	private String cust_img; //댓글 입력 이미지
 	
@@ -52,7 +52,7 @@ public class CardAction extends ActionSupport implements SessionAware{
 	private ArrayList<Integer> itemidlist;
 	private Item item;
 	
-	public String movecard(){
+	public String movecard() throws Exception{
 		
 		//친구리스트
 		customer = cust_dao.selectCustomer((String) session.get("loginId"));
@@ -73,6 +73,66 @@ public class CardAction extends ActionSupport implements SessionAware{
 			clist.add(card);
 		}
 		
+		//카드 아이디 이용하여 전체 카드 객체 받아오기
+		card = dao.cardlist(card_id);
+
+		/*//카드객체의 아이템1-5 arraylist 담기
+		
+		itemlist = new ArrayList<>();
+		
+		//item id 이용해서 item객체.
+		if(card.getItem1()!=0){
+			Item item = dao.selectItem(card.getItem1());
+			System.out.println("=============="+item.getItem_id());
+			item = dao.selectItem(card.getItem1());
+			item.setIterator_id(1);
+			itemlist.add(item);
+		}
+		if(card.getItem2()!=0){
+			item = dao.selectItem(card.getItem2());
+			item.setIterator_id(2);
+			itemlist.add(item);
+			replylist2.addAll(dao.selectReply(card.getItem2()));
+		}		
+		if(card.getItem3()!=0){
+			item = dao.selectItem(card.getItem3());
+			item.setIterator_id(3);
+			itemlist.add(item);
+			replylist3.addAll(dao.selectReply(card.getItem3()));
+		}		
+		if(card.getItem4()!=0){
+			item = dao.selectItem(card.getItem4());
+			item.setIterator_id(4);
+			itemlist.add(item);
+			replylist4.addAll(dao.selectReply(card.getItem4()));
+		}		
+		if(card.getItem5()!=0){
+			item = dao.selectItem(card.getItem5());
+			item.setIterator_id(5);
+			itemlist.add(item);
+			replylist5.addAll(dao.selectReply(card.getItem5()));
+		}*/
+		
+		return SUCCESS;
+	}
+	
+	public String sendKakao() throws Exception{
+		
+		System.out.println("sendKakao");
+		itemlist= new ArrayList<>();
+		Card result = dao.cardlist(card.getCard_id());
+		
+		if(result.getItem1() != 0)
+			itemlist.add(dao.selectItem(result.getItem1()));
+		if(result.getItem2() != 0)
+			itemlist.add(dao.selectItem(result.getItem2()));
+		if(result.getItem3() != 0)
+			itemlist.add(dao.selectItem(result.getItem3()));
+		if(result.getItem4() != 0)
+			itemlist.add(dao.selectItem(result.getItem4()));
+		if(result.getItem5() != 0)
+			itemlist.add(dao.selectItem(result.getItem5()));
+		
 		return SUCCESS;
 	}
 	
@@ -85,7 +145,6 @@ public class CardAction extends ActionSupport implements SessionAware{
 		//아이템 테이블에 아이템 삽입, 아이템 키값 받아옴
 		
 		JSONArray  object =  (JSONArray) JSONValue.parse(makeCard);
-		
 		
 		System.out.println(object.size());
 		
@@ -175,17 +234,21 @@ public class CardAction extends ActionSupport implements SessionAware{
 	public String movetimeline(){
 		System.out.println("<ACTION> movetimeline");
 		//friendlist
-		customer = cust_dao.selectCustomer((String) session.get("loginId"));
-		list = cust_dao.friendList(customer.getCust_id());
-
-		flist = new ArrayList<>();
 		
-		for (int i = 0; i < list.size(); i++) {
-			fcustomer = cust_dao.selectCustomer2(list.get(i));
-			flist.add(fcustomer);
-		}
+		//외부 링크인지 확인 하여 외부링크일 경우 친구 리스트 불러오지 않는다.
+		if(checkCard==false){
+			customer = cust_dao.selectCustomer((String) session.get("loginId"));
+			list = cust_dao.friendList(customer.getCust_id());
+	
+			flist = new ArrayList<>();
+			
+			for (int i = 0; i < list.size(); i++) {
+				fcustomer = cust_dao.selectCustomer2(list.get(i));
+				flist.add(fcustomer);
+			}
 		
-		cust_img = customer.getCust_image();
+			cust_img = customer.getCust_image();
+		}//if
 
 		//카드 아이디 이용하여 전체 카드 객체 받아오기
 		card = dao.cardlist(card_id);

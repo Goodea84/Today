@@ -20,6 +20,7 @@
     
     <script src="script/jquery-3.1.0.min.js" type="text/javascript"></script> 
 	<script src="script/jquery-ui.min.js" type="text/javascript"></script>
+	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 	<script>
 	
 		$(document).ready(function() {
@@ -31,8 +32,6 @@
 				card_id = $(this).attr('href');
 				$('#popup_layer, #overlay_t').show(); 
 				
-				//$('#popup_layer').css("top", Math.max(0, $(window).scrollTop() + 100) + "px"); 
-				// $('#popup_layer').css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + $(window).scrollTop()) + "px"); 
 			});
 			
 			//김승훈 test button
@@ -68,28 +67,65 @@
 								//popup 숨기기
 								$('#popup_layer, #overlay_t').hide();
 								alert(response.customer.cust_id + "님에게 보내는 카드 중복입니다.");
-								/* var htm = "<div class='alert alert-danger alert-sm fade in'>"
-									+ "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&nbsp;×&nbsp;</button>"
-									+ "<span class='fw-semi-bold'>" + response.customer.cust_id + "님에게 보내는 카드 중복입니다.&nbsp;</span>";
-					          		+ "</div>"
-					          		
-								$('#alertArea').append(htm); */
 							}else{
 								//popup 숨기기
 								$('#popup_layer, #overlay_t').hide();
 								alert(response.customer.cust_id + "님에게 카드 전송되었습니다.");
-								/* var htm = "<div class='alert alert-danger alert-sm fade in'>"
-									+ "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&nbsp;×&nbsp;</button>"
-									+ "<span class='fw-semi-bold'>" + response.customer.cust_id + "님에게 카드 전송되었습니다.&nbsp;</span>";
-					          		+ "</div>"
-					          		
-								$('#alertArea').append(htm); */
 							}
 						}
 		        	});//ajax end
 		        });//each fucntion end
 			});//click function end
-	
+			
+			//카카오톡 스토리 버튼 클릭 이벤트
+			$('#sendKakao').click(function(){
+	        	var kakaoStr = "";
+	        	$.ajax({
+	        	method: "post"
+	        	, url: "sendKakao"
+	        	, async: false
+	        	, dataType: "json"
+	        	, data: {"card.card_id":card_id}
+	        	, success: function(response) {	        		
+		        		$(response.itemlist).each(function(index, item){
+		        			kakaoStr += (index+1) + ". 가게이름 : " + item.title + "/ 주소 : " + item.address + "/ 전화번호 : " + item.phone + "\n";
+		        		});
+					}
+	        	});//ajax end
+	        	
+	        	//타임라인 직접 가는 링크 달기 서버 변경시 주소값을 변경해야 함
+	        	kakaoStr += "http://localhost:8888/Today/page_moveTo_timeline?card_id=" + card_id + "&checkCard=true" ;
+	      		//카드 대표 사진 주가 예정
+	      		shareStory(kakaoStr);
+			
+			});//click function end
+			
+			//친구 리스트 마우스오버 효과
+			$( '.list-group-item-custom' ).hover(
+				  function() {
+				    $( this ).css('background-color', '#EAEAEA');
+				  }, function() {
+				    $( this ).css('background-color', 'transparent' );
+				  }
+			);
+			// div영역 클릭시 체크박스 체크 
+			$( '.list-group-item-custom' ).click(
+				function() {
+				    //alert(typeof($( this ).children().children('.btn')));
+				    $( this ).children().children('.friend_check').trigger('click');
+				  }
+			);
+			//카카오 스토리 공유
+		    // 사용할 앱의 JavaScript 키를 설정해 주세요.
+		    Kakao.init('f595a23931a22f24497af1b61613eec3');
+		    // 스토리 공유 버튼을 생성합니다.
+		    function shareStory(kakaoStr) {
+		      Kakao.Story.share({
+		        url: 'https://dev.kakao.com',
+		        text: kakaoStr
+	      	});
+		    }
+	      	
 		});//(document).ready end
 	</script>
    	<script src="script/jquery-3.1.0.min.js" type="text/javascript"></script> 
@@ -137,7 +173,7 @@
                 </a>
             </li>
             <li class="active" data-no-pjax>
-                <a href="page_moveTo_gallery">
+                <a href="page_moveTo_gallery" data-no-pjax>
                     <span class="icon"><i class="glyphicon glyphicon-inbox"></i></span>
                     My Card
                 </a>
@@ -547,36 +583,46 @@
 				<h3>My Friends List</h3>
 			</header>
 			<div class="widget-body">
-				<div class="list-group chat-sidebar-user-group">
+				<div class="list-group chat-sidebar-user-group" style="margin-left:0px; padding:0px;">
 					<s:iterator value="flist">
-
-						<div class="list-group-item">
+						<div class="list-group-item list-group-item-custom" style="border-radius:1em">
 							<!-- <a href="#"><i id="eee"	class="glyphicon glyphicon-envelope pull-right"></i></a> --> 
-							<input type="checkbox" name="friend_check" class="friend_check pull-right" value="<s:property value='cust_id' />">
+							
 							<!-- <a href="#"><i class="glyphicon glyphicon-info-sign pull-right"></i></a> -->
 							<!-- <i class="fa fa-circle text-success pull-right"></i> -->
 							<!-- <i class="fa fa-circle text-success pull-right"></i> -->
-							<span class="thumb-sm pull-left mr"> 
-							<img id="friendimg" class="img-circle" src="<s:property value='cust_image' />"alt="..."> <!-- 사진 -->
-							</span>
-							<h5 class="message-sender" style="color: black">
-								<s:property value="name" />
-							</h5>
+							<!-- <div class="thumb-sm pull-left mr"  style="padding: 0 0 5px 0;"> 
 							
+							</div> -->
+							<h5 class="message-sender" style="color: black; margin-left:0px; padding:0px">
+								<input type="checkbox" name="friend_check" class="friend_check pull-right" style="margin-top:5px; padding-top:5px" value="<s:property value='cust_id' />">
+								<img id="friendimg" class="img-circle" src="<s:property value='cust_image' />"alt="..."> <!-- 사진 -->
+								&nbsp;&nbsp;&nbsp;<s:property value="name" />
+							</h5>
 							<!-- 이름 -->
 							<!--  <p class="message-preview">Hey! What's up? So many times since we</p>  -->
 							<!--  프리뷰 -->
 						</div>
 					</s:iterator>
 					<br />
-					<input type="button" class="btn btn-primary width-100 mb-xs" value="Send Card" id="sendCard" />
-
 				</div>
+				<input type="button" class="btn btn-primary width-100 mb-xs" value="Send Card" id="sendCard" style="float: left; margin-right: 4px"/>
+				<input type="button" class="btn btn-primary width-100 mb-xs" value="KAKAO" id="sendKakao" style="float: left; margin-right: 4px"/>
+				
 			</div>
 		</section>
 	</div>
+	
+	
 	<!-- loginform end jhs -->
-
+	
+	
+	<%-- <!-- 김승훈 아이템 리스트 받아오기 카카오톡 공유에서 사용  -->
+	<s:iterator value="itemlist" status="cust_stat"> <!-- 만약 item_id가 1이면 replylist1을 뿌리고.. 이렇게..? -->	        
+	        <input type="hidden" class="item_s" value='<s:property value="itemlist[#cust_stat.index].item_x"/>'/> 
+	        <input type="hidden" class="item_j" value='<s:property value="itemlist[#cust_stat.index].item_y"/>'/>
+	</s:iterator>
+	<!-- end --> --%>
 
 	<!-- The Loader. Is shown when pjax happens -->
 <!-- The Loader. Is shown when pjax happens -->

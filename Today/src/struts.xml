@@ -76,6 +76,10 @@
 		<action name="cardAdd" class="action.CardAction" method="cardAdd">
 			<result type="json"></result>
 		</action>
+
+		<action name="sendKakao" class="action.CardAction" method="sendKakao">
+			<result type="json"></result>
+		</action>
 		
 		<action name="reply" class="action.CardAction" method="makereply">
 			<result type="json"></result>
