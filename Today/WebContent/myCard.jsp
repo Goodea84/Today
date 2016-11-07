@@ -496,25 +496,26 @@
                             <div class="col-sm-5 text-center">
                                 <div class="post-user post-user-profile">
                                     <span class="thumb-xlg">
-                                        <img class="img-circle" src="demo/img/people/a5.jpg" alt="...">
+                                        <img class="img-circle" src="<s:property value='customer.cust_image' />" alt="...">
                                     </span>
-                                    <h4 class="fw-normal">Adam <span class="fw-semi-bold">Johns</span></h4>
-                                    <p>UI/UX designer</p>
+                                    <h4 class="fw-normal"><span class="fw-semi-bold"><s:property value="customer.name" /> </span></h4>
+                                    <%-- <h4 class="fw-normal">Adam <span class="fw-semi-bold"><s:property value="customer.name" /> </span></h4> --%>
+                                   <!--  <p>UI/UX designer</p> -->
 
                                 </div>
                             </div>
                             <div class="col-sm-7">
                                 <div class="stats-row stats-row-profile mt text-right">
                                     <div class="stat-item">
-                                        <p class="value">251</p>
-                                        <h5 class="name">Posts</h5>
+                                        <p class="value"><s:property value="listsize" /> </p>
+                                        <h5 class="name">Cards</h5>
                                     </div>
                                     <div class="stat-item">
-                                        <p class="value">9.38%</p>
-                                        <h5 class="name">Conversion</h5>
+                                        <p class="value"><s:property value="sumrecommend" /></p>
+                                        <h5 class="name">Recommends</h5>
                                     </div>
                                     <div class="stat-item">
-                                        <p class="value">842</p>
+                                        <p class="value"><s:property value="follower" /></p>
                                         <h5 class="name">Followers</h5>
                                     </div>
                                 </div>

@@ -14,6 +14,11 @@ select * from customer where email = #{email}
 select friendcust_id from friendlist where mycust_id = #{custid}
 </select>
 
+<!-- 한 user의 follower 정보 -->
+<select id="follower" parameterType="int" resultType="int">
+select count(*) from friendlist where FRIENDCUST_ID = #{custid}
+</select>
+
 <!-- user정보 읽기2 (custid)-->
 <select id="selectCustomer2" parameterType="int" resultType="Customer">
 select * from customer where cust_id = #{custid}

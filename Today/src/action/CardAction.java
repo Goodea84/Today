@@ -51,7 +51,12 @@ public class CardAction extends ActionSupport implements SessionAware{
 	private String makeCard;
 	private ArrayList<Integer> itemidlist;
 	private Item item;
+	private int listsize;
+	private int sumrecommend;
+	private int follower;
 	
+	
+	//카드페이지 이동
 	public String movecard() throws Exception{
 		
 		//친구리스트
@@ -65,53 +70,22 @@ public class CardAction extends ActionSupport implements SessionAware{
 			flist.add(fcustomer);
 		}
 		
+		follower = cust_dao.follower(customer.getCust_id());
+		
+		
 		//카드리스트
 		cardidlist = dao.cardidlist(customer.getCust_id());
 		clist = new ArrayList<>();
 		for(int i=0;i<cardidlist.size();i++){
 			card = dao.cardlist(cardidlist.get(i));
 			clist.add(card);
+			sumrecommend = sumrecommend+card.getRecommend();
 		}
 		
 		//카드 아이디 이용하여 전체 카드 객체 받아오기
 		card = dao.cardlist(card_id);
-
-		/*//카드객체의 아이템1-5 arraylist 담기
+		listsize = clist.size();
 		
-		itemlist = new ArrayList<>();
-		
-		//item id 이용해서 item객체.
-		if(card.getItem1()!=0){
-			Item item = dao.selectItem(card.getItem1());
-			System.out.println("=============="+item.getItem_id());
-			item = dao.selectItem(card.getItem1());
-			item.setIterator_id(1);
-			itemlist.add(item);
-		}
-		if(card.getItem2()!=0){
-			item = dao.selectItem(card.getItem2());
-			item.setIterator_id(2);
-			itemlist.add(item);
-			replylist2.addAll(dao.selectReply(card.getItem2()));
-		}		
-		if(card.getItem3()!=0){
-			item = dao.selectItem(card.getItem3());
-			item.setIterator_id(3);
-			itemlist.add(item);
-			replylist3.addAll(dao.selectReply(card.getItem3()));
-		}		
-		if(card.getItem4()!=0){
-			item = dao.selectItem(card.getItem4());
-			item.setIterator_id(4);
-			itemlist.add(item);
-			replylist4.addAll(dao.selectReply(card.getItem4()));
-		}		
-		if(card.getItem5()!=0){
-			item = dao.selectItem(card.getItem5());
-			item.setIterator_id(5);
-			itemlist.add(item);
-			replylist5.addAll(dao.selectReply(card.getItem5()));
-		}*/
 		
 		return SUCCESS;
 	}
@@ -196,6 +170,9 @@ public class CardAction extends ActionSupport implements SessionAware{
 		
 		//friendlist...
 		customer = cust_dao.selectCustomer((String) session.get("loginId"));
+		if (customer == null ) {
+			return ERROR;
+		}
 		list = cust_dao.friendList(customer.getCust_id());
 
 		flist = new ArrayList<>();
@@ -325,9 +302,6 @@ public class CardAction extends ActionSupport implements SessionAware{
 				replylist5.get(i).setRe_image(customer.getCust_image());
 			}
 		}
-		
-
-		
 		return SUCCESS;
 	}
 	
@@ -558,6 +532,30 @@ public class CardAction extends ActionSupport implements SessionAware{
 
 	public void setItem(Item item) {
 		this.item = item;
+	}
+
+	public int getListsize() {
+		return listsize;
+	}
+
+	public void setListsize(int listsize) {
+		this.listsize = listsize;
+	}
+
+	public int getSumrecommend() {
+		return sumrecommend;
+	}
+
+	public void setSumrecommend(int sumrecommend) {
+		this.sumrecommend = sumrecommend;
+	}
+
+	public int getFollower() {
+		return follower;
+	}
+
+	public void setFollower(int follower) {
+		this.follower = follower;
 	}
 	
 	

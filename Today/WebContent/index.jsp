@@ -28,6 +28,7 @@
     
 	<script src="script/jquery-3.1.0.min.js" type="text/javascript"></script> 
 	<script src="script/jquery-ui.min.js" type="text/javascript"></script> 
+	
     
 	<!-- 다음 로드뷰 API 추가 -->
     <script type="text/javascript" src="https://apis.daum.net/maps/maps3.js?apikey=24e8e748a9e5aa0afc349746fb967077"></script>
@@ -808,12 +809,14 @@
 				);
 				count++;
 			} else if(count == 3) {
-				var htm = "<div class='alert alert-danger alert-sm fade in'>"
+				/* var htm = "<div class='alert alert-danger alert-sm fade in'>"
 				+ "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&nbsp;×&nbsp;</button>"
 				+ "<span class='fw-semi-bold'>Warning : 경로는 최소 2곳 최대 5곳만 지정할 수 있습니다.&nbsp;</span>";
           		+ "</div>"
           		
-				$('#alertArea').html(htm);
+				$('#alertArea').html(htm); */
+				$("#show-success-messageAlert").trigger("click");
+				
 			}
 		});
 		
@@ -1067,9 +1070,11 @@
 	        	dataType: "json",
 		        data: {"makeCard":test},
 				success: function() {
-				alert('카드저장성공');
+					$("#show-success-message").trigger("click");
+				},
+				error: function() {
+					$('#popup_layer, #overlay_t').show(); 
 				}
-
 			});//ajax
 		})
 	});/* document.ready function end */
@@ -1604,6 +1609,9 @@
 								</p>
 								<p>
 									<s:a id="makeCardBtn" class="btn btn-warning btn-block" href="#">Make Your Cards &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-inbox"></i></s:a>
+									<s:hidden id="show-success-message"/>
+									<s:hidden id="show-success-messageAlert"/>
+									
 								</p>
 			                </section>
 						</span>
@@ -1611,6 +1619,8 @@
 		</section>
     </div>
     <!-- 유병훈 end -->
+    
+    
     
 	<!-- 장민식  above_foot open_close -->
     <script type="text/javascript">
@@ -1686,11 +1696,18 @@
 <script src="vendor/pace.js/pace.js" data-pace-options='{ "target": ".content-wrap", "ghostTime": 1000 }'></script>
 <script src="vendor/jquery-touchswipe/jquery.touchSwipe.js"></script>
 
+<!-- page specific libs -->
+<script src="vendor/underscore/underscore-min.js"></script>
+<script src="vendor/backbone/backbone.js"></script>
+<script src="vendor/messenger/build/js/messenger.js"></script>
+<script src="vendor/messenger/build/js/messenger-theme-flat.js"></script>
+<script src="vendor/messenger/docs/welcome/javascripts/location-sel.js"></script>
+
 <!-- common app js -->
 <script src="js/settings.js"></script>
 <script src="js/app.js"></script>
 
-	
-    
+<!-- page specific js -->
+<script src="js/ui-notifications.js"></script>    
 </body>
 </html>

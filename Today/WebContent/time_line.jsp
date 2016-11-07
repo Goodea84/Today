@@ -35,40 +35,60 @@
 	<script>
 		$(function(){
 			var name = '<%= session.getAttribute("loginId") %>';
+
+			var arr_item_id = new Array();
+			$.each($('.testYB'), function(index, val){
+				arr_item_id.push(val.value);
+			}); 
+			
+			jQuery.ajaxSettings.traditional = true; //배열 보낼 때 필수..
 			$.ajax({
 				url: 'printImage',
 				method: 'post',
+				data: {"list_itemid":arr_item_id},
+				dataType: 'json',
 				success: function(resp){
 					var list = resp.list_image;
 					$.each(list, function(index, val){
 						$('#'+list[index].item_id).append(
-							"<a class='allImage img_"+list[index].item_id+"' href='#'><img class='demo_image' src='image/"+name+"/"+list[index].item_id+"/"+list[index].photo+"' alt='...'/></a>"
+							"<a class='allImage img_"+list[index].item_id+"' href='#'><img class='demo_image' src='image/"+list[index].item_id+"/"+list[index].photo+"' alt='...'/></a>"
 						);//append
 					});//for-each
 				}//success
 			});//ajax
 			
+
+			
+			
+/* 전혜선 리플달기 */
 			$(".replyBtn").on('click',function(){
 				var appid;
+				var recontent;
+				var item_id;
 				
 				  if (this.id == "wreply1") {
 					  appid = $('#div1');
+					  recontent = $(this).parent().children('#recontent1').val();
 				  }
 				  if (this.id == "wreply2") {
 					  appid = $('#div2');
+					  recontent = $(this).parent().children('#recontent2').val();
 				  }
 				  if (this.id == "wreply3") {
 					  appid = $('#div3');
+					  recontent = $(this).parent().children('#recontent3').val();
 				  }
 				  if (this.id == "wreply4") {
 					  appid = $('#div4');
+					  recontent = $(this).parent().children('#recontent4').val();
 				  }
 				  if (this.id == "wreply5") {
 					  appid = $('#div5');
+					  recontent = $(this).parent().children('#recontent5').val();
 				  }
 
-				var recontent = $(this).parent().children('#recontent').val();
-				var item_id = $(this).parent().children('input[type="hidden"]').val();
+				
+				item_id = $(this).parent().children('input[type="hidden"]').val();
 
 
 				
@@ -80,10 +100,70 @@
 						appid.append("<li><span class='thumb-xs avatar pull-left mr-sm'><img class='img-circle' src='"+resp.reply.re_image+"' alt='...'>"
 								+"</span><div class='comment-body'><h6 class='author fw-semi-bold'>"+resp.reply.re_name+"<small>"
 								+resp.reply.re_date+"</small></h6><p>"+resp.reply.content+"</p></div></li>");
-
+ 
 					}
 				});
+			$("input[name=recontent]").val('');
+		 		
+		 		return false;
+				
 			});
+			
+			/* enter눌리면 트리거로 버튼 클릭 불러준다. xxxxx  다시해줘야해 ㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠ*/
+			
+			  
+ 			$("input[name=recontent]").keydown(function (key) {
+ 
+        		if(key.keyCode == 13){//키가 13이면 실행 (엔터는 13)
+        			/* $('.replyBtn').trigger("click"); */
+        		
+        			var appid;
+				
+				  if (this.id == "recontent1") {
+					  alert('1');
+					  appid = $('#div1');
+				  }
+				  if (this.id == "recontent2") {
+					  alert('2');
+					  appid = $('#div2');
+				  }
+				  if (this.id == "recontent3") {
+					  alert('3');
+					  appid = $('#div3');
+				  }
+				  if (this.id == "recontent4") {
+					  alert('4');
+					  appid = $('#div4');
+				  }
+				  if (this.id == "recontent5") {
+					  alert('5');
+					  appid = $('#div5');
+				  }
+
+				var recontent = $(this).val();
+				alert(recontent);
+				var item_id = $(this).parent().children('input[type="hidden"]').val();
+
+
+				
+		 		$.ajax({
+					url : "reply"
+					, dataType  : "json"
+					, data : {"reply.item_id":item_id,"reply.content":recontent}
+					, success : function(resp){
+						appid.append("<li><span class='thumb-xs avatar pull-left mr-sm'><img class='img-circle' src='"+resp.reply.re_image+"' alt='...'>"
+								+"</span><div class='comment-body'><h6 class='author fw-semi-bold'>"+resp.reply.re_name+"<small>"
+								+resp.reply.re_date+"</small></h6><p>"+resp.reply.content+"</p></div></li>");
+ 
+					}
+				});
+		 		
+		 		
+		 		$("input[name=recontent]").val('');
+        			return false;
+        		}
+ 
+  			  });
 			
 			//위도 경도 추출후 배열로 입력
 			var xArray = [5];
@@ -685,7 +765,7 @@
 			                            </ul>
 			                            <ul class="post-links mt-sm pull-right">
 		                            		<li>
-		                            			<input type="hidden" class="item_no" value='<s:property value="itemlist[#cust_stat.index].item_id"/>'/>
+		                            			<input type="hidden" class="item_no testYB" value='<s:property value="itemlist[#cust_stat.index].item_id"/>'/>
 		                            			<a class="photo_upload" href="#"><span class="text-danger"><i class="fa fa-file-photo-o"></i> Photo</span></a><!-- 사진 업로드 버튼 -->
 		                            		</li>
 		                            	</ul>
@@ -734,7 +814,7 @@
 		                                <!-- 댓글 입력란 -->
 								<s:form id="replyform" action="reply" method="post">
 		                                <div class="comment-body">
-											<input class="form-control input-sm recontent" type="text" id="recontent" name="recontent" />
+											<input class="form-control input-sm recontent" type="text" id="recontent1" name="recontent" />
 											<input type="hidden" value="<s:property value='item_id'/>" id="item_id" name="item_id" class="item_id" />
 											<a class="replyBtn" href="#" id="wreply1">전송 </a> 
 		                                </div>
@@ -770,7 +850,7 @@
 		                                <!-- 댓글 입력란 -->
 								<s:form id="replyform" action="reply" method="post">
 		                                <div class="comment-body">
-											<input class="form-control input-sm recontent" type="text" id="recontent" name="recontent" />
+											<input class="form-control input-sm recontent" type="text" id="recontent3" name="recontent" />
 											<input type="hidden" value="<s:property value='item_id'/>" id="item_id" name="item_id" class="item_id" />
 											<a class="replyBtn" href="#" id="wreply3">전송 </a> 
 		                                </div>
@@ -803,7 +883,7 @@
 		                                <!-- 댓글 입력란 -->
 								<s:form id="replyform" action="reply" method="post">
 		                                <div class="comment-body">
-											<input class="form-control input-sm recontent" type="text" id="recontent" name="recontent" />
+											<input class="form-control input-sm recontent" type="text" id="recontent5" name="recontent" />
 											<input type="hidden" value="<s:property value='item_id'/>" id="item_id" name="item_id" class="item_id" />
 											<a class="replyBtn" href="#" id="wreply5">전송 </a> 
 		                                </div>
@@ -870,7 +950,7 @@
 		                            </ul>
 		                            <ul class="post-links mt-sm pull-right">
 	                            		<li>
-	                            			<input type="hidden" class="item_no" value='<s:property value="itemlist[#cust_stat.index].item_id"/>'/>
+	                            			<input type="hidden" class="item_no testYB" value='<s:property value="itemlist[#cust_stat.index].item_id"/>'/>
 	                            			<a class="photo_upload" href="#"><span class="text-danger"><i class="fa fa-file-photo-o"></i> Photo</span></a><!-- 사진 업로드 버튼 -->
 	                            		</li>
 		                            </ul>
@@ -919,7 +999,7 @@
 		                                <!-- 댓글 입력란 -->
 								<s:form id="replyform" action="reply" method="post">
 		                                <div class="comment-body">
-											<input class="form-control input-sm recontent" type="text" id="recontent" name="recontent" />
+											<input class="form-control input-sm recontent" type="text" id="recontent2" name="recontent" />
 											<input type="hidden" value="<s:property value='item_id'/>" id="item_id" name="item_id" class="item_id" />
 											<a class="replyBtn" href="#" id="wreply2">전송 </a> 
 		                                </div>
@@ -952,7 +1032,7 @@
 		                                <!-- 댓글 입력란 -->
 								<s:form id="replyform" action="reply" method="post">
 		                                <div class="comment-body">
-											<input class="form-control input-sm recontent" type="text" id="recontent" name="recontent" />
+											<input class="form-control input-sm recontent" type="text" id="recontent4" name="recontent" />
 											<input type="hidden" value="<s:property value='item_id'/>" id="item_id" name="item_id" class="item_id" />
 											<a class="replyBtn" href="#" id="wreply4">전송 </a> 
 		                                </div>
@@ -981,7 +1061,8 @@
 						<header>
 							<img src="img/makeTimeLine/camera_ico.png">
 						</header>
-						<div class="widget-body">
+						
+						<div class="widget-body pic_upload_btn">
 							<br/><br/>
 							<input type="file" id="upload" value="upload" name="userImage" multiple class="multi with-preview" maxlength="2" accept="gif|jpg|png"/>
 						</div>
@@ -1000,8 +1081,6 @@
 					</a>
 					<input type="submit" id="upload_real_btn" value="등록"/>
 					<input type="hidden" id="item_number" name="item_number" value=""/>
-					
-					
 				</form>
 			</section>
 			</div>
@@ -1098,12 +1177,17 @@
     		 
    			 	$('.photo_upload').on('click', function(){
     				$('#popup_layer_photo, #overlay_photo').show(); 
+    				//return false; 하면 따라가진 않는데 팝업 창이 맨 위에 생성됨.
     			});//사진 올리기 아이콘 클릭 시, 팝업 효과
     		
     		    $('#overlay_photo, .close').click(function(e){ 
     		        e.preventDefault(); 
+    		        if($('.MultiFile-remove').length){
+	    		        $('.MultiFile-remove')[0].click();
+    		        }
     		        $('#popup_layer_photo, #overlay_photo').hide(); 
     		    });//팝업 효과 나타났을 때, 다른 부분 클릭하면 사라지는 효과
+    		    
     		    
     		 	$('.photo_upload').on('click', function(){
     		 		var temp = $(this).parent().children('.item_no').val();
@@ -1112,10 +1196,11 @@
     		 	});//사진 등록할 때, 해당 item_no를 FORM안에 hidden값으로 넣고 가져감.
     		 
     			$('#upload_pic_btn').on('click', function(){
-    				$('#upload').trigger('click');
-    			});//사진 올리기 버튼 클릭
+  					$('input[type=file]:first').trigger('click');
+    			});//사진 올리기 버튼 클릭 
 
     			$('#upload_btn').on('click', function(){
+    				
     		 		$('#upload_real_btn').trigger('click'); 
     			});//업로드 버튼 클릭
 			 	
@@ -1142,9 +1227,10 @@
 						var name = '<%= session.getAttribute("loginId") %>';
 							$.each(map_itemNo, function(index, val){
 								$('#'+map_itemNo[index]).append(
-									"<a class='allImage img_"+map_itemNo[index]+"' href='#'><img class='demo_image' src='image/"+name+"/"+map_itemNo[index]+"/"+map_savedFile[index]+"' alt='...'/></a>"
+									"<a class='allImage img_"+map_itemNo[index]+"' href='#'><img class='demo_image' src='image/"+map_itemNo[index]+"/"+map_savedFile[index]+"' alt='...'/></a>"
 								);//append
 							});//each
+						$('.MultiFile-remove')[0].click();
 						return false;
 					},
 					//ajax error
