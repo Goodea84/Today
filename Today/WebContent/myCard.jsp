@@ -608,7 +608,7 @@
 					<br />
 				</div>
 				<input type="button" class="btn btn-primary width-100 mb-xs" value="Send Card" id="sendCard" style="float: left; margin-right: 4px"/>
-				<input type="button" class="btn btn-primary width-100 mb-xs" value="KAKAO" id="sendKakao" style="float: left; margin-right: 4px"/>
+				<input type="button" class="btn btn-warning width-100 mb-xs" value="KAKAO" id="sendKakao" style="float: left; margin-right: 4px"/>
 				
 			</div>
 		</section>

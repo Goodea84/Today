@@ -175,11 +175,11 @@
 				</div>
 				
 				<div class="w3-col m3">
-					<img src="img/howToUse/how_img03.jpg" style="width:100%" class="w3-margin w3-circle">
+					<img src="img/howToUse/how_img07.jpg" style="width:100%" class="w3-margin w3-circle">
 				</div>
 				
 				<div class="w3-col m3">
-					<img src="img/howToUse/how_img04.jpg" style="width:100%" class="w3-margin w3-circle">
+					<img src="img/howToUse/how_img08.jpg" style="width:100%" class="w3-margin w3-circle">
 				</div>
 			</div>
 			<div class="w3-row-padding w3-center">
