@@ -1,6 +1,7 @@
 package today.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -231,4 +232,24 @@ public class CardDAO {
 	return result;
 	}
 	
+	public int cardDelete(HashMap<String, Object> map) {
+		
+		System.out.println("<DAO> cardDelete");
+		SqlSession ss = null;
+		int result = 0;
+		
+		try {
+			ss = factory.openSession();
+			result = ss.delete("CardMapper.cardDelete", map);
+			ss.commit();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			if (ss != null) ss.close();
+		}
+		
+		return result;
+	}
 }
