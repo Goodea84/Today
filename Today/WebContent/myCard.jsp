@@ -194,6 +194,24 @@
 			    		  quote: kakaoStr
 			    		}, function(response){});
 			    });	
+			    
+			    
+			    //병훈 카드 뿌릴 때 대표사진 붙이기. 1번 아이템의 가장 최근 사진으로 가져옴. 없을 시 디폴트
+			    $.ajax({
+			    	method: 'post',
+			    	url: 'getImageObj',
+			    	success: function(resp){
+						var list_itemIds = resp.item_ids;
+						$.each(list_itemIds, function(index, val){
+							if(val!=null){
+								var image = "image/"+val.item_id+"/"+val.photo;
+								$('#id'+val.item_id).attr('src', image);							
+							}
+						});//each
+			    	}//success
+			    });//ajax
+			    
+			    
 	      	
 		});//(document).ready end
 	</script>
@@ -621,7 +639,7 @@
             <div class="col-sm-6 col-md-3 gallery-item" data-groups='["nature"]' data-title="Mountains"><!--분류,이름(아마 순서정렬)  -->
                 <div class="thumbnail">
                 <div id="aaa">
-                    <a  href="page_moveTo_timeline?card_id=<s:property value='card_id' />" ><img src="demo/img/pictures/1.jpg" alt="..."></a><!-- 클릭하면나오는이미지,이미지 -->
+                    <a  href="page_moveTo_timeline?card_id=<s:property value='card_id' />" ><img id='id<s:property value='item1'/>' src="demo/img/pictures/1.jpg" alt="..."></a><!-- 클릭하면나오는이미지,이미지 -->
                     
                     <div class="caption">
                         <h5 class="mt-0 mb-xs"><s:property value="loca_name" /></h5><!-- 이름 -->

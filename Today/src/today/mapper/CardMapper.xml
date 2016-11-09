@@ -67,4 +67,15 @@ SELECT REPLY_SEQ.currval FROM dual
 select * from reply where reply_id=#{replyid}
 </select>
 
+<!-- 카드페이지 출력 시, 각 카드 대표사진 뿌리기-->
+<select id="getImageByItemId" parameterType="int" resultType="Image">
+	SELECT * FROM image
+	WHERE item_id = #{item_id}
+		AND image_id = (SELECT max(image_id)
+						FROM image
+						WHERE item_id = #{item_id}
+						)
+</select>
+
+
 </mapper>

@@ -90,6 +90,11 @@
 			<result type="json"></result>
 		</action>
 		
+		<!-- 카드 페이지 열릴 때, 카드 사진 주소 받아오기 -->
+		<action name="getImageObj" class="action.CardAction" method="movecard">
+			<result type="json"/>
+		</action>
+		
     </package>
 	
 	<include file="today/actionxml/MapControlXML.xml"/>

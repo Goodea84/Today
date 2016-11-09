@@ -20,6 +20,7 @@ import today.dao.CustomerDAO;
 import today.vo.Card;
 import today.vo.CardList;
 import today.vo.Customer;
+import today.vo.Image;
 import today.vo.Item;
 import today.vo.Reply;
 
@@ -57,6 +58,10 @@ public class CardAction extends ActionSupport implements SessionAware{
 	private int follower;
 	
 	
+	private ArrayList<Image> item_ids = new ArrayList<>();
+	
+	
+	
 	//카드페이지 이동
 	public String movecard() throws Exception{
 		
@@ -82,6 +87,13 @@ public class CardAction extends ActionSupport implements SessionAware{
 			clist.add(card);
 			sumrecommend = sumrecommend+card.getRecommend();
 		}
+		
+		//병훈: 카드 아이템 번호 추출해서 myCard.jsp에서 대표이미지 넣기
+		for(int i=0; i<clist.size(); i++){
+			Image image = dao.getItemIds(clist.get(i).getItem1());
+			item_ids.add(image);
+		}//for
+		
 		
 		//카드 아이디 이용하여 전체 카드 객체 받아오기
 		card = dao.cardlist(card_id);
@@ -581,6 +593,14 @@ public class CardAction extends ActionSupport implements SessionAware{
 
 	public void setFollower(int follower) {
 		this.follower = follower;
+	}
+
+	public ArrayList<Image> getItem_ids() {
+		return item_ids;
+	}
+
+	public void setItem_ids(ArrayList<Image> item_ids) {
+		this.item_ids = item_ids;
 	}
 	
 	

@@ -31,13 +31,14 @@ public class CustomerAction extends ActionSupport implements SessionAware{
 		
 		System.out.println("<CustomerAction> login");
 		
-		customer = dao.selectCustomer(email);
-		
-		//ID가 없거나 비밀번호가 다르면 로그인 실패
-		if (customer == null) {
+		//병훈: ID가 없거나 비밀번호가 다르면 로그인 실패
+		if (email == null) {
 			loginFail = 1;//비로그인 상태일 때, key값 주기
 			return INPUT;
 		}
+
+		customer = dao.selectCustomer(email);
+		
 		if (!password.equals(customer.getPassword())) {
 			
 			return INPUT;

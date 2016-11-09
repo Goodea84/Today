@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 
 import today.vo.Card;
 import today.vo.CardList;
+import today.vo.Image;
 import today.vo.Item;
 import today.vo.Reply;
 
@@ -252,4 +253,24 @@ public class CardDAO {
 		
 		return result;
 	}
+	
+	/**
+	 * 병훈 :  카드 아이템 번호 추출해서 myCard.jsp에서 대표이미지 넣기
+	 * @param item_ids : CardAction에서 받아온 카드리스트에 들어 있는 카드 첫번째의 item_id들
+	 * @return list : item_id를 가지고 image테이블에서 가져온 가장 최근 사진의 경로들
+	 */
+	public Image getItemIds(int item_id){
+		Image image = new Image();
+		SqlSession ss = null;
+		try {
+			ss = factory.openSession();
+			image = ss.selectOne("CardMapper.getImageByItemId", item_id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(ss!=null)ss.close();
+		}
+		return image;
+	}//getItemIds
+	
 }
