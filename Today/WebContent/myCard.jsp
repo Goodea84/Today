@@ -26,6 +26,9 @@
 	
 		$(document).ready(function() {
 			
+			//카드 자동으로 섞어서 간지남. 동영상에 꼭 보여줘야함
+			setInterval(function(){ $('#image_shuffle').trigger('click'); }, 1000);
+			
 			var card_id;
 			
 			$('.Shares').click(function() {
@@ -494,7 +497,7 @@
             <div class="pull-right m-b-20">
                 <div class="btn-group js-sort-options">
                     <span class="btn btn-default sort active" data-sort-order="asc"><i class="fa fa-sort-numeric-asc"></i></span>
-                    <span class="btn btn-default sort" data-sort-order="desc"><i class="fa fa-sort-numeric-desc"></i></span>
+                    <span class="btn btn-default sort" id="image_shuffle" data-sort-order="desc"><i class="fa fa-sort-numeric-desc"></i></span>
                 </div>
             </div>
         </div>
