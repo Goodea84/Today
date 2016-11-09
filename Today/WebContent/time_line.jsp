@@ -1228,7 +1228,7 @@
 						var name = '<%= session.getAttribute("loginId") %>';
 							$.each(map_itemNo, function(index, val){
 								$('#'+map_itemNo[index]).append(
-									"<a class='allImage img_"+map_itemNo[index]+"' href='#'><img class='demo_image' src='image/"+map_itemNo[index]+"/"+map_savedFile[index]+"' alt='...'/></a>"
+									"<a class='allImage img_"+map_itemNo[index]+"' href='#'><img class='demo_image' src='image/"+map_itemNo[index]+"/"+map_savedFile[index]+"' alt='...' /></a>"
 								);//append
 							});//each
 						$('.MultiFile-remove')[0].click();
@@ -1242,7 +1242,6 @@
 				});//ajaxForm
              </script>
                 
-
 <!-- The Loader. Is shown when pjax happens -->
 <div class="loader-wrap hiding hide">
     <i class="fa fa-circle-o-notch fa-spin-fast"></i>
