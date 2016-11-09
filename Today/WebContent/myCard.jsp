@@ -88,11 +88,11 @@
 							if(response.checkCard===true){
 								//popup 숨기기
 								$('#popup_layer, #overlay_t').hide();
-								alert(response.customer.cust_id + "님에게 보내는 카드 중복입니다.");
+								alert(response.customer.name + "님에게 보내는 카드 중복입니다.");
 							}else{
 								//popup 숨기기
 								$('#popup_layer, #overlay_t').hide();
-								alert(response.customer.cust_id + "님에게 카드 전송되었습니다.");
+								alert(response.customer.name + "님에게 카드 전송되었습니다.");
 							}
 						}
 		        	});//ajax end
@@ -159,19 +159,6 @@
 			      //FB.getLoginStatus(updateStatusCallback);
 			    });
 			    
-			    /* FB.getLoginStatus(function(){
-			    	   alert('Status updated1!!');
-			    	   // Your logic here
-			    	});
-			    
-			    function updateStatusCallback(){
-			    	   alert('Status updated2!!');
-			    	   FB.ui(
-			    			   {
-			    			    method: 'share',
-			    			    href: 'https://developers.facebook.com/docs/'
-			    			  }, function(response){});
-			    } */ 
 			    $('#sendFacebook').click(function(){
 			    	
 			    	var kakaoStr = "";
