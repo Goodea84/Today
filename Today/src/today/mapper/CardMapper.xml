@@ -7,10 +7,10 @@
 <!-- 카드생성 -->
 <insert id="insertcard" parameterType="Card">
 insert into card(card_id,loca_name,item1,item2<if test="item3 != 0">,item3</if><if test="item4 != 0">,item4</if><if test="item5 != 0">,item5</if>
-,card_date,recommend) 
+,card_date,recommend,cust_id) 
 values(CARD_SEQ.nextval, #{loca_name}, #{item1}, #{item2} 
 <if test="item3 != 0">, #{item3}</if> <if test="item4 != 0">, #{item4} </if><if test="item5 != 0">, #{item5}</if>
-, sysdate, #{recommend})
+, sysdate, #{recommend},#{cust_id})
 <selectKey keyProperty="card_id" resultType="int" order="AFTER">
 SELECT card_seq.currval FROM dual
 </selectKey>
@@ -25,9 +25,12 @@ insert into cardlist values(CARDLIST_SEQ.nextval, #{cust_id}, #{card_id})
 <insert parameterType="Item" id="insertitem">
 insert into item values(item_SEQ.nextval, #{title}, #{item_x}, #{item_y}, #{address}, #{phone}) 
 <selectKey order="AFTER" resultType="int" keyProperty="item_id"> SELECT item_seq.currval FROM dual </selectKey>
-
 </insert>
 
+<!-- 카드 삭제 -->
+<delete parameterType="map" id="cardDelete">
+delete cardlist where cust_id=#{loginId} and card_id=#{cardId}
+</delete>
 
 <!-- 카드아이디리스트 조회-->
 <select id="cardidlist" parameterType="int" resultType="int">
@@ -63,5 +66,16 @@ SELECT REPLY_SEQ.currval FROM dual
 <select id="selectoneReply" parameterType="int" resultType="Reply" >
 select * from reply where reply_id=#{replyid}
 </select>
+
+<!-- 카드페이지 출력 시, 각 카드 대표사진 뿌리기-->
+<select id="getImageByItemId" parameterType="int" resultType="Image">
+	SELECT * FROM image
+	WHERE item_id = #{item_id}
+		AND image_id = (SELECT max(image_id)
+						FROM image
+						WHERE item_id = #{item_id}
+						)
+</select>
+
 
 </mapper>

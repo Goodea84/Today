@@ -13,6 +13,7 @@ import today.vo.Customer;
 public class CustomerAction extends ActionSupport implements SessionAware{
 	
 	Customer customer;
+	Customer customer2;
 	CustomerDAO dao = new CustomerDAO();
 	String email;
 	String password;
@@ -30,13 +31,14 @@ public class CustomerAction extends ActionSupport implements SessionAware{
 		
 		System.out.println("<CustomerAction> login");
 		
-		customer = dao.selectCustomer(email);
-		
-		//ID가 없거나 비밀번호가 다르면 로그인 실패
-		if (customer == null) {
+		//병훈: ID가 없거나 비밀번호가 다르면 로그인 실패
+		if (email == null) {
 			loginFail = 1;//비로그인 상태일 때, key값 주기
 			return INPUT;
 		}
+
+		customer = dao.selectCustomer(email);
+		
 		if (!password.equals(customer.getPassword())) {
 			
 			return INPUT;
@@ -55,8 +57,8 @@ public class CustomerAction extends ActionSupport implements SessionAware{
 		flist = new ArrayList<>();
 		
 		for (int i = 0; i < list.size(); i++) {
-			customer = dao.selectCustomer2(list.get(i));
-			flist.add(customer);
+			customer2 = dao.selectCustomer2(list.get(i));
+			flist.add(customer2);
 		}
 		//System.out.println("flist:"+ flist.get(0).getCust_image());
 
@@ -149,6 +151,14 @@ public class CustomerAction extends ActionSupport implements SessionAware{
 
 	public void setLoginFail(int loginFail) {
 		this.loginFail = loginFail;
+	}
+
+	public Customer getCustomer2() {
+		return customer2;
+	}
+
+	public void setCustomer2(Customer customer2) {
+		this.customer2 = customer2;
 	}
 	
 	

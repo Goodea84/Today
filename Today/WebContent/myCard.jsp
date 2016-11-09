@@ -21,6 +21,7 @@
     <script src="script/jquery-3.1.0.min.js" type="text/javascript"></script> 
 	<script src="script/jquery-ui.min.js" type="text/javascript"></script>
 	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+	<script src="http://connect.facebook.net/en_US/all.js"></script>
 	<script>
 	
 		$(document).ready(function() {
@@ -28,10 +29,28 @@
 			var card_id;
 			
 			$('.Shares').click(function() {
-				 
 				card_id = $(this).attr('href');
 				$('#popup_layer, #overlay_t').show(); 
+			});
+			//카드 삭제
+			$('.Delete').click(function() {
+				card_id = $(this).attr('href');
+				var thisRemove = $(this);
 				
+				$.ajax({
+		        	method: "post"
+		        	, url: "cardDelete"
+		        	, async: false
+		        	, dataType: "json"
+		        	, data: {"card.card_id":card_id}
+		        	, success: result
+		    
+				});//ajax end
+				
+				function result() {
+        			//thisRemove.parent().parent().parent().parent().parent().parent().remove();
+        			location.href="page_moveTo_gallery.action";
+        		}
 			});
 			
 			//김승훈 test button
@@ -125,6 +144,74 @@
 		        text: kakaoStr
 	      	});
 		    }
+		    
+		  //페이스북 공유
+			   $.ajaxSetup({ cache: true });
+			    $.getScript('//connect.facebook.net/en_US/sdk.js', function(){
+			      FB.init({
+			        appId: '1938544639706223',
+			        version: 'v2.8' // or v2.0, v2.1, v2.2, v2.3
+			      });     
+			      $('#loginbutton,#sendFacebook').removeAttr('disabled');
+			      //FB.getLoginStatus(updateStatusCallback);
+			    });
+			    
+			    /* FB.getLoginStatus(function(){
+			    	   alert('Status updated1!!');
+			    	   // Your logic here
+			    	});
+			    
+			    function updateStatusCallback(){
+			    	   alert('Status updated2!!');
+			    	   FB.ui(
+			    			   {
+			    			    method: 'share',
+			    			    href: 'https://developers.facebook.com/docs/'
+			    			  }, function(response){});
+			    } */ 
+			    $('#sendFacebook').click(function(){
+			    	
+			    	var kakaoStr = "";
+		        	$.ajax({
+		        	method: "post"
+		        	, url: "sendKakao"
+		        	, async: false
+		        	, dataType: "json"
+		        	, data: {"card.card_id":card_id}
+		        	, success: function(response) {	        		
+			        		$(response.itemlist).each(function(index, item){
+			        			kakaoStr += (index+1) + ". 가게이름 : " + item.title + "/ 주소 : " + item.address + "/ 전화번호 : " + item.phone + "\n";
+			        		});
+						}
+		        	});//ajax end
+		        	
+		        	//타임라인 직접 가는 링크 달기 서버 변경시 주소값을 변경해야 함
+		        	kakaoStr += "http://203.233.196.44:8888/Today/page_moveTo_timeline?card_id=" + card_id + "&checkCard=true" ;
+		      		
+			    	FB.ui({
+			    		  method: 'share',
+			    		  href: 'https://developers.facebook.com/docs/',
+			    		  quote: kakaoStr
+			    		}, function(response){});
+			    });	
+			    
+			    
+			    //병훈 카드 뿌릴 때 대표사진 붙이기. 1번 아이템의 가장 최근 사진으로 가져옴. 없을 시 디폴트
+			    $.ajax({
+			    	method: 'post',
+			    	url: 'getImageObj',
+			    	success: function(resp){
+						var list_itemIds = resp.item_ids;
+						$.each(list_itemIds, function(index, val){
+							if(val!=null){
+								var image = "image/"+val.item_id+"/"+val.photo;
+								$('#id'+val.item_id).attr('src', image);							
+							}
+						});//each
+			    	}//success
+			    });//ajax
+			    
+			    
 	      	
 		});//(document).ready end
 	</script>
@@ -552,7 +639,7 @@
             <div class="col-sm-6 col-md-3 gallery-item" data-groups='["nature"]' data-title="Mountains"><!--분류,이름(아마 순서정렬)  -->
                 <div class="thumbnail">
                 <div id="aaa">
-                    <a  href="page_moveTo_timeline?card_id=<s:property value='card_id' />" ><img src="demo/img/pictures/1.jpg" alt="..."></a><!-- 클릭하면나오는이미지,이미지 -->
+                    <a  href="page_moveTo_timeline?card_id=<s:property value='card_id' />" ><img id='id<s:property value='item1'/>' src="demo/img/pictures/1.jpg" alt="..."></a><!-- 클릭하면나오는이미지,이미지 -->
                     
                     <div class="caption">
                         <h5 class="mt-0 mb-xs"><s:property value="loca_name" /></h5><!-- 이름 -->
@@ -560,6 +647,7 @@
                             <li><a href="#"><s:property value="date" /></a></li><!-- 날짜 -->
                             <li><a href="#"><span class="text-danger"><i class="fa fa-heart-o"></i> Like</span></a></li> <!-- 옆에 추천수도 입력 -->
                             <li><a onclick="return false" href="<s:property value="card_id" />" class="Shares">Shares</a></li>
+                            <li><a onclick="return false" href="<s:property value="card_id" />" class="Delete">Delete</a></li>
                         </ul>
                     </div>
                 </div>
@@ -609,6 +697,7 @@
 				</div>
 				<input type="button" class="btn btn-primary width-100 mb-xs" value="Send Card" id="sendCard" style="float: left; margin-right: 4px"/>
 				<input type="button" class="btn btn-warning width-100 mb-xs" value="KAKAO" id="sendKakao" style="float: left; margin-right: 4px"/>
+				<input type="button" class="btn btn-primary width-100 mb-xs" value="Facebook" id="sendFacebook" style="float: left; margin-right: 4px"/>
 				
 			</div>
 		</section>

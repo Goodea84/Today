@@ -4,6 +4,7 @@ package action;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
@@ -19,6 +20,7 @@ import today.dao.CustomerDAO;
 import today.vo.Card;
 import today.vo.CardList;
 import today.vo.Customer;
+import today.vo.Image;
 import today.vo.Item;
 import today.vo.Reply;
 
@@ -56,6 +58,10 @@ public class CardAction extends ActionSupport implements SessionAware{
 	private int follower;
 	
 	
+	private ArrayList<Image> item_ids = new ArrayList<>();
+	
+	
+	
 	//카드페이지 이동
 	public String movecard() throws Exception{
 		
@@ -81,6 +87,13 @@ public class CardAction extends ActionSupport implements SessionAware{
 			clist.add(card);
 			sumrecommend = sumrecommend+card.getRecommend();
 		}
+		
+		//병훈: 카드 아이템 번호 추출해서 myCard.jsp에서 대표이미지 넣기
+		for(int i=0; i<clist.size(); i++){
+			Image image = dao.getItemIds(clist.get(i).getItem1());
+			item_ids.add(image);
+		}//for
+		
 		
 		//카드 아이디 이용하여 전체 카드 객체 받아오기
 		card = dao.cardlist(card_id);
@@ -116,6 +129,22 @@ public class CardAction extends ActionSupport implements SessionAware{
 	 * 아이템저장, 카드저장, 친구리스트 불러오기, 카드리스트 저장, 카드리스트 불러오기 수행
 	 **/
 	public String makecard() throws Exception{
+		
+		//friendlist...
+		customer = cust_dao.selectCustomer((String) session.get("loginId"));
+		if (customer == null ) {
+			return ERROR;
+		}
+		list = cust_dao.friendList(customer.getCust_id());
+
+		flist = new ArrayList<>();
+		
+		for (int i = 0; i < list.size(); i++) {
+			fcustomer = cust_dao.selectCustomer2(list.get(i));
+			flist.add(fcustomer);
+		}
+		
+		
 
 		//아이템 테이블에 아이템 삽입, 아이템 키값 받아옴
 		
@@ -142,7 +171,7 @@ public class CardAction extends ActionSupport implements SessionAware{
 		System.out.println("local :" + (String) session.get("local2"));
 
 		card.setCard_id(0);
-		card.setDate("1");
+		card.setCard_date("1");
 		card.setLoca_name((String) session.get("local2"));
 		card.setRecommend(0);
 		
@@ -166,22 +195,11 @@ public class CardAction extends ActionSupport implements SessionAware{
 			card.setItem5(itemidlist.get(4));
 		}
 		
+		card.setCust_id(customer.getCust_id());
 		dao.insertcard(card);
 		
 		
-		//friendlist...
-		customer = cust_dao.selectCustomer((String) session.get("loginId"));
-		if (customer == null ) {
-			return ERROR;
-		}
-		list = cust_dao.friendList(customer.getCust_id());
 
-		flist = new ArrayList<>();
-		
-		for (int i = 0; i < list.size(); i++) {
-			fcustomer = cust_dao.selectCustomer2(list.get(i));
-			flist.add(fcustomer);
-		}
 		
 		// cardlist에 card,custid 추가 !
 		
@@ -301,6 +319,10 @@ public class CardAction extends ActionSupport implements SessionAware{
 				replylist5.get(i).setRe_image(customer.getCust_image());
 			}
 		}
+		
+		//card.getcust_id에서 cust_id 얻은 다음 customer 받아오기.
+		customer =  cust_dao.selectCustomer2(card.getCust_id());
+		
 		return SUCCESS;
 	}
 	
@@ -332,6 +354,22 @@ public class CardAction extends ActionSupport implements SessionAware{
 		
 		return SUCCESS;
 	}
+	
+	public String cardDelete() throws Exception{
+		
+		HashMap<String, Object> map = new HashMap<>();
+		
+		Customer c_result = cust_dao.selectCustomer((String)session.get("loginId"));
+		
+		map.put("loginId", c_result.getCust_id());
+		map.put("cardId", card.getCard_id());
+		
+		dao.cardDelete(map);
+		
+		return SUCCESS;
+	}
+	
+	
 	
 	
 	//리플입력
@@ -555,6 +593,14 @@ public class CardAction extends ActionSupport implements SessionAware{
 
 	public void setFollower(int follower) {
 		this.follower = follower;
+	}
+
+	public ArrayList<Image> getItem_ids() {
+		return item_ids;
+	}
+
+	public void setItem_ids(ArrayList<Image> item_ids) {
+		this.item_ids = item_ids;
 	}
 	
 	
