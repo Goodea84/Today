@@ -309,7 +309,7 @@ public class CardAction extends ActionSupport implements SessionAware{
 		}
 		
 		//card.getcust_id에서 cust_id 얻은 다음 customer 받아오기.
-		customer =  cust_dao.selectCustomer2(card.getCard_id());
+		customer =  cust_dao.selectCustomer2(card.getCust_id());
 		
 		return SUCCESS;
 	}
