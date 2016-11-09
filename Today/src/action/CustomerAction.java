@@ -13,6 +13,7 @@ import today.vo.Customer;
 public class CustomerAction extends ActionSupport implements SessionAware{
 	
 	Customer customer;
+	Customer customer2;
 	CustomerDAO dao = new CustomerDAO();
 	String email;
 	String password;
@@ -55,8 +56,8 @@ public class CustomerAction extends ActionSupport implements SessionAware{
 		flist = new ArrayList<>();
 		
 		for (int i = 0; i < list.size(); i++) {
-			customer = dao.selectCustomer2(list.get(i));
-			flist.add(customer);
+			customer2 = dao.selectCustomer2(list.get(i));
+			flist.add(customer2);
 		}
 		//System.out.println("flist:"+ flist.get(0).getCust_image());
 
@@ -149,6 +150,14 @@ public class CustomerAction extends ActionSupport implements SessionAware{
 
 	public void setLoginFail(int loginFail) {
 		this.loginFail = loginFail;
+	}
+
+	public Customer getCustomer2() {
+		return customer2;
+	}
+
+	public void setCustomer2(Customer customer2) {
+		this.customer2 = customer2;
 	}
 	
 	

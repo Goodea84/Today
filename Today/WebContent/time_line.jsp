@@ -120,28 +120,22 @@
         			var appid;
 				
 				  if (this.id == "recontent1") {
-					  alert('1');
 					  appid = $('#div1');
 				  }
 				  if (this.id == "recontent2") {
-					  alert('2');
 					  appid = $('#div2');
 				  }
 				  if (this.id == "recontent3") {
-					  alert('3');
 					  appid = $('#div3');
 				  }
 				  if (this.id == "recontent4") {
-					  alert('4');
 					  appid = $('#div4');
 				  }
 				  if (this.id == "recontent5") {
-					  alert('5');
 					  appid = $('#div5');
 				  }
 
 				var recontent = $(this).val();
-				alert(recontent);
 				var item_id = $(this).parent().children('input[type="hidden"]').val();
 
 
@@ -748,10 +742,10 @@
 		                
 		                <section class="event"><!-- 사진 담길 곳....... -->
 		                    <span class="thumb-sm avatar pull-left mr-sm">
-		                        <img class="img-circle" src="demo/img/people/a2.jpg" alt="...">
+		                        <img class="img-circle" src='<s:property value="customer.cust_image" />' alt="...">
 		                    </span>
-		                    <h4 class="event-heading"><a href="#">Jessica Nilson</a> <small>@jess</small></h4>
-		                    <p class="fs-sm text-muted">10:12 am - Publicly near Minsk</p>
+		                    <h4 class="event-heading"><a href="#"><s:property value="customer.name" /></a> <small><s:property value="customer.email" /></small></h4>
+		                    <p class="fs-sm text-muted"><s:property value="card.card_date" /></p>
 		                    <div class="event-image" id='<s:property value="itemlist[#cust_stat.index].item_id"/>'>	
 		                    	<a href="#">
 		                        	<img class="demo_image" src=""/>
@@ -923,10 +917,10 @@
 		                
 		                <section class="event"><!-- 사진 담길 곳....... -->
 		                    <span class="thumb-sm avatar pull-left mr-sm">
-		                        <img class="img-circle" src="demo/img/people/a2.jpg" alt="...">
+		                        <img class="img-circle" src='<s:property value="customer.cust_image" />' alt="...">
 		                    </span>
-		                    <h4 class="event-heading"><a href="#">Jessica Nilson</a> <small>@jess</small></h4>
-		                    <p class="fs-sm text-muted">10:12 am - Publicly near Minsk</p>
+		                    <h4 class="event-heading"><a href="#"><s:property value="customer.name" /></a> <small><s:property value="customer.email" /></small></h4>
+		                    <p class="fs-sm text-muted"><s:property value="card.card_date" /></p>
 		                    
 		                   	<!--  사진 업로드 하면 바로 담기는 div 태그, 이걸 밑에 div로 옮겨야 할 듯. -->
 		                    <div class="event-image" id='<s:property value="itemlist[#cust_stat.index].item_id"/>'>	
