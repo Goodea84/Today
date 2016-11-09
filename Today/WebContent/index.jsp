@@ -1293,7 +1293,7 @@
                         	<!-- 상단 이미지  -->
                         </span> --%><!-- 왼쪽으로 조금 옮김 -->
                         &nbsp;
-						<img id="friendimg" class="img-circle" src="<s:property value='customer.cust_image' />" alt="..." ><strong><s:property value="#session.loginName" /></strong>&nbsp;<!-- 이름 -->
+						<strong><s:property value="#session.loginName" /></strong>&nbsp;<!-- 이름 -->
                         </a>
  
                 </li>

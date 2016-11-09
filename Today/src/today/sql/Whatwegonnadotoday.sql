@@ -22,7 +22,7 @@ DROP SEQUENCE REPLY_SEQ;
 CREATE TABLE CardList
 (
 	-- 카드리스트아이디
-	CARDLIST_ID number(2) NOT NULL,
+	CARDLIST_ID number(3) NOT NULL,
 	-- 사용자 아이디(key)
 	CUST_ID number(2) NOT NULL,
 	-- 카드아이디(key)
@@ -34,7 +34,7 @@ CREATE TABLE CardList
 CREATE TABLE FriendList
 (
 	-- 친구리스트아이디(key)
-	FRIENDLIST_ID number(2) NOT NULL,
+	FRIENDLIST_ID number(3) NOT NULL,
 	-- 내사용자아이디
 	MYCUST_ID number(2) NOT NULL,
 	-- 친구사용자 아이디
@@ -46,7 +46,7 @@ CREATE TABLE FriendList
 CREATE TABLE CUSTOMER
 (
 	-- 사용자 아이디(key)
-	CUST_ID number(2) NOT NULL,
+	CUST_ID number(3) NOT NULL,
 	-- 이메일
 	EMAIL varchar2(20) NOT NULL UNIQUE,
 	-- 사용자 이름
@@ -66,7 +66,7 @@ CREATE TABLE CUSTOMER
 CREATE TABLE ITEM
 (
 	-- 아이템아이디
-	ITEM_ID number(2) NOT NULL,
+	ITEM_ID number(3) NOT NULL,
 	-- 상호명
 	title varchar2(50) NOT NULL,
 	-- 좌표x
@@ -84,7 +84,7 @@ CREATE TABLE ITEM
 CREATE TABLE IMAGE
 (
 	-- 이미지아이디
-	IMAGE_ID number(2) NOT NULL,
+	IMAGE_ID number(3) NOT NULL,
 	-- 사용자 아이디(key)
 	CUST_ID number(2) NOT NULL,
 	-- 아이템아이디
@@ -98,7 +98,7 @@ CREATE TABLE IMAGE
 CREATE TABLE CARD
 (
 	-- 카드아이디(key)
-	CARD_ID number(2) NOT NULL,
+	CARD_ID number(3) NOT NULL,
 	-- 위치이름(ex.홍대)
 	LOCA_NAME varchar2(30) NOT NULL,
 	-- 아이템1
@@ -124,7 +124,7 @@ CREATE TABLE CARD
 CREATE TABLE REPLY
 (
 	-- 댓글아이디
-	REPLY_ID number(2) NOT NULL,
+	REPLY_ID number(3) NOT NULL,
 	-- 사용자 아이디(key)
 	CUST_ID number(2) NOT NULL,
 	-- 아이템아이디
