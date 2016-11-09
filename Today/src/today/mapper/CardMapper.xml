@@ -25,9 +25,12 @@ insert into cardlist values(CARDLIST_SEQ.nextval, #{cust_id}, #{card_id})
 <insert parameterType="Item" id="insertitem">
 insert into item values(item_SEQ.nextval, #{title}, #{item_x}, #{item_y}, #{address}, #{phone}) 
 <selectKey order="AFTER" resultType="int" keyProperty="item_id"> SELECT item_seq.currval FROM dual </selectKey>
-
 </insert>
 
+<!-- 카드 삭제 -->
+<delete parameterType="map" id="cardDelete">
+delete cardlist where cust_id=#{loginId} and card_id=#{cardId}
+</delete>
 
 <!-- 카드아이디리스트 조회-->
 <select id="cardidlist" parameterType="int" resultType="int">

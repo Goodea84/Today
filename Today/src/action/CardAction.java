@@ -4,6 +4,7 @@ package action;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
@@ -332,6 +333,22 @@ public class CardAction extends ActionSupport implements SessionAware{
 		
 		return SUCCESS;
 	}
+	
+	public String cardDelete() throws Exception{
+		
+		HashMap<String, Object> map = new HashMap<>();
+		
+		Customer c_result = cust_dao.selectCustomer((String)session.get("loginId"));
+		
+		map.put("loginId", c_result.getCust_id());
+		map.put("cardId", card.getCard_id());
+		
+		dao.cardDelete(map);
+		
+		return SUCCESS;
+	}
+	
+	
 	
 	
 	//리플입력
